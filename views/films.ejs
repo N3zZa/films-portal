@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
+    <title>Main page</title>
+    <link rel="stylesheet" href="css/keyboard.css" />
+
+    <script type="text/javascript" src="libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
+    <script type="text/javascript" src="libs/event_emitter.js"></script>
+    <script type="text/javascript" src="js/lib/smartbox.js"></script>
+    <script>
+        $(function() {
+            $$nav.on()
+        })
+    </script>
+</head>
+<style>
+    body,h1,h2,p,div {
+        padding: 0;
+        margin: 0;
+    }
+    .bg{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: url(/img/1920x1080.webp) no-repeat;
+        z-index: -10;
+    }
+    .wrap {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+    .header {
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        display: fixed;
+        position: relative;
+        padding: 15px;
+        height: 40px;
+        background: rgb(73, 73, 73);
+    }
+    .header h2{
+        float: left;
+    }
+    .header_images {
+        float: right;
+    }
+    .search {
+        margin-right: 25px;
+    }
+    .focus {
+        border: 1px solid yellow;
+    }
+    .filmText{
+        display: none;
+    }
+    main {
+        width: 100%;
+    }
+    .premieresSlider {
+        overflow-x: scroll;
+        overflow-y:hidden;
+        max-height: 240px;
+        white-space: nowrap;
+    }
+    .premieresSlider::-webkit-scrollbar-thumb {
+        background: none;
+    }
+    .premieresSlider::-webkit-scrollbar-track { /* фон */
+        background: none;
+    }
+    .premieresSlider::-webkit-scrollbar { /* фон */
+        width: 0;
+        height: 0;
+        background: none;
+    }
+    .premieresSlider .focus .filmText{
+        display:block;
+        position: absolute;
+        left: 5px;
+        bottom: 10px;
+    }
+    .premieresItem {
+        position: relative;
+        display: inline-block;
+        width: 300px;
+        height: 200px;
+        margin: 0;
+    }
+    
+</style>
+<body>
+    <div class="bg"></div>
+    <header class="header">
+        <h2>13:00</h2>
+       <div class="header_images navigation-items">
+        <img class="search nav-item" src="/img/search.svg" alt="search">
+        <img class="nav-item" src="/img/profile.svg" alt="profile">
+       </div>
+    </header>
+    <div class="wrap">
+        <main class="navigation-items">
+            <div id="premieresSlider" class="premieresSlider navigation-items">
+                <%- include('./elements/premieres.ejs') %>
+            </div>
+            <div>
+
+            </div>
+            <div>
+
+            </div>
+        </main>
+    </div>
+    <script type="text/javascript">
+        $(document).keydown(function (e) {
+
+                var curItem = $('#playlist li.focus');
+                switch (e.key) {
+                    case 'ArrowRight':
+                        var curItem = $('#premieresSlider .focus');
+                        console.log(curItem)
+                        if (curItem) {
+                            document.getElementById('premieresSlider').scrollLeft += 300
+                        }
+                        break;
+                    case 'ArrowLeft':
+                        var curItem = $('#premieresSlider .focus');
+                        if (curItem) {
+                            document.getElementById('premieresSlider').scrollLeft -= 300
+                        }
+                        break;
+                    case 'ok':
+                        break;
+                    case 'stop':
+                        break;
+                    case 'right':
+                        break;
+                    case 'left':
+                    break;
+                }
+
+            });
+       
+    </script>
+</body>
+</html>
