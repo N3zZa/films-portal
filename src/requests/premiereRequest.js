@@ -4,11 +4,18 @@ const API_TOKEN = process.env.BAZON_TOKEN;
 
 const APIPREMIERES_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=all&page=1&year=${new Date().getFullYear()}`;
 
+function sleeper(ms) {
+  return function(x) {
+    return new Promise(resolve => setTimeout(() => resolve(x), ms));
+  };
+}
 
 module.exports = new Promise(function(resolve, reject){
    try {
    setTimeout(() => {
+      sleeper(100)
       fetch(APIPREMIERES_URL).then((response) => {
+          console.log('prem',response)
     return response.json()
 }).then(data =>  {
     const item = data.results.map((elem) => {

@@ -5,10 +5,19 @@ const API_TOKEN = process.env.BAZON_TOKEN;
 const APICARTOONS_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=film&page=1&cat=мультфильм`;
 
 
+function sleeper(ms) {
+  return function(x) {
+    return new Promise(resolve => setTimeout(() => resolve(x), ms));
+  };
+}
+
+
 module.exports = new Promise(function(resolve, reject){
    try {
    setTimeout(() => {
+    sleeper(1500)
       fetch(APICARTOONS_URL).then((response) => {
+    console.log('CARTOONS',response)
     return response.json()
 }).then(data =>  {
     const item = data.results.map((elem) => {
@@ -24,7 +33,7 @@ module.exports = new Promise(function(resolve, reject){
     })
     console.log('CARTOONS',item)
     resolve(item)
-   }, 200)
+   }, 100)
 })
    } catch (error) {
         console.log('fetchErrorCartoons', error)

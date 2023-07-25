@@ -4,11 +4,18 @@ const API_TOKEN = process.env.BAZON_TOKEN;
 
 const APISERIALS_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=serial&page=1`;
 
+function sleeper(ms) {
+  return function(x) {
+    return new Promise(resolve => setTimeout(() => resolve(x), ms));
+  };
+}
 
 module.exports = new Promise(function(resolve, reject){
    try {
    setTimeout(() => {
+      sleeper(500)
       fetch(APISERIALS_URL).then((response) => {
+          console.log('serial',response)
     return response.json()
 }).then(data =>  {
     const item = data.results.map((elem) => {

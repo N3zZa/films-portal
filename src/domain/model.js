@@ -15,17 +15,17 @@ module.exports = {
         })
     }),
     getFilms: new Promise(function(resolve, reject){
-        fetchDataFilms.then((elem) => {
+            fetchDataFilms.then((elem) => {
             resolve(elem)
         })
     }),
     getSerials: new Promise(function(resolve, reject){
-        fetchDataSerials.then((elem) => {
+            fetchDataSerials.then((elem) => {
             resolve(elem)
         })
     }),
     getCartoons: new Promise(function(resolve, reject){
-        fetchDataCartoons.then((elem) => {
+         fetchDataCartoons.then((elem) => {
             resolve(elem)
         })
     })
