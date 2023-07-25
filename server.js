@@ -3,6 +3,7 @@ const app = express();
 const userModel = require("./src/domain/model.js")
 const path = require("path");
 const fs = require("fs");
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
 
 // чтобы получить html разметку элементов создаю файл с ними, который с помощью шаблонизатора вывожу на основной странице
@@ -16,4 +17,5 @@ app.get('/', (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port)
+module.exports = app
 console.log(`Server is listening on port ${port}`);
