@@ -1,8 +1,5 @@
-/* const APIANIME_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=all&page=1&cat=аниме`;
-const APICOMPILATIONS_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=all&page=1`;
-
-const APISEARCH_URL = `https://bazon.cc/api/search?token=${API_TOKEN}&title=`;
- */
+// импортирую все функции из папки requests в методы
+// добавил setTimeout'ы для задержки(чтобы базон не блочил)
 
 module.exports = {
     getPremieres: new Promise(function(resolve, reject){

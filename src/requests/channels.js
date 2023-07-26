@@ -508,7 +508,7 @@ module.exports = new Promise(function(resolve, reject){
     })
     resolve(item)
    } catch (error) {
-    console.log('fetchErrorFilms', error)
+    console.log('fetchErrorFilms', error) // обработка ошибки
    }
 });
 

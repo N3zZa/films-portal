@@ -16,6 +16,7 @@
     <script type="text/javascript" src="libs/event_emitter.js"></script>
     <script type="text/javascript" src="js/lib/smartbox.js"></script>
     <script>
+        // запуск навигации
         $(function() {
             $$nav.on()
         })
@@ -173,10 +174,12 @@
     <div class="wrap">
         <main>
             <div id="filmsSlider" class="slider premieresSlider navigation-items" data-nav_type="hbox">
+                <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/premieres.ejs') %>
             </div>
             <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
                 <h1>Премьеры</h1>
+                <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
             <div id="channelBtn" class="nav-item" data-nav_type="hbox">
@@ -184,21 +187,25 @@
             </div>
             <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <h1>Мульфильмы</h1>
+                <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoons.ejs') %>
             </div>
             <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <h1>Сериалы</h1>
+                <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
         </main>
     </div>
     <script type="text/javascript">
+        // код нажатия на клавиши
         $(document).keydown(function (e) {
                 var curItemPos = $('.focus')
-                $('.focus').get(0).scrollIntoView();
-                $(document).scrollTop($(document).scrollTop() - 100)
+                $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
+                $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
                 switch (e.key) {
                     case 'ArrowRight':
+                        // проверка на каком слайдере находится фокус, чтобы круто только слайдер с фокусным элементом
                          if ($('#filmsSlider .focus')[0]) {
                             var curItem = $('#filmsSlider .focus');
                             var curItemPos = curItem.offset().left
@@ -220,6 +227,7 @@
                         }
                         break;
                     case 'ArrowLeft':
+                        // проверка на каком слайдере находится фокус, чтобы круто только слайдер с фокусным элементом
                          if ($('#filmsSlider .focus')[0]) {
                             var curItem = $('#filmsSlider .focus');
                             var curItemPos = curItem.offset().left
@@ -251,6 +259,7 @@
                 }
 
             });
+        // при клике на каналы перейти на страницу с каналами
        $('#channelBtn').click(function () {
             window.location = '/channels'
         })

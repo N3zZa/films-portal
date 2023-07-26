@@ -6,6 +6,7 @@ const API_TOKEN = process.env.BAZON_TOKEN;
 
 const APIFILMS_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=film&page=1&year=${new Date().getFullYear()}`;
 
+// функция для задержки
 function sleeper(ms) {
   return function(x) {
     return new Promise(resolve => setTimeout(() => resolve(x), ms));
@@ -37,7 +38,7 @@ module.exports = new Promise(function(resolve, reject){
    }, 1100)
 })
    } catch (error) {
-    console.log('fetchErrorFilms', error)
+    console.log('fetchErrorFilms', error) // обработка ошибки
    }
 });
 
