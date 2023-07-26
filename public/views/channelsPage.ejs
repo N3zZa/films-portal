@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
+    <title>Channels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/keyboard.css" />
+
+<script type="text/javascript" src="libs/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="libs/lodash.compat.min.js"></script>
+<script type="text/javascript" src="libs/event_emitter.js"></script>
+<script type="text/javascript" src="js/lib/smartbox.js"></script>
+
+    <script>
+        $(function () {
+            $$nav.on()
+        })
+    </script>
+    <style type="text/css">
+        p,
+        li,
+        h1,
+        h2,
+        h3,
+        a {
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .bg{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: url(/img/1920x1080.webp) no-repeat;
+        z-index: -10;
+    }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        ul {
+            max-height: 530px;
+            overflow-y: scroll;
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .wrap {
+            max-width: 980px;
+            margin: 25px auto;
+            z-index: -4;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        p {
+            display: inline-block;
+        }
+
+        #playlist {
+            width: 500px;
+            padding: 1px 0;
+            background-color: none;
+            transition: 0.5s ease-in-out;
+        }
+
+        .close {
+            position: absolute;
+            left: -1000px;
+        }
+
+        .show {
+            position: static;
+        }
+
+        #playlist ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #playlist li {
+            padding: 2px;
+            margin-bottom: 4px;
+            background: #0173dd;
+        }
+
+        #playlist li.focus {
+            background-color: #fff;
+            color: #000;
+        }
+
+        #playlist li.focus a {
+            color: #000;
+        }
+
+        li p {
+            color: white;
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+
+        #playlist li.focus p {
+            color: black;
+        }
+
+         .header {
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        display: fixed;
+        position: relative;
+        padding: 15px;
+        height: 40px;
+    }
+    .header h2{
+        float: left;
+    }
+    .header_images {
+        float: right;
+    }
+    .header .focus {
+        border: 2px solid yellow;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="bg"></div>
+    <!-- -->
+    <header class="header navigations-items">
+        <img id="arrowBack" width="60" height="60" class="nav-item" src="/img/arrowback.svg" alt="arrowback">
+        <div class="header_images navigation-items">
+            <h2 id="timeNow">13</h2>
+        </div>
+    </header>
+    <div class="wrap">
+        <div id='playlist'>
+            <ul id="list">
+              <%- include('./elements/channels.ejs')  %>
+            </ul>
+        </div>
+        <div></div>
+    </div>
+    <script type="text/javascript">
+        $(document).keydown(function (e) {
+            var curItemPos = $('.focus')
+            $('.focus').get(0).scrollIntoView();
+            $(document).scrollTop($(document).scrollTop() - 100)
+        })
+        $('#arrowBack').click(function () {
+            window.location = '/'
+        })
+        $('li').click(function (e) {
+            window.location = e.currentTarget.getAttribute('href')
+        })
+    </script>
+</body>
+
+</html>

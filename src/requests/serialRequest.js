@@ -12,16 +12,15 @@ function sleeper(ms) {
 
 module.exports = new Promise(function(resolve, reject){
    try {
-   setTimeout(() => {
-      sleeper(500)
+      setTimeout(() => {
+      sleeper(800)
       fetch(APISERIALS_URL).then((response) => {
-          console.log('serial',response)
     return response.json()
 }).then(data =>  {
-    const item = data.results.map((elem) => {
+    const item = data.results.map((elem, index) => {
        return (
-        `<div style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;" class="premieresItem nav-item">
-            <div class="filmText">
+        `<div id="serial${index}" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;" class="item serialItem nav-item" data-nav_ud="#cartoon0,0,none,0">
+            <div class="filmText text">
             <h1>${elem.info.rus}</h1>
             <h1>${elem.info.year} ${elem.serial === '1' ? 'Сериал' : 'Фильм'}</h1>
             </div>
@@ -29,9 +28,8 @@ module.exports = new Promise(function(resolve, reject){
         `
        )
     })
-    console.log('SERIALS',item)
     resolve(item)
-   }, 700)
+   }, 1100)
 })
    } catch (error) {
         console.log('fetchErrorSerial', error)

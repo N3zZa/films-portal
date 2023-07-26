@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
+    <title>Main page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/keyboard.css" />
+
+    <script type="text/javascript" src="libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
+    <script type="text/javascript" src="libs/event_emitter.js"></script>
+    <script type="text/javascript" src="js/lib/smartbox.js"></script>
+    <script>
+        $(function() {
+            $$nav.on()
+        })
+    </script>
+</head>
+<style>
+    body,h1,h2,p,div {
+        padding: 0;
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        color: rgb(110, 197, 255);
+    }
+    .bg{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: url(/img/1920x1080.webp) no-repeat;
+        z-index: -10;
+    }
+    .wrap {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+     .focus {
+        border: 5px solid yellow;
+        margin: -5px;
+    }
+    .header {
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        display: fixed;
+        position: relative;
+        padding: 15px;
+        height: 40px;
+        background: rgb(73, 73, 73);
+    }
+    .header h2{
+        float: left;
+    }
+    .header_images {
+        float: right;
+    }
+    .search {
+        margin-right: 25px;
+    }
+   
+    .filmText{
+        display: none;
+    }
+    main {
+        width: 100%;
+    }
+    main h1 {
+        margin: 20px 0 20px 0;
+    }
+     .slider{
+        overflow-x: scroll;
+        overflow-y:hidden;
+        white-space: nowrap;
+        margin-bottom: 100px;
+    }
+    .slider h1 {
+        color: white;
+    }
+    .premieresSlider {
+        max-height: 300px;
+    }
+   
+    .slider::-webkit-scrollbar-thumb {
+        background: none;
+    }
+    .slider::-webkit-scrollbar-track { /* фон */
+        background: none;
+    }
+    .slider::-webkit-scrollbar { /* фон */
+        width: 0;
+        height: 0;
+        background: none;
+    }
+    .text {
+        white-space: wrap;
+        color: #fff;
+    }
+    .text h1 {
+        font-size: 18px;
+        margin: 0;
+    }
+    .premieresSlider .premieresText{
+        display:none;
+        position: absolute;
+        left: 5px;
+        bottom: 10px;
+    }
+    
+    .focus .premieresText{
+        display:block;
+    }
+    .premieresSlider .focus .filmText{
+        display:none;
+        position: absolute;
+        left: 5px;
+        bottom: 10px;
+    }
+    
+    .item {
+        position: relative;
+        display: inline-block;
+        margin: 0;
+    }
+    
+    .premieresItem {
+        margin-right: 10px;
+        width: 300px;
+        height: 200px;
+    }
+    .filmsItem {
+        height: 300px;
+        width: 250px;
+        margin-right: 10px;
+    }
+    .cartoonsItem {
+         height: 300px;
+        width: 250px;
+        margin-right: 10px;
+    }
+    .serialItem {
+         height: 300px;
+        width: 250px;
+        margin-right: 10px;
+    }
+    .channelsRedirectBtn {
+        padding: 10px 15px;
+        border-radius: 15px;
+        background: #09a3e0;
+        color: white;
+    }
+    .channelsRedirectBtn h1 {
+        color: white;
+    }
+    
+</style>
+<body>
+    <div class="bg"></div>
+    <header class="header">
+        <h2>13:00</h2>
+       <div class="header_images navigation-items">
+        <img id="search" class="search nav-item" src="/img/search.svg" alt="search" data-nav_ud="0,0,#premiere0,0">
+        <img class="nav-item" src="/img/profile.svg" alt="profile" data-nav_ud="0,0,#premiere0,0">
+       </div>
+    </header>
+    <div class="wrap">
+        <main>
+            <div id="filmsSlider" class="slider premieresSlider navigation-items" data-nav_type="hbox">
+                <%- include('./elements/premieres.ejs') %>
+            </div>
+            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
+                <h1>Премьеры</h1>
+                <%- include('./elements/films.ejs') %>
+            </div>
+            <div id="channelBtn" class="nav-item" data-nav_type="hbox">
+                <div class="channelsRedirectBtn"><h1>Телеканалы</h1></div>
+            </div>
+            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
+                <h1>Мульфильмы</h1>
+                <%- include('./elements/cartoons.ejs') %>
+            </div>
+            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
+                <h1>Сериалы</h1>
+                <%- include('./elements/serials.ejs') %>
+            </div>
+        </main>
+    </div>
+    <script type="text/javascript">
+        $(document).keydown(function (e) {
+                var curItemPos = $('.focus')
+                $('.focus').get(0).scrollIntoView();
+                $(document).scrollTop($(document).scrollTop() - 100)
+                switch (e.key) {
+                    case 'ArrowRight':
+                         if ($('#filmsSlider .focus')[0]) {
+                            var curItem = $('#filmsSlider .focus');
+                            document.getElementById('filmsSlider').scrollLeft += 315
+                        } else if ($('#premieresSlider .focus')[0]) {
+                            var curItem = $('#premieresSlider .focus');
+                            document.getElementById('premieresSlider').scrollLeft += 250
+                        } else if ($('#channelsSlider .focus')[0]) {
+                            var curItem = $('#channelsSlider .focus');
+                            document.getElementById('channelsSlider').scrollLeft += 250
+                        } else if ($('#cartoonsSlider .focus')[0]) {
+                            var curItem = $('#cartoonsSlider .focus');
+                            document.getElementById('cartoonsSlider').scrollLeft += 250
+                        } else if ($('#serialsSlider .focus')[0]) {
+                            var curItem = $('#serialsSlider .focus');
+                            document.getElementById('serialsSlider').scrollLeft += 250
+                        }
+                        break;
+                    case 'ArrowLeft':
+                         if ($('#filmsSlider .focus')[0]) {
+                            var curItem = $('#filmsSlider .focus');
+                            document.getElementById('filmsSlider').scrollLeft -= 315
+                        } else if ($('#premieresSlider .focus')[0]) {
+                            var curItem = $('#premieresSlider .focus');
+                            document.getElementById('premieresSlider').scrollLeft -= 250
+                        } else if ($('#channelsSlider .focus')[0]) {
+                            var curItem = $('#channelsSlider .focus');
+                            document.getElementById('channelsSlider').scrollLeft -= 250
+                        } else if ($('#cartoonsSlider .focus')[0]) {
+                            var curItem = $('#cartoonsSlider .focus');
+                            document.getElementById('cartoonsSlider').scrollLeft -= 250
+                        } else if ($('#serialsSlider .focus')[0]) {
+                            var curItem = $('#serialsSlider .focus');
+                            document.getElementById('serialsSlider').scrollLeft -= 250
+                        }
+                        break;
+                    case 'ArrowUp':
+                        break;
+                    case 'ArrowDown':
+                        break;
+                    case 'right':
+                        break;
+                    case 'left':
+                    break;
+                }
+
+            });
+       $('#channelBtn').click(function () {
+            window.location = '/channels'
+        })
+    </script>
+</body>
+</html>

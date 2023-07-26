@@ -12,16 +12,15 @@ function sleeper(ms) {
 
 module.exports = new Promise(function(resolve, reject){
    try {
-   setTimeout(() => {
-      sleeper(100)
+      setTimeout(() => {
+      sleeper(1500)
       fetch(APIPREMIERES_URL).then((response) => {
-          console.log('prem',response)
     return response.json()
 }).then(data =>  {
-    const item = data.results.map((elem) => {
+    const item = data.results.map((elem, index) => {
        return (
-        `<div style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;" class="premieresItem nav-item">
-            <div class="filmText">
+        `<div id="premiere${index}" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;" class="item premieresItem nav-item" data-nav_ud="0,0,#film0,0">
+            <div class="premieresText text">
             <h1>${elem.info.rus}</h1>
             <h1>${elem.info.year} ${elem.serial === '1' ? 'Сериал' : 'Фильм'}</h1>
             </div>
@@ -29,9 +28,8 @@ module.exports = new Promise(function(resolve, reject){
         `
        )
     })
-    console.log('premieres',item)
     resolve(item)
-   }, 1000)
+   }, 1200)
 })
    } catch (error) {
     console.log('fetcherrorPremiere', error)

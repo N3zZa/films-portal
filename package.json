@@ -5,6 +5,8 @@
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "hbs": "^4.2.0",
+    "m3u8-parser": "^7.0.0",
+    "m3u8-reader": "^1.1.0",
     "node-fetch": "^3.3.1"
   }
 }
