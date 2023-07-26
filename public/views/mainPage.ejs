@@ -126,6 +126,7 @@
         position: relative;
         display: inline-block;
         margin: 0;
+        transition: .2s ease-in-out;
     }
     
     .premieresItem {
@@ -199,7 +200,10 @@
                     case 'ArrowRight':
                          if ($('#filmsSlider .focus')[0]) {
                             var curItem = $('#filmsSlider .focus');
-                            document.getElementById('filmsSlider').scrollLeft += 315
+                            var curItemPos = curItem.offset().left
+                            document.getElementById('filmsSlider').animate({
+                                 scrollLeft: curItemPos + 315
+                             }, 150); 
                         } else if ($('#premieresSlider .focus')[0]) {
                             var curItem = $('#premieresSlider .focus');
                             document.getElementById('premieresSlider').scrollLeft += 250
@@ -217,7 +221,10 @@
                     case 'ArrowLeft':
                          if ($('#filmsSlider .focus')[0]) {
                             var curItem = $('#filmsSlider .focus');
-                            document.getElementById('filmsSlider').scrollLeft -= 315
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('filmsSlider').animate({
+                                 scrollLeft: curItemPos - 315
+                             }, 150); 
                         } else if ($('#premieresSlider .focus')[0]) {
                             var curItem = $('#premieresSlider .focus');
                             document.getElementById('premieresSlider').scrollLeft -= 250
