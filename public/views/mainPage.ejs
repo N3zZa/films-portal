@@ -41,10 +41,7 @@
         max-width: 1440px;
         margin: 0 auto;
     }
-     .focus {
-        border: 5px solid yellow;
-        margin: -5px;
-    }
+    
     .header {
         width: 100%;
         max-width: 1440px;
@@ -61,10 +58,15 @@
     .header_images {
         float: right;
     }
-    .search {
+    .header .focus {
+        border: 5px solid yellow;
+        margin: -5px
+    }
+    
+    .search_block {
+        display: inline-block;
         margin-right: 25px;
     }
-   
     .filmText{
         display: none;
     }
@@ -75,14 +77,20 @@
     main h1 {
         margin: 20px 0 20px 0;
     }
+    main .nav-item {
+        border: 5px solid transparent
+    }
+    #channelBtn .focus {
+        border: 5px solid yellow;
+    }
      .slider{
         overflow-x: scroll;
         overflow-y:hidden;
         white-space: nowrap;
-        margin-bottom: 100px;
+        margin-bottom: 20px;
     }
-    .slider h1 {
-        color: white;
+    main h1 {
+         color: white;
     }
     .premieresSlider {
         max-height: 300px;
@@ -104,8 +112,13 @@
         color: #fff;
     }
     .text h1 {
+        max-width: 100%;
         font-size: 18px;
         margin: 0;
+    }
+    .filmsItemText h1{
+        white-space: nowrap;
+        font-size: 14px;
     }
     .premieresSlider .premieresText{
         display:none;
@@ -129,6 +142,7 @@
         display: inline-block;
         margin: 0;
         transition: .2s ease-in-out;
+        -webkit-transition: .2s ease-in-out;
     }
     
     .premieresItem {
@@ -137,17 +151,21 @@
         height: 200px;
     }
     .filmsItem {
-        height: 300px;
+        height: 360px;
         width: 250px;
         margin-right: 10px;
     }
+    .filmsItemBg {
+        width: 100%;
+        height: 300px;
+    }
     .cartoonsItem {
-         height: 300px;
+         height: 360px;
         width: 250px;
         margin-right: 10px;
     }
     .serialItem {
-         height: 300px;
+         height: 360px;
         width: 250px;
         margin-right: 10px;
     }
@@ -160,14 +178,18 @@
     .channelsRedirectBtn h1 {
         color: white;
     }
-    
+     .slider .focus {
+        border: 5px solid yellow;
+    }
 </style>
 <body>
     <div class="bg"></div>
     <header class="header">
         <h2>13:00</h2>
        <div class="header_images navigation-items">
-        <img id="search" class="search nav-item" src="/img/search.svg" alt="search" data-nav_ud="0,0,#premiere0,0">
+        <div class="search_block">
+            <img id="search" class="search nav-item" src="/img/search.svg" alt="search" data-nav_ud="0,0,#premiere0,0">
+        </div>
         <img class="nav-item" src="/img/profile.svg" alt="profile" data-nav_ud="0,0,#premiere0,0">
        </div>
     </header>
@@ -177,21 +199,21 @@
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/premieres.ejs') %>
             </div>
+            <h1>Премьеры</h1>
             <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
-                <h1>Премьеры</h1>
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
-            <div id="channelBtn" class="nav-item" data-nav_type="hbox">
-                <div class="channelsRedirectBtn"><h1>Телеканалы</h1></div>
+            <div id="channelBtn" data-nav_type="hbox">
+                <div id="channelBtn_inner" class="channelsRedirectBtn nav-item"><h1>Телеканалы</h1></div>
             </div>
+            <h1>Мульфильмы</h1>
             <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
-                <h1>Мульфильмы</h1>
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoons.ejs') %>
             </div>
+            <h1>Сериалы</h1>
             <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
-                <h1>Сериалы</h1>
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
@@ -203,6 +225,7 @@
                 var curItemPos = $('.focus')
                 $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
                 $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
+                console.log(e.key)
                 switch (e.key) {
                     case 'ArrowRight':
                         // проверка на каком слайдере находится фокус, чтобы круто только слайдер с фокусным элементом
@@ -214,16 +237,28 @@
                              }, 150); 
                         } else if ($('#premieresSlider .focus')[0]) {
                             var curItem = $('#premieresSlider .focus');
-                            document.getElementById('premieresSlider').scrollLeft += 250
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('premieresSlider').animate({
+                                 scrollLeft: curItemPos + 250
+                             }, 150); 
                         } else if ($('#channelsSlider .focus')[0]) {
                             var curItem = $('#channelsSlider .focus');
-                            document.getElementById('channelsSlider').scrollLeft += 250
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('channelsSlider').animate({
+                                 scrollLeft: curItemPos + 250
+                             }, 150); 
                         } else if ($('#cartoonsSlider .focus')[0]) {
                             var curItem = $('#cartoonsSlider .focus');
-                            document.getElementById('cartoonsSlider').scrollLeft += 250
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('cartoonsSlider').animate({
+                                 scrollLeft: curItemPos + 250
+                             }, 150); 
                         } else if ($('#serialsSlider .focus')[0]) {
                             var curItem = $('#serialsSlider .focus');
-                            document.getElementById('serialsSlider').scrollLeft += 250
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('serialsSlider').animate({
+                                 scrollLeft: curItemPos + 250
+                             }, 150); 
                         }
                         break;
                     case 'ArrowLeft':
@@ -236,16 +271,28 @@
                              }, 150); 
                         } else if ($('#premieresSlider .focus')[0]) {
                             var curItem = $('#premieresSlider .focus');
-                            document.getElementById('premieresSlider').scrollLeft -= 250
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('premieresSlider').animate({
+                                 scrollLeft: curItemPos - 250
+                             }, 150); 
                         } else if ($('#channelsSlider .focus')[0]) {
                             var curItem = $('#channelsSlider .focus');
-                            document.getElementById('channelsSlider').scrollLeft -= 250
+                             var curItemPos = curItem.offset().left
+                             document.getElementById('channelsSlider').animate({
+                                 scrollLeft: curItemPos - 250
+                             }, 150); 
                         } else if ($('#cartoonsSlider .focus')[0]) {
                             var curItem = $('#cartoonsSlider .focus');
-                            document.getElementById('cartoonsSlider').scrollLeft -= 250
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('cartoonsSlider').animate({
+                                 scrollLeft: curItemPos - 250
+                             }, 150); 
                         } else if ($('#serialsSlider .focus')[0]) {
                             var curItem = $('#serialsSlider .focus');
-                            document.getElementById('serialsSlider').scrollLeft -= 250
+                            var curItemPos = curItem.offset().left
+                             document.getElementById('serialsSlider').animate({
+                                 scrollLeft: curItemPos - 250
+                             }, 150); 
                         }
                         break;
                     case 'ArrowUp':

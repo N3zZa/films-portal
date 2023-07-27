@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
+    <title><%= %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/keyboard.css" />
+
+    <script type="text/javascript" src="libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
+    <script type="text/javascript" src="libs/event_emitter.js"></script>
+    <script type="text/javascript" src="js/lib/smartbox.js"></script>
+
+    <script>
+        // запуск навигации
+        $(function () {
+            $$nav.on()
+        })
+    </script>
+    <style type="text/css">
+        p,
+        li,
+        h1,
+        h2,
+        h3,
+        a {
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+        }
+
+        .bg {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(/img/bg.jpg) no-repeat;
+            z-index: -10;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .wrap {
+            position: relative;
+            max-width: 1440px;
+            margin: 25px auto;
+            z-index: -4;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+
+        #navbar {
+            position: absolute;
+            width: 15%;
+            padding: 20px;
+            transition: 0.5s ease-in-out;
+
+        }
+        .poster_playerBlock {
+            position: absolute;
+            padding-top: 20px;
+            right: 0;
+            width:76.5%;
+            height: 500px;
+        }
+        .poster_playerBlock p {
+            margin-top: 5px;
+            color: white;
+        }
+        .poster_playerBlock h1 {
+            font-size: 20px;
+            position: absolute;
+            color: white;
+            background: #09a3e0;
+            padding: 20px 30px;
+            border-radius: 20px;
+            width: 8%;
+            height: 5%;
+            top: 47.5%;
+            left: 45%;
+            right: 45%;
+            bottom: 47.5%;
+        }
+        .header {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            display: fixed;
+            position: relative;
+            padding: 15px;
+            height: 40px;
+        }
+
+        .header h2 {
+            float: left;
+        }
+
+        .header_images {
+            float: right;
+        }
+
+        .focus {
+            border: 2px solid yellow;
+            margin: -2px;
+        }
+        .navbar_wrap p{
+            font-size: 18px;
+            font-weight: 400;
+            margin: 15px 0 15px 5px;
+            color: white;
+        }
+        .navbar_wrap h2{
+            font-size: 28px;
+            font-weight: 400;
+            color: yellow;
+            margin: 15px 0 0 5px;
+        }
+        
+        .posterScreenshot {
+            width: 100%;
+            height: 100%;
+        }
+        .posterImg {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg"></div>
+    <header class="header navigations-items">
+        <img id="arrowBack" width="60" height="60" class="nav-item" src="/img/arrowback.svg" alt="arrowback">
+    </header>
+    <div class="wrap">
+        <%- include('./elements/filmInfo.ejs') %>
+    </div>
+    <script type="text/javascript">
+        // при клике на стрелку перейти обратно
+        $('#arrowBack').click(function () {
+            window.location = '/'
+        })
+    </script>
+</body>
+
+</html>
