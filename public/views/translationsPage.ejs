@@ -155,6 +155,7 @@
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
             $("#list").scrollTop($("#list").scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
+            $$log(e.key)
             switch (e.key) {
                 case 'Backspace':
                     document.location.href = '/';
