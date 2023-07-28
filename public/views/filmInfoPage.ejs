@@ -223,12 +223,12 @@
                     $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
                     $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
                 }
-                $$log(e.key)
-                switch (e.key) {
-                case 'Backspace':
+                $$log(e.keyCode)
+                switch (e.keyCode) {
+                case '8':
                     document.location.href = "/";
                     break;
-                case 'ArrowUp':
+                case '38':
                     $('#playlistSeasons').show()
                     $$nav.on()
                     break;

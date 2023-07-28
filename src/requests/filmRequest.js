@@ -45,8 +45,8 @@ module.exports = new Promise(function(resolve, reject){
         <script type="text/javascript">
            // при клике на стрелку перейти обратно
         $(document).keydown(function (e) {
-                switch (e.key) {
-                case 'ArrowUp':
+                switch (e.keyCode) {
+                case '38':
                     document.location.href = "/selectTranslation${elem.kinopoisk_id + index}";
                 break;
             }

@@ -226,8 +226,8 @@
                 $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
                 $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
                 console.log(e.key)
-                switch (e.key) {
-                    case 'ArrowRight':
+                switch (e.keyCode) {
+                    case '39': //right
                         // проверка на каком слайдере находится фокус, чтобы круто только слайдер с фокусным элементом
                          if ($('#filmsSlider .focus')[0]) {
                             var curItem = $('#filmsSlider .focus');
@@ -261,7 +261,7 @@
                              }, 150); 
                         }
                         break;
-                    case 'ArrowLeft':
+                    case '37': // left
                         // проверка на каком слайдере находится фокус, чтобы круто только слайдер с фокусным элементом
                          if ($('#filmsSlider .focus')[0]) {
                             var curItem = $('#filmsSlider .focus');
@@ -295,14 +295,6 @@
                              }, 150); 
                         }
                         break;
-                    case 'ArrowUp':
-                        break;
-                    case 'ArrowDown':
-                        break;
-                    case 'right':
-                        break;
-                    case 'left':
-                    break;
                 }
 
             });

@@ -39,7 +39,7 @@ module.exports = new Promise(function(resolve, reject){
             </div>
             <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
         </div>
-         <script type="text/javascript">$(document).keydown(function (e) {switch (e.key) {case "ArrowUp":${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index}";break;}})</script>
+         <script type="text/javascript">$(document).keydown(function (e) {switch (e.keyCode) {case "38":${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index}";break;}})</script>
         `
        )
     })
