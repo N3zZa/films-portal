@@ -15,9 +15,10 @@ userModel.getPremieres.then((data) => {
     fs.writeFileSync('./public/views/elements/premieres.ejs', data[0].join('').toString())
 
     // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
-    data[2].forEach((elem) => {
-        app.get('/filmInfo' + elem.id, (req, res) => {
-        fs.writeFileSync('./public/views/elements/filmInfo.ejs', data[1][elem.index].toString())
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+         userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
     })
@@ -27,20 +28,25 @@ userModel.getFilms.then((data) => {
     fs.writeFileSync('./public/views/elements/films.ejs', data[0].join('').toString())
 
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
-    data[2].forEach((elem) => {
-        app.get('/filmInfo' + elem.id, (req, res) => {
-        fs.writeFileSync('./public/views/elements/filmInfo.ejs', data[1][elem.index].toString())
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+         userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
     })
 })
 userModel.getSerials.then((data) => {
+    // data = [item, itemInfo, {id, index, episodes}]
+    
     fs.writeFileSync('./public/views/elements/serials.ejs', data[0].join('').toString())
 
+
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
-    data[2].forEach((elem) => {
-        app.get('/filmInfo' + elem.id, (req, res) => {
-        fs.writeFileSync('./public/views/elements/filmInfo.ejs', data[1][elem.index].toString())
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
     })
@@ -49,15 +55,15 @@ userModel.getCartoons.then((data) => {
     fs.writeFileSync('./public/views/elements/cartoons.ejs', data[0].join('').toString())
 
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
-    data[2].forEach((elem) => {
-        app.get('/filmInfo' + elem.id, (req, res) => {
-        fs.writeFileSync('./public/views/elements/filmInfo.ejs', data[1][elem.index].toString())
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+         userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
     })
 })
 userModel.getChannels.then((data) => {
-    console.log(data)
     fs.writeFileSync('./public/views/elements/channels.ejs', data.join('').toString())
 })
 // -----------------------------------------------------------------------------------------------------------------------

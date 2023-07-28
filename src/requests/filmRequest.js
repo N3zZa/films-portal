@@ -22,7 +22,7 @@ module.exports = new Promise(function(resolve, reject){
       fetch(APIFILMS_URL).then((response) => {
     return response.json()
 }).then(data =>  {
-   const filmDataId = data.results.map((film, i) => ({id: film.kinopoisk_id, index: i}))
+   const filmDataId = data.results.map((film, i) => ({id: film.kinopoisk_id, index: i, episodes: film.episodes, isSerial: film.serial}))
    const itemInfo = data.results.map((elem, index) => {
        return (
         `
@@ -41,8 +41,14 @@ module.exports = new Promise(function(resolve, reject){
             <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
         </div>
         <script type="text/javascript">
-            var _playerBtn${elem.kinopoisk_id + index} = document.getElementById("playerRedirectBtn${index}")
-            _playerBtn${elem.kinopoisk_id + index}.addEventListener("click", function (event) {document.location.href = "/player"; $$nav.off()});
+           // при клике на стрелку перейти обратно
+        $(document).keydown(function (e) {
+                switch (e.key) {
+                case 'ArrowUp':
+                    document.location.href = "/selectTranslation${elem.kinopoisk_id + index}";
+                break;
+            }
+         })
         </script>
         `
        )
@@ -51,8 +57,8 @@ module.exports = new Promise(function(resolve, reject){
     const item = data.results.map((elem, index) => {
        return (
         `
-        <div class="filmsItem item nav-item" data-nav_ud="#premiere0,0,#channelBtn_inner,0">
-        <div class="filmsItemBg" id="film${index}" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
+        <div id="film${index}" class="filmsItem item nav-item" data-nav_ud="#premiere0,0,#channelBtn_inner,0">
+        <div class="filmsItemBg" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
         </div>
         <div class="text filmsItemText">
         <h1>${elem.info.rus.substring(0,33)}</h1>
@@ -61,7 +67,7 @@ module.exports = new Promise(function(resolve, reject){
         </div>
         <script type="text/javascript">
             var _elem${elem.kinopoisk_id + index} = document.getElementById("film${index}")
-            _elem${elem.kinopoisk_id + index}.addEventListener("click", function (event) {document.location.href = "/filmInfo${elem.kinopoisk_id}"; $$nav.off()});
+            _elem${elem.kinopoisk_id + index}.addEventListener("click", function (event) {document.location.href = "/filmInfo${elem.kinopoisk_id + index}"; $$nav.off()});
         </script>
         `
        )

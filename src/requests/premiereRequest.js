@@ -20,7 +20,7 @@ module.exports = new Promise(function(resolve, reject){
     return response.json()
 }).then(data =>  {
    
-   const filmDataId = data.results.map((film, i) => ({id: film.kinopoisk_id, index: i}))
+   const filmDataId = data.results.map((film, i) => ({id: film.kinopoisk_id, index: i, episodes: film.episodes, isSerial: film.serial}))
    const itemInfo = data.results.map((elem, index) => {
        return (
         `
@@ -38,19 +38,7 @@ module.exports = new Promise(function(resolve, reject){
             </div>
             <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
         </div>
-        <script type="text/javascript">
-          $(document).keydown(function (e) {
-             switch (e.key) {
-                        break;
-                    case 'Enter':
-                        document.location.href = "/player"; 
-                        break;
-                    case 'Backspace':
-                         document.location.href = "/"; 
-                    break;
-                }
-          })
-        </script>
+         ${elem.serial === '1' ? '' : '<script type="text/javascript">$(document).keydown(function (e) {switch (e.key) {case "ArrowUp":document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '";break;}})</script>'}
         `
        )
     })
@@ -65,7 +53,7 @@ module.exports = new Promise(function(resolve, reject){
         </div>
         <script type="text/javascript">
             var _elem${elem.kinopoisk_id + index} = document.getElementById("premiere${index}")
-            _elem${elem.kinopoisk_id + index}.addEventListener("click", function (event) {document.location.href = "/filmInfo${elem.kinopoisk_id}"; $$nav.off()});
+            _elem${elem.kinopoisk_id + index}.addEventListener("click", function (event) {document.location.href = "/filmInfo${elem.kinopoisk_id  + index}"; $$nav.off()});
         </script>
         `
        )
