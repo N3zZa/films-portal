@@ -141,7 +141,7 @@
             <h2 id="timeNow">13</h2>
         </div>
     </header>
-    <div id="wrap" href="<%=goBackPathname %>" class="wrap">
+    <div id="wrap" class="wrap">
         <div id='playlist'>
             <ul id="list">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
@@ -157,8 +157,7 @@
             $("#list").scrollTop($("#list").scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
             switch (e.key) {
                 case 'Backspace':
-                    var goBackPathName = document.getElementById("wrap").getAttribute('href')
-                    document.location.href = goBackPathName;
+                    document.location.href = '/';
                 break;
             }
         })

@@ -51,9 +51,11 @@ module.exports = {
     getSeasons: (episodes, kinopoisk_id, index, app, isSerial) => {
         try {
         let model = module.exports
+
         // получение из запроса сезонов и эпизодов
-        if (isSerial === '1') {
+        if (isSerial === '1') { // проверка на сериал
             const seasonsArr = [];
+            // из эпизодов создаю htmlblock
             for (let key of Object.keys(episodes)) {
                 Object.values(episodes[key]).forEach((_, i) => {
                     const arrElem = 
@@ -64,31 +66,37 @@ module.exports = {
                      </li>
                      <script type="text/javascript">
                         $('#season${key}episode${i + 1}').click(function (e) {
-                            window.location = '/selectTranslation${kinopoisk_id + index}&season=${key}' + '&episode=${i + 1}'
+                            window.location = '/selectTranslation${kinopoisk_id + index}&season=${key}&episode=${i + 1}'
                         })
                      </script>
                     `
                     seasonsArr.push(arrElem);
-                    model.getTranslations(key, i + 1, kinopoisk_id, index, app, isSerial)
+                    model.getTranslations(key, i + 1, kinopoisk_id, index, app, isSerial) // метод получения озвучек(он ниже метода getSeasons)
                 })
         }
-        fs.writeFileSync('./public/views/elements/filmInfo/seasons&translations.ejs', seasonsArr.join('').toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/seasons&translations.ejs', seasonsArr.join('').toString()) // создаю html элемент с сезонами либо озвучками
         seasonsArr.length = 0 // обнуляю массив
         } else {
-            fs.writeFileSync('./public/views/elements/filmInfo/seasons&translations.ejs', '')
-             model.getTranslations(_, _, kinopoisk_id, index, app, isSerial)
+            fs.writeFileSync('./public/views/elements/filmInfo/seasons&translations.ejs', '') // создаю пустой htmlэлемент
+             model.getTranslations(_, _, kinopoisk_id, index, app, isSerial) // метод получения озвучек(он ниже метода getSeasons)
         }
+
         } catch (error) {
-            console.error('episodesError', {error, episodes: episodes})
+            console.error('episodesError', {error, episodes: episodes}) // обработка ошибки
         }
     },
     getTranslations: (season, episode, kinopoisk_id, index, app, isSerial) => {
       try {
+
         let model = module.exports
+
+        // проверка на сериал и если сериал то в url вписывается сезон и серия, если нет -- не вписывается
         const translPageUrl = isSerial === '1' ? '/selectTranslation' + kinopoisk_id + index + `&season=${season}` + `&episode=${episode}` : '/selectTranslation' + kinopoisk_id + index
 
+        // обработка страницы с озвучками
         app.get(translPageUrl, (req, res) => {
                           try {
+                            // запрос на получение видеофайлов
                             fetch(APIVIDEOS_URL + `${kinopoisk_id}&ref=&ip=${IP_APIVIDEOS}`, {
                              method: "GET",
                                 headers: { "Content-Type": "application/json" },
@@ -96,6 +104,8 @@ module.exports = {
                             .then((response) => response.json())
                             .then((jsonResponse) => {
                                 console.log(jsonResponse)
+
+                                // создаю блок с озвучками
                                 const htmlTranslations = jsonResponse.results.map((translationElem, index) => {
                                     const items = `
                                          <li id="${translationElem.translation + index}" class="channel nav-item"
@@ -104,28 +114,30 @@ module.exports = {
                                     </li>
                                     <script type="text/javascript">
                                     $('#${translationElem.translation + index}').click(function (e) {
-                                     window.location = '/player${kinopoisk_id + index}&season=${season}' + '&episode=${episode}'
+                                     window.location = '/player${kinopoisk_id + index}&season=${season}&episode=${episode}'
                                     })
                                     </script>
                                         `
                                     return items
                                 })
+
                                 jsonResponse.results.forEach((elem) => { //перебор массива озвучек и создание страницы для каждой
                                     model.createPlayerPage(app, elem.kinopoisk_id, season, episode, elem.translation)
                                 })
+
+                                // создание файла с озвучками
                                 fs.writeFileSync('./public/views/elements/filmInfo/seasons&translations.ejs', htmlTranslations.join('').toString())
-                                res.render('translationsPage.ejs', {goBackPathname:'/filmInfo' + kinopoisk_id + index})
+                                res.render('translationsPage.ejs') // вывод страницы и передаю url при переходе назад
                             })
                           } catch (error) {
-                            console.error('videosFetchError', error)
+                            console.error('videosFetchError', error) // обработка ошибки
                           }
         })
-        
-        
       } catch (error) {
-        console.error('translationsError', error)
+        console.error('translationsError', error) // обработка ошибки
       }
     },
+    // метод создания страницы с плеером
     createPlayerPage: (app, kinopoisk_id, season, episode, translation) => {
         app.get("/player=" + kinopoisk_id + `&${season}` + `&${episode}` + `&${encodeURI(translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
                                 const videoPlaylist = elem.playlists

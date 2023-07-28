@@ -19,8 +19,9 @@ module.exports = new Promise(function(resolve, reject){
       fetch(APIPREMIERES_URL).then((response) => {
     return response.json()
 }).then(data =>  {
-   
+   // просто сохраняю в переменную массив с данными о фильмах
    const filmDataId = data.results.map((film, i) => ({id: film.kinopoisk_id, index: i, episodes: film.episodes, isSerial: film.serial}))
+   // массив с html блоками для информации о фильме
    const itemInfo = data.results.map((elem, index) => {
        return (
         `
@@ -38,7 +39,7 @@ module.exports = new Promise(function(resolve, reject){
             </div>
             <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
         </div>
-         ${elem.serial === '1' ? '' : '<script type="text/javascript">$(document).keydown(function (e) {switch (e.key) {case "ArrowUp":document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '";break;}})</script>'}
+         <script type="text/javascript">$(document).keydown(function (e) {switch (e.key) {case "ArrowUp":${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index}";break;}})</script>
         `
        )
     })
@@ -58,7 +59,7 @@ module.exports = new Promise(function(resolve, reject){
         `
        )
     })
-    resolve([item, itemInfo, filmDataId])
+    resolve([item, itemInfo, filmDataId]) // отдаю массив с подмассивами
    }, 1200)
 })
    } catch (error) {
