@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tv</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/keyboard.css" />
+    <script type="text/javascript" src="libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
+    <script type="text/javascript" src="libs/event_emitter.js"></script>
+    <script type="text/javascript" src="js/lib/smartbox.js"></script>
+    <script>
+        // запуск навигации
+        $(function () {
+            $$nav.on()
+        })
+    </script>
+</head>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    li,
+    span,
+    label {
+        color: #fff;
+        font-family: 'Roboto Mono', monospace;
+    }
+
+    .wrap {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .bg {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(/img/bg.jpg);
+        z-index: -1;
+    }
+
+
+    .mainText {
+        margin: 150px auto;
+        width: 500px;
+        text-align: center;
+    }
+    .focus {
+        border: 1px solid yellow;
+    }
+    #arrowback {
+        width: 40px;
+        height: 40px;
+    }
+</style>
+
+<body>
+
+    <div class="bg"></div>
+    <div id="app" class="app wrap">
+        <div class="mainText">
+            <h1><%= errorMessage %></h1>
+            <img id="arrowback" class="nav-item" src="/img/arrowback.svg" alt="arrowback">
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('html').keyup(function (e) {
+            if (e.keyCode === 8) {
+                /* назад */
+                window.location = '/search'
+            }
+        })
+        $('#arrowback').click(function() {
+            window.location = '/search'
+        })
+    </script>
+</body>
+
+</html>

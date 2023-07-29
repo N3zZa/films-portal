@@ -66,6 +66,7 @@ userModel.getCartoons.then((data) => {
 userModel.getChannels.then((data) => {
     fs.writeFileSync('./public/views/elements/channels.ejs', data.join('').toString())
 })
+
 // -----------------------------------------------------------------------------------------------------------------------
 
 // страницы
@@ -74,6 +75,34 @@ app.get('/', (req, res) => {
 })
 app.get('/channels', (req, res) => {
     res.render('channelsPage.ejs')
+})
+app.get('/search', (req, res) => {
+    res.render('searchPage.ejs')
+})
+app.get('/searchItem', (req, resMain) => {
+    var name = req.originalUrl.split("?").pop();
+    var correctName = name.replace("+", " ");
+    // код для форматирования текста с пробелами из url адреса
+    let inputText = decodeURIComponent(correctName);
+    userModel.createSearchItems(inputText, resMain).then(data => {
+     fs.writeFile('./public/views/elements/search/searchItems.ejs', data[0].join('').toString(), function(err) {
+        if(err) {
+             resMain.render('errorPage.ejs', {errorMessage: 'Ничего не найдено'})
+        } else {
+             resMain.render('searchedItemsPage.ejs', {inputText: inputText})
+        }
+     })
+
+     // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+         userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
+        res.render('filmInfoPage.ejs')
+    })
+    })
+    })
+   
 })
 
 

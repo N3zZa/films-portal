@@ -187,9 +187,9 @@
     <header class="header">
         <h2>13:00</h2>
        <div class="header_images navigation-items">
-        <div class="search_block">
+        <a href="/search" class="search_block">
             <img id="search" class="search nav-item" src="/img/search.svg" alt="search" data-nav_ud="0,0,#premiere0,0">
-        </div>
+        </a>
         <img class="nav-item" src="/img/profile.svg" alt="profile" data-nav_ud="0,0,#premiere0,0">
        </div>
     </header>
@@ -225,7 +225,6 @@
                 var curItemPos = $('.focus')
                 $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
                 $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
-                console.log(e.key)
                 switch (e.keyCode) {
                     case '39': //right
                         // проверка на каком слайдере находится фокус, чтобы круто только слайдер с фокусным элементом

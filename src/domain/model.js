@@ -131,11 +131,23 @@ module.exports = {
                             })
                           } catch (error) {
                             console.error('videosFetchError', error) // обработка ошибки
+                            res.render('errorsPage.ejs') // вывод страницы с ошибкой
                           }
         })
       } catch (error) {
         console.error('translationsError', error) // обработка ошибки
       }
+    },
+    createSearchItems: (inputText, res) => {
+        return new Promise(function(resolve, reject){
+             // запрос на поиск фильмов
+        const searchRequestModel = require('../requests/search/searchRequest');
+        setTimeout(() => {
+         searchRequestModel(inputText, res).then((elem) => {
+            resolve(elem)
+        })
+        }, 1500)
+        })
     },
     // метод создания страницы с плеером
     createPlayerPage: (app, kinopoisk_id, season, episode, translation) => {
