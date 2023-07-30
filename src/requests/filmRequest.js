@@ -46,7 +46,7 @@ module.exports = new Promise(function(resolve, reject){
            // при клике на стрелку перейти обратно
         $(document).keydown(function (e) {
                 switch (e.keyCode) {
-                case '38':
+                case 38:
                     document.location.href = "/selectTranslation${elem.kinopoisk_id + index}";
                 break;
             }
@@ -59,7 +59,7 @@ module.exports = new Promise(function(resolve, reject){
     const item = data.results.map((elem, index) => {
        return (
         `
-        <div id="film${index}" class="filmsItem item nav-item" data-nav_ud="#premiere0,0,#channelBtn_inner,0">
+        <div id="film${index}" class="filmsItem item nav-item" data-nav_ud="0,0,0,0">
         <div class="filmsItemBg" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
         </div>
         <div class="text filmsItemText">

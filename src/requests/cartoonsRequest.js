@@ -40,7 +40,7 @@ module.exports = new Promise(function(resolve, reject){
             </div>
             <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
         </div>
-         ${elem.serial === '1' ? '' : '<script type="text/javascript">$(document).keydown(function (e) {switch (e.keyCode) {case "38":document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '";break;}})</script>'}
+         ${elem.serial === '1' ? '' : '<script type="text/javascript">$(document).keydown(function (e) {switch (e.keyCode) {case 38:document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '";break;}})</script>'}
         `
        )
     })
@@ -48,7 +48,7 @@ module.exports = new Promise(function(resolve, reject){
     const item = data.results.map((elem, index) => {
        return (
         `
-        <div id="cartoon${index}" class="cartoonsItem item nav-item" data-nav_ud="#channelBtn_inner,0,#serial0,0">
+        <div id="cartoon${index}" class="cartoonsItem item nav-item" data-nav_ud="0,0,0,0">
           <div class="filmsItemBg" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;" >
         </div>
          <div class="text filmsItemText">

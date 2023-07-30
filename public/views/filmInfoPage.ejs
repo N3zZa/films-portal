@@ -188,17 +188,7 @@
             margin-right: 10px;
             padding: 5px 10px;
         }
-        #log {
-            position: absolute;
-            width: 100%;
-        }
-        .log_pane {
-            width: 1000px;
-            margin: 0 auto;
-            font-size: 20px;
-            color: red;
-            font-weight: bold;
-        }
+        
     </style>
 </head>
 
@@ -217,20 +207,28 @@
     </div>
     <script type="text/javascript">
         // при клике на стрелку перейти обратно
+        var isPlaylistShow = false
         $(document).keydown(function (e) {
                 if ($('.focus')[0]) {
                     var curItemPos = $('.focus')
                     $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
                     $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
                 }
-                $$log(e.keyCode)
                 switch (e.keyCode) {
                 case 8:
-                    document.location.href = "/";
+                    if (isPlaylistShow === false) {
+                        document.location.href = "/";
+                    } else {
+                        $('#playlistSeasons').hide()
+                        isPlaylistShow = false;
+                    }
                     break;
                 case 38:
-                    $('#playlistSeasons').show()
-                    $$nav.on()
+                    if (isPlaylistShow === false) {
+                        $('#playlistSeasons').show()
+                        $$nav.on()
+                        isPlaylistShow = true;
+                    }
                     break;
             }
             })

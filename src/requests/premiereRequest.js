@@ -39,14 +39,14 @@ module.exports = new Promise(function(resolve, reject){
             </div>
             <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
         </div>
-         <script type="text/javascript">$(document).keydown(function (e) {switch (e.keyCode) {case "38":${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index}";break;}})</script>
+         <script type="text/javascript">$(document).keydown(function (e) {switch (e.keyCode) {case 38:${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '"'};break;}})</script>
         `
        )
     })
     // из полученных данных создаю массив с html блоками
     const item = data.results.map((elem, index) => {
        return (
-        `<div id="premiere${index}" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;" class="item premieresItem nav-item" data-nav_ud="0,0,#film0,0">
+        `<div id="premiere${index}" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;" class="item premieresItem nav-item"data-nav_ud="0,0,0,0">
             <div class="premieresText text">
             <h1>${elem.info.rus}</h1>
             <h1>${elem.info.year} ${elem.serial === '1' ? 'Сериал' : 'Фильм'}</h1>

@@ -155,16 +155,11 @@
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
             $("#list").scrollTop($("#list").scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
-            $$log(e.keyCode)
             switch (e.keyCode) {
                 case 8:
                     document.location.href = '/';
                 break;
             }
-        })
-        // при клике на каналы перейти к его просмотру
-        $('li').click(function (e) {
-            window.location = e.currentTarget.getAttribute('href')
         })
     </script>
 </body>
