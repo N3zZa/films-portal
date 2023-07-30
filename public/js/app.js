@@ -20,10 +20,8 @@
             document.getElementById('no-episodes_text').innerText = 'Нет эпизодов с данной озвучкой'
             console.log('Нет эпизодов')
         } else {
-            Player.play({
-                url: playerUrl,
-                type: "hls"
-            });
+            mb.send('player.enqueue', { url: playerUrl, title: 'Плеер' });
+            mb.send('player.play');
             console.log('Плеер запущен')
         }
 
