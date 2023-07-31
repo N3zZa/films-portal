@@ -26,20 +26,47 @@ module.exports = new Promise(function(resolve, reject){
    const itemInfo = data.results.map((elem, index) => {
        return (
         `
-         <div id='navbar'>
-            <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('${elem.info.poster}');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>${elem.info.rus}</h2>
-                <p>Год:${elem.info.year}</p>
-                <p>Жанр:${elem.info.genre}</p>
-                <p>Режиссер:${elem.info.director}</p>
+         <div>
+        <div id='filmInfo'>
+            <div class="posterImg"
+                style="background-image: url('${elem.info.poster}');background-repeat: no-repeat; background-size: 100% 100%;"
+                alt="posterimg"></div> 
+            <div class="textinfo">
+                <div class="textInfo_inner">
+                    <h4 class="actorsText">Актеры:${elem.info.actors.replace(/('|")/g, ``)}</h4>
+                    <p>Страна:${elem.info.country}</p>
+                    <p>Год:${elem.info.year}</p>
+                    <p>Режиссер:${elem.info.director.replace(/('|")/g, ``)}</p>
+                </div>
+                <h2>${elem.info.rus.replace(/('|")/g, ``)}</h2>
             </div>
         </div>
-        <div class="poster_playerBlock">
-            <div class="posterScreenshot" style="background-image: url('${elem.info.screenshot}');background-repeat: no-repeat; background-size: 100% 100%;">
+        <p class="film_descr">${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
+        <navbar class="filmInfo_navbar">
+            <!-- <div class="nav-logo"><img src="" alt=""></div> -->
+            <div class="navbar_menu navigation-items">
+                <div id="backBtn" class="nav_backbtn nav-item">
+                    <img width="40" height="40" src="/img/arrowback.svg" alt="arrowback">
+                    <h1>Назад</h1>
+                </div>
+                <div id="watchBtn" class="nav_watchbtn nav-item">
+                    <h1>Смотреть</h1>
+                </div>
             </div>
-            <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
-        </div>
+        </navbar>
+        <script type="text/javascript">
+           $('#backBtn').click(function() {
+            document.location.href = "/";
+        })
+        $('#watchBtn').click(function() {
+             if (isPlaylistShow === false) {
+                $('#playlistSeasons').show()
+                $$nav.on("#listseasons")
+                isPlaylistShow = true;
+            }
+        })
+        </script>
+      </div>
         `
        )
     })
@@ -51,7 +78,7 @@ module.exports = new Promise(function(resolve, reject){
         <div class="filmsItemBg" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;" >
         </div>
          <div class="text filmsItemText">
-        <h1>${elem.info.rus.substring(0,33)}</h1>
+        <h1>${elem.info.rus.substring(0,33).replace(/('|")/g, ``)}</h1>
         <h1>(${elem.info.year})</h1>
         </div>
         </div>

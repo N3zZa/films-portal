@@ -9,12 +9,10 @@
 
     initialize: function () {
       this.$wrap = $('.wrap');
+      var playerUrl = document.getElementById("wrap").getAttribute('data-url');
       var _inited;
-
-
       this.scenes.video = {
     init: function () {
-      var playerUrl = document.getElementById("wrap").getAttribute('data-url');
           console.log('playerUrl',playerUrl);
            if (playerUrl === '') {
             document.getElementById('no-episodes_text').innerText = 'Нет эпизодов с данной озвучкой'
@@ -36,8 +34,6 @@
     },
       };
 
-      
-
       this.setEvents();
 
       // start navigation
@@ -46,23 +42,52 @@
 
     setEvents: function () {
       this.showContent('video')
-      $(document.body).on({
-        // on keyboard 'd' by default
-        'nav_key:blue': _.bind(this.toggleView, this),
+      var backUrl = document.getElementById("wrap").getAttribute('data-backUrl');
 
-        // remote events
-        'nav_key:stop': function () {
-          Player.stop();
-        },
-        'nav_key:pause': function () {
-          Player.togglePause();
-        },
-        'nav_key:exit': function(){
-          SB.exit();
-        }
-      });
+     $(document).keydown(function(e){
 
-      // toggling background when player start/stop
+			var key = config.app.keys[config.app.mode][e.keyCode];
+
+			switch(key){
+				case'left':
+          var mbStatusDuration = mb.get('player:media.duration')
+          $$log('duration', mbStatusDuration)
+          var mbStatus = mb.get('player:state');
+          $$log('state',mbStatus);
+           if (mbStatusDuration > 5) {
+            mb.send('player.seek', {delta:mbStatusDuration - 5})
+          }
+				break;
+				case'right':
+        var mbStatusDuration = mb.get('player:media.duration')
+          $$log('duration', mbStatusDuration)
+          var mbStatus = mb.get('player:state');
+          $$log('state',mbStatus);
+          mb.send('player.seek', {delta:mbStatusDuration + 5})
+				break;
+				case'ok':
+            mb.send('player.pause')
+				break;
+				case 'mute':
+          var muteStatus = mb.get('player:mute');
+          $$log('mutestatus',muteStatus)
+          if (muteStatus === false) {
+            mb.send('player.mute')
+          }
+					break;
+				case 'volup':
+          mb.send('player.volume_up')
+				break;	
+				case 'voldown':
+          mb.send('player.volume_down')
+				break;	
+				case 'back':
+          mb.send('player.stop');
+          window.location = backUrl;
+				break;	
+			}
+
+		});
       Player.on('ready', function () {
         $$log('player ready');
       });

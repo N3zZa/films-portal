@@ -41,7 +41,6 @@ userModel.getSerials.then((data) => {
     
     fs.writeFileSync('./public/views/elements/serials.ejs', data[0].join('').toString())
 
-
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
     data[2].forEach((elem, index) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
@@ -108,6 +107,5 @@ app.get('/searchItem', (req, resMain) => {
 
 
 const port = process.env.PORT || 3000;
-app.listen(port)
+app.listen(port, () => console.log(`Server is listening on port ${port}`))
 module.exports = app
-console.log(`Server is listening on port ${port}`);

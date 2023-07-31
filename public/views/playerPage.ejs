@@ -34,25 +34,11 @@
 </style>
 
 <body>
-    <div id="wrap" data-url="<%= playerUrl %>" class="wrap">
+    <div id="wrap" data-url="<%= playerUrl %>" data-backUrl="<%= backUrl %>" class="wrap">
         <div class="No episodes">
             <h1 id="no-episodes_text"></h1>
         </div>
     </div>
-    <script type="text/javascript">
-        /* обработка нажатых клавиш */
-       
-        $(document).keydown(function (e) {
-            switch (e.keyCode) {
-                case 8:
-                    console.log('keydown: back');
-                    stb.Stop();
-                    window.location = '/${pageName}'
-                break;
-            }
-        })
-       
-    </script>
 </body>
 
 </html>

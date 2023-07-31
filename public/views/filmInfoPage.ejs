@@ -13,8 +13,8 @@
     <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
     <script type="text/javascript" src="libs/event_emitter.js"></script>
     <script type="text/javascript" src="js/lib/smartbox.js"></script>
-
     <script>
+        var isPlaylistShow = false
         // запуск навигации
         $(function () {
             $$nav.on()
@@ -26,7 +26,7 @@
         h1,
         h2,
         h3,
-        a {
+        a,h4 {
             font-family: 'Roboto Mono', monospace;
             margin: 0;
         }
@@ -48,9 +48,9 @@
 
         .wrap {
             position: relative;
-            max-width: 1440px;
-            margin: 25px auto;
-            z-index: -4;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
         }
 
         a {
@@ -60,12 +60,11 @@
         }
 
 
-        #navbar {
-            position: absolute;
-            width: 15%;
+        #filmInfo {
+            position: relative;
+            width: 70%;
             padding: 20px;
             transition: 0.5s ease-in-out;
-
         }
         .poster_playerBlock {
             position: absolute;
@@ -109,31 +108,43 @@
         .header_images {
             float: right;
         }
+       
+        .textinfo {
+            display: inline-block;
+            margin-left: 15px;
+        }
 
-        .focus {
-            border: 2px solid yellow;
-            margin: -2px;
-        }
-        .navbar_wrap p{
-            font-size: 18px;
+        .textinfo p{
+            font-size: 16px;
             font-weight: 400;
-            margin: 15px 0 15px 5px;
             color: white;
+            margin: 8px 0 8px 5px;
         }
-        .navbar_wrap h2{
+        .textinfo h2{
             font-size: 28px;
             font-weight: 400;
             color: yellow;
-            margin: 15px 0 0 5px;
+            position: absolute;
+            bottom: 50px;
         }
-        
-        .posterScreenshot {
-            width: 100%;
-            height: 100%;
+        .textInfo_inner{
+            margin: auto 0;
+            position: absolute;
+            top: 10px;
         }
+        .textInfo_inner h4 {
+            max-width: 60%;
+        }
+        .actorsText {
+            margin: 15px 0 25px 5px;
+            color: white;
+            font-weight: 400;
+        }
+
         .posterImg {
-            width: 100%;
-            height: 300px;
+            display:inline-block;
+            width: 300px;
+            height: 400px;
         }
 
          ul {
@@ -188,10 +199,42 @@
             margin-right: 10px;
             padding: 5px 10px;
         }
-        
+        .filmInfo_navbar {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: #09a3e0;
+            height: 100vh;
+            width: 30%;
+            padding: 20px;
+        }
+        .film_descr {
+            margin-left: 20px;
+            color: white;
+            max-width: 60%;
+        }
+        .nav_backbtn img, h1{
+            display: inline-block;
+        }
+        .navbar_menu .nav-item {
+            position: relative;
+            padding: 10px 25px;
+             border-bottom: 5px solid transparent;
+        }
+        .navbar_menu .nav-item h1 {
+            font-size: 24px;
+            color: white;
+        }
+        .navbar_menu img {
+            position: absolute;
+            left: -10px;
+            top: 5px;
+        }
+        .navbar_menu .focus {
+            border-bottom: 5px solid yellow;
+        }
     </style>
 </head>
-
 <body>
     <div class="bg"></div>
     <div class="playlist" id='playlistSeasons'>
@@ -199,15 +242,13 @@
             <%- include('./elements/filmInfo/seasons&translations.ejs') %>
         </ul>
     </div>
-    <header class="header">
-        <img id="arrowBack" width="60" height="60" src="/img/arrowback.svg" alt="arrowback">
-    </header>
     <div class="wrap">
         <%- include('./elements/filmInfo/filmInfo.ejs') %>
     </div>
+    
+    </div>
     <script type="text/javascript">
         // при клике на стрелку перейти обратно
-        var isPlaylistShow = false
         $(document).keydown(function (e) {
                 if ($('.focus')[0]) {
                     var curItemPos = $('.focus')
@@ -221,19 +262,13 @@
                     } else {
                         $('#playlistSeasons').hide()
                         isPlaylistShow = false;
-                    }
-                    break;
-                case 38:
-                    if (isPlaylistShow === false) {
-                        $('#playlistSeasons').show()
-                        $$nav.on()
-                        isPlaylistShow = true;
+                        $$nav.on('.navbar_menu')
                     }
                     break;
             }
             })
         
-                        
+        
     </script>
 </body>
 

@@ -108,13 +108,20 @@ module.exports = {
                                 // создаю блок с озвучками
                                 const htmlTranslations = jsonResponse.results.map((translationElem, index) => {
                                     const items = `
-                                         <li id="transl${season + episode + index}${translationElem.translation.replace(/[\(\)\s]/g,"")}" class="channel nav-item"
+                                         <li id="transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}" class="channel nav-item"
                                      >
                                         <p>${translationElem.translation}${translationElem.studio !== null ? ', ' + translationElem.studio : ''}</p>
                                     </li>
                                     <script type="text/javascript">
-                                    $('#transl${season + episode + index}${translationElem.translation.replace(/[\(\)\s]/g,"")}').click(function (e) {
+                                    $('#transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}').click(function (e) {
                                      window.location = '/player${kinopoisk_id + index}&season=${season}&episode=${episode}&transl=${translationElem.translation.replace(/[\(\)\s]/g,"")}'
+                                    })
+                                     $(document).keydown(function (e) {
+                                         switch (e.keyCode) {
+                                            case 8:
+                                                document.location.href = '/filmInfo${kinopoisk_id + index}';
+                                            break;
+                                        }
                                     })
                                     </script>
                                         `
@@ -157,7 +164,7 @@ module.exports = {
             // ----- ниже делаю проверку на качество видео, чтобы давало лучшее из всех -----
             const video = videoPlaylist['1080'] ? videoPlaylist['1080'] : videoPlaylist['720'] ? videoPlaylist['720'] : videoPlaylist['480']
             console.log('videoURL', video)
-            res.render('playerPage.ejs', {playerUrl: video}); // Отправка ответа в виде HTML(setTimeout для того чтобы обновляло данные страницы)
+            res.render('playerPage.ejs', {playerUrl: video, backUrl: '/filmInfo' + elem.kinopoisk_id + index}); // Отправка ответа в виде HTML(setTimeout для того чтобы обновляло данные страницы)
             } else {
                  const videoPlaylist = elem.playlists
                                 const seasonObj = videoPlaylist[`${season}`]; // получаю сезоны
@@ -169,7 +176,7 @@ module.exports = {
                                 const video = episodeObj['1080'] ? episodeObj['1080'] : episodeObj['720'] ? episodeObj['720'] : episodeObj['480']
                                 console.log('videoURL', video)  
                             
-                                res.render('playerPage.ejs', {playerUrl: video}); // Отправка ответа в виде HTML(setTimeout для того чтобы обновляло данные страницы)
+                                res.render('playerPage.ejs', {playerUrl: video, backUrl: '/filmInfo' + elem.kinopoisk_id + index}); // Отправка ответа в виде HTML(setTimeout для того чтобы обновляло данные страницы)
             }
                                
         })

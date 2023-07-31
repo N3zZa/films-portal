@@ -1,17 +1,43 @@
 
-         <div id='navbar'>
-            <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_5272214.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>Прощальное письмо</h2>
-                <p>Год:2023</p>
-                <p>Жанр:драма</p>
-                <p>Режиссер:Deniz Çelebi</p>
+         <div>
+        <div id='filmInfo'>
+            <div class="posterImg"
+                style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_1309604.jpg');background-repeat: no-repeat; background-size: 100% 100%;"
+                alt="posterimg"></div> 
+            <div class="textinfo">
+                <div class="textInfo_inner">
+                    <h4 class="actorsText">Актеры:Стивен Амелл,Келли Бёрглунд,Найджел Крокер,Рокстон Гарсиа,Джеймс Харрисон,Мелисса ЛеЭллен,Александр Людвиг,Alison Luff,Мэри МакКормак,Джоэль Мюррей</h4>
+                    <p>Страна:США</p>
+                    <p>Год:2021</p>
+                    <p>Режиссер:Питер Сигал,Джессика Лори</p>
+                </div>
+                <h2>Хилы</h2>
             </div>
         </div>
-        <div class="poster_playerBlock">
-            <div class="posterScreenshot" style="background-image: url('https://z42b.bazonserver.site/video/92793/poster.jpg');background-repeat: no-repeat; background-size: 100% 100%;">
+        <p class="film_descr">История двух братьев-рестлеров, которые почти не разграничивают семейные отношения и конфликт на боевой сцене. Такой накал страстей идет на пользу шоу, а вот самим родственникам — вряд ли. Им предстоит разобраться, кто все же главный хил....</p>
+        <navbar class="filmInfo_navbar">
+            <!-- <div class="nav-logo"><img src="" alt=""></div> -->
+            <div class="navbar_menu navigation-items">
+                <div id="backBtn" class="nav_backbtn nav-item">
+                    <img width="40" height="40" src="/img/arrowback.svg" alt="arrowback">
+                    <h1>Назад</h1>
+                </div>
+                <div id="watchBtn" class="nav_watchbtn nav-item">
+                    <h1>Смотреть</h1>
+                </div>
             </div>
-            <p>История начинается 30 лет назад, когда молодая Аланур влюбляется в простого парня Зию. Несмотря на то, что ее богатые родители не одобряют ее выбор, Аланур готова на все, чтобы быть с любимым. Однако в один момент парень сбегает, оставив короткое прощальное письмо.С течением времени Аланур и Зия построили свои собственные семьи, они давно не общали...</p>
-        </div>
-         <script type="text/javascript">$(document).keydown(function (e) {switch (e.keyCode) {case 38:;break;}})</script>
+        </navbar>
+        <script type="text/javascript">
+           $('#backBtn').click(function() {
+            document.location.href = "/";
+        })
+        $('#watchBtn').click(function() {
+             if (isPlaylistShow === false) {
+                $('#playlistSeasons').show()
+                $$nav.on("#listseasons")
+                isPlaylistShow = true;
+            }
+        })
+        </script>
+      </div>
         
