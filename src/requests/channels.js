@@ -497,7 +497,15 @@ const channels = parsedManifest
 module.exports = new Promise(function(resolve, reject){
    try {
    // из полученных данных создаю массив с html блоками
-    const item = channels.segments.map((elem, index) => {
+   const channelImages = (imgUrl) => channels.segments.map((elem, index) => {
+       return (
+        `<div style="background: url('/img/${imgUrl}'); background-repeat:no-repeat;  background-size:cover;" id="channel${index}" class="channel nav-item">
+            <p>${elem.title.substr(-elem.title.length + 3)}</p>
+        </div>
+        `
+       )
+    })
+    const channel = channels.segments.map((elem, index) => {
        return (
         `<li href="${elem.uri}" id="channel${index}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
             <p>${index + 1}</p>
@@ -506,7 +514,7 @@ module.exports = new Promise(function(resolve, reject){
         `
        )
     })
-    resolve(item)
+    resolve([channel, channelImages])
    } catch (error) {
     console.log('fetchErrorFilms', error) // обработка ошибки
    }

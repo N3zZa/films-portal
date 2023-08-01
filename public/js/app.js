@@ -43,7 +43,7 @@
     setEvents: function () {
       this.showContent('video')
       var backUrl = document.getElementById("wrap").getAttribute('data-backUrl');
-
+      $$log('backUrl', backUrl)
      $(document).keydown(function(e){
 
 			var key = config.app.keys[config.app.mode][e.keyCode];

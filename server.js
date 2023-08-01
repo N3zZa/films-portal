@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: false })); // для mvc подхода, 
 app.use(express.static(__dirname + '/public')); // делаю public директорию основной
 
 
+
 // чтобы получить html разметку элементов создаю файлы с ними, который с помощью шаблонизатора вывожу на основной странице, также создаю файл с информацией о фильме
 userModel.getPremieres.then((data) => {
     fs.writeFileSync('./public/views/elements/premieres.ejs', data[0].join('').toString())
@@ -63,7 +64,7 @@ userModel.getCartoons.then((data) => {
     })
 })
 userModel.getChannels.then((data) => {
-    fs.writeFileSync('./public/views/elements/channels.ejs', data.join('').toString())
+    fs.writeFileSync('./public/views/elements/channels.ejs', data[0].join('').toString())
 })
 
 // -----------------------------------------------------------------------------------------------------------------------

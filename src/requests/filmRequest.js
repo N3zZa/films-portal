@@ -63,8 +63,6 @@ module.exports = new Promise(function(resolve, reject){
         $('#watchBtn').click(function() {
              document.location.href = "/selectTranslation${elem.kinopoisk_id + index}";
         })
-        
-        </script>
          </div>
         `
        )

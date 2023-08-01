@@ -135,6 +135,7 @@
     .header .focus {
         border: 2px solid yellow;
     }
+    
     </style>
 </head>
 
@@ -158,6 +159,8 @@
     <script type="text/javascript">
          // код нажатия на клавиши
         $(document).keydown(function (e) {
+            $$log('keydown', e.keyCode)
+
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
             $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
