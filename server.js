@@ -64,7 +64,8 @@ userModel.getCartoons.then((data) => {
     })
 })
 userModel.getChannels.then((data) => {
-    fs.writeFileSync('./public/views/elements/channels.ejs', data[0].join('').toString())
+    fs.writeFileSync('./public/views/elements/channels/channels.ejs', data[0].join('').toString())
+    fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', data[1]('sts.jpg').join('').toString())
 })
 
 // -----------------------------------------------------------------------------------------------------------------------
@@ -74,7 +75,8 @@ app.get('/', (req, res) => {
     res.render('mainPage.ejs')
 })
 app.get('/channels', (req, res) => {
-    res.render('channelsPage.ejs')
+    let channelId = "#channel" + req.originalUrl.substring(req.originalUrl.indexOf("?")+1);
+    res.render('channelsPage.ejs', {channelId: channelId})
 })
 app.get('/search', (req, res) => {
     res.render('searchPage.ejs')

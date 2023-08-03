@@ -139,7 +139,7 @@
     </style>
 </head>
 
-<body>
+<body id="body" data-selectedChannel="<%= channelId %>">
     <div class="bg"></div>
     <header class="header navigations-items">
         <img id="arrowBack" width="60" height="60" class="nav-item" src="/img/arrowback.svg" alt="arrowback">
@@ -151,19 +151,24 @@
         <div id='playlist'>
             <ul id="list">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
-              <%- include('./elements/channels.ejs')  %>
+              <%- include('./elements/channels/channels.ejs')  %>
             </ul>
         </div>
         <div></div>
     </div>
     <script type="text/javascript">
+        var selectedChannel = document.getElementById("body").getAttribute("data-selectedChannel")
+        $(selectedChannel).get(0).scrollIntoView() - 100
+        $(document).scrollTop($(document).scrollTop() - 100)
+        $$nav.on(selectedChannel)
          // код нажатия на клавиши
         $(document).keydown(function (e) {
-            $$log('keydown', e.keyCode)
-
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
-            $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
+             // скроллю чуть меньше чтобы лучше видно было элемент
+             if (e.keyCode === 8) {
+                document.location.href = '/'
+             }
         })
         // при клике на стрелку перейти обратно
         $('#arrowBack').click(function () {

@@ -43,7 +43,7 @@ module.exports = {
     }),
     getChannels: new Promise(function(resolve, reject){
         setTimeout(() => {
-         require('../requests/channels').then((elem) => {
+         require('../requests/channels/channels').then((elem) => {
             resolve(elem)
         })
         }, 1500)
