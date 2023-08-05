@@ -53,7 +53,7 @@ userModel.getSerials.then((data) => {
 })
 userModel.getCartoons.then((data) => {
     fs.writeFileSync('./public/views/elements/cartoons.ejs', data[0].join('').toString())
-
+    
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
     data[2].forEach((elem, index) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
@@ -65,7 +65,7 @@ userModel.getCartoons.then((data) => {
 })
 userModel.getChannels.then((data) => {
     fs.writeFileSync('./public/views/elements/channels/channels.ejs', data[0].join('').toString())
-    fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', data[1]('sts.jpg').join('').toString())
+    fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', `${data[1]('sts.jpg').join('').toString()}`)
 })
 
 // -----------------------------------------------------------------------------------------------------------------------

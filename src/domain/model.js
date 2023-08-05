@@ -103,10 +103,8 @@ module.exports = {
                             })
                             .then((response) => response.json())
                             .then((jsonResponse) => {
-                                console.log(jsonResponse)
-
                                 // создаю блок с озвучками
-                                const htmlTranslations = jsonResponse.results.map((translationElem, index) => {
+                                const htmlTranslations = jsonResponse.results.map((translationElem, i) => {
                                     const items = `
                                          <li id="transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}" class="channel nav-item"
                                      >
@@ -114,7 +112,7 @@ module.exports = {
                                     </li>
                                     <script type="text/javascript">
                                     $('#transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}').click(function (e) {
-                                     window.location = '/player${kinopoisk_id + index}&season=${season}&episode=${episode}&transl=${translationElem.translation.replace(/[\(\)\s]/g,"")}'
+                                     window.location = '/player${kinopoisk_id + index}&season=${season ? season : 'none'}&episode=${episode ? episode : 'none'}&transl=${translationElem.translation.replace(/[\(\)\s]/g,"")}'
                                     })
                                      $(document).keydown(function (e) {
                                          switch (e.keyCode) {
@@ -128,8 +126,8 @@ module.exports = {
                                     return items
                                 })
 
-                                jsonResponse.results.forEach((elem, index) => { //перебор массива озвучек и создание страницы для каждой
-                                    model.createPlayerPage(app, season, episode, elem, index)
+                                jsonResponse.results.forEach((elem, i) => { //перебор массива озвучек и создание страницы для каждой
+                                    model.createPlayerPage(app, season, episode, elem, i)
                                 })
 
                                 // создание файла с озвучками
@@ -158,7 +156,7 @@ module.exports = {
     },
     // метод создания страницы с плеером
     createPlayerPage: (app, season, episode, elem, index) => {
-        app.get("/player" + elem.kinopoisk_id  + index + `&season=${season}&episode=${episode}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
+        app.get("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${episode ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
             if (season === undefined) {
             const videoPlaylist = elem.playlists
             // ----- ниже делаю проверку на качество видео, чтобы давало лучшее из всех -----

@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
-    <title><%= %></title>
+    <title>Film</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -60,11 +60,12 @@
         }
 
 
-        #filmInfo {
-            position: relative;
-            width: 70%;
+        #navbar {
+            position: absolute;
+            width: 17%;
             padding: 20px;
             transition: 0.5s ease-in-out;
+
         }
         .poster_playerBlock {
             position: absolute;
@@ -73,6 +74,17 @@
             width:76.5%;
             height: 500px;
         }
+        .playImgBlock {
+            margin: 0 auto;
+            height: 100%;
+            width: 30px;
+        }
+        .playImgBlock img {
+            width: 80px;
+            height: 80px;
+            margin: 200px 0;
+        }
+       
         .poster_playerBlock p {
             margin-top: 5px;
             color: white;
@@ -108,43 +120,29 @@
         .header_images {
             float: right;
         }
-       
-        .textinfo {
-            display: inline-block;
-            margin-left: 15px;
+
+        .navbar_wrap p{
+            font-size: 18px;
+            font-weight: 400;
+            margin: 5px 0 5px 5px;
+            color: white;
+            word-wrap: break-word;
         }
 
-        .textinfo p{
-            font-size: 16px;
-            font-weight: 400;
-            color: white;
-            margin: 8px 0 8px 5px;
-        }
-        .textinfo h2{
+        .navbar_wrap h2{
             font-size: 28px;
             font-weight: 400;
             color: yellow;
-            position: absolute;
-            bottom: 50px;
+            margin: 15px 0 20px 5px;
         }
-        .textInfo_inner{
-            margin: auto 0;
-            position: absolute;
-            top: 10px;
+        
+        .posterScreenshot {
+            width: 100%;
+            height: 100%;
         }
-        .textInfo_inner h4 {
-            max-width: 60%;
-        }
-        .actorsText {
-            margin: 15px 0 25px 5px;
-            color: white;
-            font-weight: 400;
-        }
-
         .posterImg {
-            display:inline-block;
-            width: 300px;
-            height: 400px;
+            width: 100%;
+            height: 300px;
         }
 
          ul {
@@ -160,6 +158,7 @@
             background-color: none;
             transition: 0.5s ease-in-out;
             z-index: 10;
+            background: #0000005d;
         }
 
         .close {
@@ -199,40 +198,17 @@
             margin-right: 10px;
             padding: 5px 10px;
         }
-        .filmInfo_navbar {
+        .freezesWarn {
             position: absolute;
-            right: 0;
-            top: 0;
-            background: #09a3e0;
-            height: 100vh;
-            width: 30%;
-            padding: 20px;
-        }
-        .film_descr {
-            margin-left: 20px;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            background: #6d00a046;
             color: white;
-            max-width: 60%;
+            font-family: 'Roboto Mono', monospace;
+            text-align: center;
         }
-        .nav_backbtn img, h1{
-            display: inline-block;
-        }
-        .navbar_menu .nav-item {
-            position: relative;
-            padding: 10px 25px;
-             border-bottom: 5px solid transparent;
-        }
-        .navbar_menu .nav-item h1 {
-            font-size: 24px;
-            color: white;
-        }
-        .navbar_menu img {
-            position: absolute;
-            left: -10px;
-            top: 5px;
-        }
-        .navbar_menu .focus {
-            border-bottom: 5px solid yellow;
-        }
+       
     </style>
 </head>
 <body>
@@ -245,7 +221,7 @@
     <div class="wrap">
         <%- include('./elements/filmInfo/filmInfo.ejs') %>
     </div>
-    
+    <div class="freezesWarn">Если будут наблюдаться зависания при просмотре видео, оперируйте клавишами прокрутки</div>
     </div>
     <script type="text/javascript">
         // при клике на стрелку перейти обратно

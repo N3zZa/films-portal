@@ -14,12 +14,7 @@
 <script type="text/javascript" src="libs/event_emitter.js"></script>
 <script type="text/javascript" src="js/lib/smartbox.js"></script>
 
-    <script>
-         // запуск навигации
-        $(function () {
-            $$nav.on()
-        })
-    </script>
+   
     <style type="text/css">
         p,
         li,
@@ -139,7 +134,7 @@
     </style>
 </head>
 
-<body id="body" data-selectedChannel="<%= channelId %>">
+<body id="body" data-selectedChannel="<%= channelId %>"> <!-- Передаю айди канала, чтобы фокусить его(также до этого перекинул его в url) -->
     <div class="bg"></div>
     <header class="header navigations-items">
         <img id="arrowBack" width="60" height="60" class="nav-item" src="/img/arrowback.svg" alt="arrowback">
@@ -160,7 +155,9 @@
         var selectedChannel = document.getElementById("body").getAttribute("data-selectedChannel")
         $(selectedChannel).get(0).scrollIntoView() - 100
         $(document).scrollTop($(document).scrollTop() - 100)
-        $$nav.on(selectedChannel)
+        $$nav.on()
+        console.log(selectedChannel)
+        $$nav.current(selectedChannel);
          // код нажатия на клавиши
         $(document).keydown(function (e) {
             var curItemPos = $('.focus')

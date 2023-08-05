@@ -1,44 +1,32 @@
 
          <div>
-            <div id='filmInfo'>
-            <div class="posterImg"
-                style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_5307214.jpg');background-repeat: no-repeat; background-size: 100% 100%;"
-                alt="posterimg"></div> 
-            <div class="textinfo">
-                <div class="textInfo_inner">
-                    <h4 class="actorsText">Актеры:Николай Фоменко,Андрей Дидик,Светлана Бакулина,Егор Бакулин,Мария Лопатина,Максим Фролов,Алексей Фролов,Иван Жуков,Богдан Псел,Анастасия Башкирова</h4>
-                    <p>Страна:Россия</p>
-                    <p>Год:2023</p>
-                    <p>Режиссер:Алексей Рыбин</p>
-                </div>
-                <h2>Джонни</h2>
+         <div id='navbar'>
+            <div class="navbar_wrap">
+                <div class="posterImg" style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_4471789.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>Линкольн для адвоката</h2>
+                <p>Год:2022</p>
+                <p>Жанр:триллер,драма,криминал,детектив</p>
+                <p>Режиссер:Дэвид Гроссман,Алонсо Альварез,Билл Д’Элиа</p>
             </div>
         </div>
-        <p class="film_descr">Конец 1980-х. Молодой рок-музыкант сталкивается с разнообразными трудностями. Пройдя их, он остаётся собой, однако «остаться собой» означает отказаться от успеха и материальных благ....</p>
-        <navbar class="filmInfo_navbar">
-            <!-- <div class="nav-logo"><img src="" alt=""></div> -->
-            <div class="navbar_menu navigation-items">
-                <div id="backBtn" class="nav_backbtn nav-item">
-                    <img width="40" height="40" src="/img/arrowback.svg" alt="arrowback">
-                    <h1>Назад</h1>
-                </div>
-                <div id="watchBtn" class="nav_watchbtn nav-item">
-                    <h1>Смотреть</h1>
-                </div>
+        <div class="poster_playerBlock">
+            <div class="posterScreenshot" style="background: rgb(102, 102, 102);background-repeat: no-repeat; background-size: 100% 100%;">
+            <div class="playImgBlock">
+            <img src="/img/playImg.svg" alt="playImg" />
             </div>
-        </navbar>
-         <script type="text/javascript">
-          $('#backBtn').click(function() {
-            document.location.href = "/";
-        })
-        $('#watchBtn').click(function() {
-             if (isPlaylistShow === false) {
+            </div>
+            <p>Успешный адвокат из Лос-Анджелеса Микки Холлер, оказавшийся вне игры после аварии, берётся за дело об убийстве, чтобы вернуться в строй....</p>
+        </div>
+        <script type="text/javascript">
+         $(document).keydown(function (e) {
+            if (e.keyCode === 38) {
+                 if (isPlaylistShow === false) {
                 $('#playlistSeasons').show()
                 $$nav.on("#listseasons")
                 isPlaylistShow = true;
-                document.location.href = "/selectTranslation53072143";
             }
-        })
+            }
+         })
         </script>
-         </div>
+      </div>
         
