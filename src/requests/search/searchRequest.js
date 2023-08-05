@@ -29,45 +29,34 @@ module.exports = function (inputText, res) {
        return (
         `
          <div>
-            <div id='filmInfo'>
-            <div class="posterImg"
-                style="background-image: url('${elem.info.poster}');background-repeat: no-repeat; background-size: 100% 100%;"
-                alt="posterimg"></div> 
-            <div class="textinfo">
-                <div class="textInfo_inner">
-                    <h4 class="actorsText">Актеры:${elem.info.actors.replace(/('|")/g, ``)}</h4>
-                    <p>Страна:${elem.info.country}</p>
-                    <p>Год:${elem.info.year}</p>
-                    <p>Режиссер:${elem.info.director.replace(/('|")/g, ``)}</p>
-                </div>
-                <h2>${elem.info.rus.replace(/('|")/g, ``)}</h2>
+            <div id='navbar'>
+            <div class="navbar_wrap">
+                <div class="posterImg" style="background-image: url('${elem.info.poster}');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>${elem.info.rus}</h2>
+                <p>Год:${elem.info.year}</p>
+                <p>Жанр:${elem.info.genre}</p>
+                <p>Режиссер:${elem.info.director}</p>
             </div>
         </div>
-        <p class="film_descr">${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
-        <navbar class="filmInfo_navbar">
-            <!-- <div class="nav-logo"><img src="" alt=""></div> -->
-            <div class="navbar_menu navigation-items">
-                <div id="backBtn" class="nav_backbtn nav-item">
-                    <img width="40" height="40" src="/img/arrowback.svg" alt="arrowback">
-                    <h1>Назад</h1>
-                </div>
-                <div id="watchBtn" class="nav_watchbtn nav-item">
-                    <h1>Смотреть</h1>
-                </div>
+        <div class="poster_playerBlock">
+            <div class="posterScreenshot" style="background: rgb(102, 102, 102);background-repeat: no-repeat; background-size: 100% 100%;">
+            <div class="playImgBlock">
+            <img src="/img/playImg.svg" alt="playImg" />
             </div>
-        </navbar>
+            </div>
+            <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
+        </div>
          <script type="text/javascript">
-          $('#backBtn').click(function() {
-            document.location.href = "/";
-        })
-        $('#watchBtn').click(function() {
-             if (isPlaylistShow === false) {
+        $(document).keydown(function (e) {
+            if (e.keyCode === 38) {
+                   if (isPlaylistShow === false) {
                 $('#playlistSeasons').show()
                 $$nav.on("#listseasons")
                 isPlaylistShow = true;
                  ${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '"'};
             }
-        })
+            }
+         })
         </script>
          </div>
         `

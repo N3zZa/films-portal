@@ -126,8 +126,8 @@ module.exports = {
                                     return items
                                 })
 
-                                jsonResponse.results.forEach((elem, i) => { //перебор массива озвучек и создание страницы для каждой
-                                    model.createPlayerPage(app, season, episode, elem, i)
+                                jsonResponse.results.forEach((elem) => { //перебор массива озвучек и создание страницы для каждой
+                                    model.createPlayerPage(app, season, episode, elem, index)
                                 })
 
                                 // создание файла с озвучками
@@ -156,7 +156,8 @@ module.exports = {
     },
     // метод создания страницы с плеером
     createPlayerPage: (app, season, episode, elem, index) => {
-        app.get("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${episode ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
+        console.log("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${episode ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`)
+        app.get("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
             if (season === undefined) {
             const videoPlaylist = elem.playlists
             // ----- ниже делаю проверку на качество видео, чтобы давало лучшее из всех -----
