@@ -13,7 +13,6 @@
       var _inited;
       this.scenes.video = {
     init: function () {
-          console.log('playerUrl',playerUrl);
            if (playerUrl === '') {
             document.getElementById('no-episodes_text').innerText = 'Нет эпизодов с данной озвучкой'
             console.log('Нет эпизодов')
@@ -42,60 +41,6 @@
 
     setEvents: function () {
       this.showContent('video')
-      var backUrl = document.getElementById("wrap").getAttribute('data-backUrl');
-      $$log('backUrl', backUrl)
-     $(document).keydown(function(e){
-
-			var key = config.app.keys[config.app.mode][e.keyCode];
-
-			switch(key){
-				case'left':
-          var mbStatusDuration = mb.get('player:media.duration')
-          $$log('duration', mbStatusDuration)
-          var mbStatus = mb.get('player:state');
-          $$log('state',mbStatus);
-           if (mbStatusDuration > 5) {
-            mb.send('player.seek', {delta:mbStatusDuration - 5})
-          }
-				break;
-				case'right':
-        var mbStatusDuration = mb.get('player:media.duration')
-          $$log('duration', mbStatusDuration)
-          var mbStatus = mb.get('player:state');
-          $$log('state',mbStatus);
-          mb.send('player.seek', {delta:mbStatusDuration + 5})
-				break;
-				case'ok':
-            mb.send('player.pause')
-				break;
-				case 'mute':
-          var muteStatus = mb.get('player:mute');
-          $$log('mutestatus',muteStatus)
-          if (muteStatus === false) {
-            mb.send('player.mute')
-          }
-					break;
-				case 'volup':
-          mb.send('player.volume_up')
-				break;	
-				case 'voldown':
-          mb.send('player.volume_down')
-				break;	
-				case 'back':
-          mb.send('player.stop');
-          window.location = backUrl;
-				break;	
-			}
-
-		});
-      Player.on('ready', function () {
-        $$log('player ready');
-      });
-      Player.on('stop', function () {
-        $$log('player stop');
-      });
-
-
     },
 
     toggleView: function () {
