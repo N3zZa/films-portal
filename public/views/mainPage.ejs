@@ -168,6 +168,10 @@
         width: 100%;
         height: 200px;
     }
+    .fullHdFilmsBtn{
+        width: 100%;
+        height: 100%;
+    }
     .cartoonsItem {
         height: 260px;
         width: 150px;
@@ -219,6 +223,12 @@
             </div>
             <h1>Премьеры</h1>
             <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
+                <div id="filmFullHd" class="filmsItem item nav-item">
+                    <div class="fullHdFilmsBtn"
+                        style="background: url('https://avatars.mds.yandex.net/i?id=2a00000189b813f4607406e9ae19ac6c8180-1714228-fast-images&n=13'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;">
+                    </div>
+                </div>
+                
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>

@@ -48,6 +48,7 @@
     </div>
     <script type="text/javascript">
             $(document).keydown(function (e) {
+                $$log('key', e.keyCode)
                 switch (e.keyCode) {
                     case 37:
                         $$log('state', 'left');

@@ -29,7 +29,6 @@
       if (!_inited) {
         this.init();
       }
-
     },
       };
 
