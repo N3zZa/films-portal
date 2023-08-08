@@ -106,6 +106,11 @@ app.get('/searchItem', (req, resMain) => {
     })
    
 })
+app.get('', (req, res) => {
+    userModel.createFullHdList(() => {
+    
+    })
+})
 
 
 

@@ -31,12 +31,102 @@
         color: #fff;
         font-family: 'Inter', sans-serif;
     }
+
     #log {
         position: absolute;
         top: 0;
         left: 100px;
         color: red;
         font-weight: bold;
+    }
+
+    .progress_bar-empty {
+        position: relative;
+        display: inline-block;
+        width: 90%;
+        border-bottom: 5px solid gray;
+        z-index: 10;
+        margin-bottom: 3px;
+    }
+
+    .progress_bar {
+        position: absolute;
+        width: 0%;
+        height: 100%;
+        border-bottom: 5px solid yellow;
+    }
+
+    .progress_bar-empty p {
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    .adviceClickDown {
+        position: absolute;
+        width: 100%;
+        height: 40px;
+    }
+
+    .playerMenu {
+        width: 100%;
+        position: fixed;
+        opacity: 0;
+        bottom: 100px;
+        height: 100px;
+        z-index: 15;
+    }
+
+    .playerMenu p {
+        color: white;
+        display: inline-block;
+    }
+
+    .adviceClickDown div {
+        width: 280px;
+        margin: 0 auto;
+    }
+
+    .playerMenu__inner {
+        position: relative;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .muteBlock {
+        position: fixed;
+        top: 100px;
+        left: 100px;
+        z-index: 10;
+    }
+
+    .muteText {
+        display: none;
+        color: white;
+    }
+
+    .showMutePopup {
+        display: block;
+    }
+
+    .soundPopup {
+        display: none;
+        position: fixed;
+        top: 100px;
+        left: 100px;
+        z-index: 10;
+    }
+
+    .soundPopup h2 {
+        color: white;
+        font-size: 28px;
+    }
+
+    .soundPopup span {
+        font-size: 40px;
+        color: yellow;
+    }
+    .playerTime {
+        width: 50px;
     }
 </style>
 
@@ -46,33 +136,95 @@
             <h1 id="no-episodes_text"></h1>
         </div>
     </div>
-    <script type="text/javascript">
-            $(document).keydown(function (e) {
-                $$log('key', e.keyCode)
-                switch (e.keyCode) {
-                    case 37:
-                        $$log('state', 'left');
-                        break;
-                    case 39:
-                        $$log('state', 'right');
-                        break;
-                    case 13:
-                        $$log('ok')
-                        break;
-                    case 116:
-                        $$log('mute')
-                        break;
-                    case 187:
-                        $$log('volume_up')
-                        break;
-                    case 189:
-                        $$log('volume_down')
-                        break;
-                    case 8:
-                        break;
-                }
+    <div class="playerMenu" id="playerMenu">
+        <div class="playerMenu__inner">
+            <div class="playerTime"><p id="currentTime">1:00:00</p></div>
+            <div id="progressBarEmpty" class="progress_bar-empty">
+                <div id="progressBar" class="progress_bar">
+                </div>
+            </div>
+            <div class="adviceClickDown">
+                <div>
+                    <p>Нажмите стрелку вниз для закрытия</p>
+                </div>
+            </div>
+            <div class="playerTime"><p id="fullTime">1:50:00</p></div>
+        </div>
+    </div>
+   
 
-            });
+    <script type="text/javascript">
+        function secondsToTime(secs, item) {
+            var hours = Math.floor(secs / (60 * 60));
+
+            var divisor_for_minutes = secs % (60 * 60);
+            var minutes = Math.floor(divisor_for_minutes / 60);
+
+            var divisor_for_seconds = divisor_for_minutes % 60;
+            var seconds = Math.ceil(divisor_for_seconds);
+
+            var obj = hours + ':' + minutes + ':' + seconds
+            $(item).html(obj)
+        }
+        $(document).keydown(function (e) {
+
+            var key = config.app.keys[config.app.mode][e.keyCode];
+
+            // управление плеером 
+            switch (key) {
+                case 'left':
+                    $("#playerMenu").animate({ opacity: 1 }, 100)
+                    mb.send('player.seek', { delta: -30 })
+                    mb.listen('player:media.position', function (data) {
+                        if (data.value > 5) {
+                            var percentOfPos = data.value / data.full_time * 100
+                            var progressbarWidth = percentOfPos + '%'
+                            $('#progressBar').width(progressbarWidth)
+                            secondsToTime(data.value, '#currentTime')
+                            secondsToTime(data.full_time, '#fullTime')
+                        }
+                    })
+                    break;
+                case 'right':
+                    $("#playerMenu").animate({ opacity: 1 }, 100)
+                    mb.send('player.seek', { delta: +30 })
+                    mb.listen('player:media.position', function (data) {
+                        if (data.value < data.full_time - 10) {
+                            var percentOfPos = data.value / data.full_time * 100
+                            var progressbarWidth = percentOfPos + '%'
+                            $('#progressBar').width(progressbarWidth)
+                            secondsToTime(data.value, '#currentTime')
+                            secondsToTime(data.full_time, '#fullTime')
+                        }
+                    })
+                    break;
+                case 'ok':
+                    mb.send('player.pause')
+                    break;
+                case 'mute':
+                    var muteStatus = mb.get('player:mute');
+                    if (muteStatus.value === false) {
+                        mb.send('player.mute', { value: true })
+                    } else {
+                        mb.send('player.mute', { value: false })
+                    }
+                    break;
+                case 'volup':
+                    mb.send('player.volume_up')
+                    break;
+                case 'voldown':
+                    mb.send('player.volume_down')
+                    break;
+                case 'back':
+                    mb.send('player.stop');
+                    window.location = '/';
+                    break;
+                case 'down':
+                    $("#playerMenu").animate({ opacity: 0 }, 500)
+                    break;
+            }
+
+        });
     </script>
 </body>
 

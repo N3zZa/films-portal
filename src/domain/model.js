@@ -154,6 +154,12 @@ module.exports = {
         }, 1500)
         })
     },
+    createFullHdList: () => {
+        const fullHdfilms = ['','','', '', '', '', '', '', '', '', '']
+
+        
+
+    },
     // метод создания страницы с плеером
     createPlayerPage: (app, season, episode, elem, index) => {
         console.log("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${episode ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`)
