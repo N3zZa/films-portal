@@ -27,9 +27,10 @@
         margin: 0;
     }
 
-    h1 {
+    h1,
+    p {
         color: #fff;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Roboto', sans-serif;
     }
 
     #log {
@@ -40,13 +41,14 @@
         font-weight: bold;
     }
 
+
     .progress_bar-empty {
         position: relative;
         display: inline-block;
-        width: 90%;
+        width: 100%;
         border-bottom: 5px solid gray;
         z-index: 10;
-        margin-bottom: 3px;
+        margin: 0 auto;
     }
 
     .progress_bar {
@@ -64,69 +66,136 @@
     .adviceClickDown {
         position: absolute;
         width: 100%;
-        height: 40px;
+        top: -25px;
     }
 
     .playerMenu {
+        padding: 10px 0 0 0;
         width: 100%;
         position: fixed;
+        bottom: 0;
         opacity: 0;
-        bottom: 100px;
-        height: 100px;
+        height: 35px;
         z-index: 15;
     }
 
     .playerMenu p {
         color: white;
         display: inline-block;
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
     }
 
+    .playerTime {
+        display: inline-block;
+        white-space: nowrap;
+        width: 100px;
+        text-align: center;
+        top: 0;
+    }
+
+
     .adviceClickDown div {
-        width: 280px;
+        width: 35px;
         margin: 0 auto;
+    }
+
+    .adviceClickDown img {
+        width: 35px;
+        height: 35px;
+        z-index: 15;
     }
 
     .playerMenu__inner {
         position: relative;
-        width: 90%;
+        width: 80%;
         margin: 0 auto;
     }
 
     .muteBlock {
-        position: fixed;
-        top: 100px;
-        left: 100px;
-        z-index: 10;
-    }
-
-    .muteText {
         display: none;
-        color: white;
+        float: left;
+        margin-right: 30px;
     }
 
-    .showMutePopup {
-        display: block;
+    .muteImg {
+        color: white;
+        width: 100px;
+        height: 100px;
     }
 
     .soundPopup {
         display: none;
-        position: fixed;
-        top: 100px;
-        left: 100px;
-        z-index: 10;
+        float: left;
+        width: 50px;
+        text-align: center;
+        padding: 10px;
+        border-radius: 20px;
     }
 
-    .soundPopup h2 {
+    .soundPopup p {
         color: white;
-        font-size: 28px;
+        font-size: 32px;
+        font-weight: bold;
     }
 
     .soundPopup span {
         font-size: 40px;
         color: yellow;
     }
-    .playerTime {
-        width: 50px;
+
+    .soundPopup img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .current_time {
+        position: absolute;
+        left: 25px;
+    }
+
+    .full_time {
+        position: absolute;
+        right: 25px;
+    }
+
+    .barCicle {
+        position: absolute;
+        right: -7px;
+        background: yellow;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        top: -3px;
+    }
+
+    .popups_block {
+        position: absolute;
+        top: 100px;
+        right: 100px;
+        z-index: 10;
+    }
+
+    .pause_block {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+    }
+
+    .pause_block img {
+        display: none;
+        width: 70px;
+        height: 70px;
+    }
+
+    .pause_block-inner {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto;
+    }
+
+    #soundPopupMute {
+        display: none;
     }
 </style>
 
@@ -136,46 +205,79 @@
             <h1 id="no-episodes_text"></h1>
         </div>
     </div>
-    <div class="playerMenu" id="playerMenu">
-        <div class="playerMenu__inner">
-            <div class="playerTime"><p id="currentTime">1:00:00</p></div>
-            <div id="progressBarEmpty" class="progress_bar-empty">
-                <div id="progressBar" class="progress_bar">
-                </div>
+    <div class="popups_block">
+        <div id="mute" class="muteBlock">
+            <img class="muteImg" src="/img/mute.svg" alt="mute">
+        </div>
+        <div class="soundPopup" id="soundPopup">
+            <img id="soundPopupVol" src="/img/Vol.svg" alt="volume">
+            <img id="soundPopupMute" src="/img/mute.svg" alt="mute">
+            <div class="volume">
+                <p id="volume">0</p>
             </div>
-            <div class="adviceClickDown">
-                <div>
-                    <p>Нажмите стрелку вниз для закрытия</p>
-                </div>
-            </div>
-            <div class="playerTime"><p id="fullTime">1:50:00</p></div>
         </div>
     </div>
-   
+    <div class="playerMenu" id="playerMenu">
+        <div class="playerTime current_time">
+            <p id="currentTime">1:00:00</p>
+        </div>
+        <div class="adviceClickDown">
+            <div>
+                <img width="35" height="35" src="/img/downArrow.svg" alt="downArrow">
+            </div>
+        </div>
+        <div class="playerMenu__inner">
+            <div id="progressBarEmpty" class="progress_bar-empty">
+                <div id="progressBar" class="progress_bar">
+                    <div class="barCicle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="playerTime full_time">
+            <p id="fullTime">1:50:00</p>
+        </div>
+    </div>
+    <div class="pause_block">
+        <div class="pause_block-inner">
+            <img id="play" src="/img/play.svg" alt="play">
+            <img id="pause" src="/img/pause.svg" alt="pause">
+        </div>
+    </div>
+
 
     <script type="text/javascript">
+
         function secondsToTime(secs, item) {
             var hours = Math.floor(secs / (60 * 60));
+            if (hours < 10) {
+                hours = '0' + hours
+            }
 
             var divisor_for_minutes = secs % (60 * 60);
             var minutes = Math.floor(divisor_for_minutes / 60);
-
+            if (minutes < 10) {
+                minutes = '0' + minutes
+            }
             var divisor_for_seconds = divisor_for_minutes % 60;
             var seconds = Math.ceil(divisor_for_seconds);
-
+            if (seconds < 10) {
+                seconds = '0' + seconds
+            }
             var obj = hours + ':' + minutes + ':' + seconds
             $(item).html(obj)
         }
+
         $(document).keydown(function (e) {
 
             var key = config.app.keys[config.app.mode][e.keyCode];
-
+            var pressing_btn = ''
             // управление плеером 
             switch (key) {
                 case 'left':
                     $("#playerMenu").animate({ opacity: 1 }, 100)
                     mb.send('player.seek', { delta: -30 })
                     mb.listen('player:media.position', function (data) {
+
                         if (data.value > 5) {
                             var percentOfPos = data.value / data.full_time * 100
                             var progressbarWidth = percentOfPos + '%'
@@ -184,6 +286,7 @@
                             secondsToTime(data.full_time, '#fullTime')
                         }
                     })
+                    pressing_btn = 'left'
                     break;
                 case 'right':
                     $("#playerMenu").animate({ opacity: 1 }, 100)
@@ -197,30 +300,102 @@
                             secondsToTime(data.full_time, '#fullTime')
                         }
                     })
+                    pressing_btn = 'right'
                     break;
                 case 'ok':
-                    mb.send('player.pause')
+                    var isPause = mb.get('player:state').value
+                    if (isPause === 'play') {
+                        $('#pause').show()
+                        $('#play').hide()
+                        mb.send('player.pause')
+                        $('#pause').stop();
+                        $('#play').stop();
+                        $('#pause').animate({ opacity: 0 }, 1500)
+                        $('#play').animate({ opacity: 0 }, 1500)
+                    } else {
+                        $('#pause').hide()
+                        $('#play').show()
+                        mb.send('player.pause')
+                        $('#pause').stop();
+                        $('#play').stop();
+                        $('#pause').animate({ opacity: 0 }, 1500)
+                        $('#play').animate({ opacity: 0 }, 1500)
+                    }
+
                     break;
                 case 'mute':
+                    var volumeValue = mb.get('nvram.av.volume').value
                     var muteStatus = mb.get('player:mute');
                     if (muteStatus.value === false) {
                         mb.send('player.mute', { value: true })
+                        $("#volume").html(0)
+                        $("#soundPopupVol").hide()
+                        $("#soundPopupMute").show()
+                        $('#mute').show()
                     } else {
                         mb.send('player.mute', { value: false })
+                        $("#volume").html(volumeValue)
+                        $("#soundPopupVol").show()
+                        $("#soundPopupMute").hide()
+                        $('#mute').hide()
                     }
+                    pressing_btn = 'mute'
                     break;
                 case 'volup':
-                    mb.send('player.volume_up')
+                    $('#soundPopup').show()
+                    $("#playerMenu").animate({ opacity: 1 }, 100)
+                    mb.send('player.volume', { delta: +10 })
+                    var volumeValue = mb.get('nvram.av.volume').value
+
+                    $("#volume").html(volumeValue)
+                    pressing_btn = 'volup'
                     break;
                 case 'voldown':
-                    mb.send('player.volume_down')
+                    $('#soundPopup').show()
+                    $("#playerMenu").animate({ opacity: 1 }, 100)
+                    mb.send('player.volume', { delta: -10 })
+                    var volumeValue = mb.get('nvram.av.volume').value
+
+                    if (volumeValue === 0) {
+                        $("#soundPopupVol").hide()
+                        $("#soundPopupMute").show()
+                    } else {
+                        $("#soundPopupVol").show()
+                        $("#soundPopupMute").hide()
+                    }
+
+                    $("#volume").html(volumeValue)
+                    pressing_btn = 'voldown'
                     break;
                 case 'back':
-                    mb.send('player.stop');
-                    window.location = '/';
+                    if (pressing_btn !== 'back') {
+                        mb.send('player.stop');
+                        window.location = '/';
+                    }
+                    pressing_btn = 'back'
+
                     break;
                 case 'down':
-                    $("#playerMenu").animate({ opacity: 0 }, 500)
+                    if (pressing_btn !== 'down') {
+                        $('#soundPopup').hide()
+                        $("#playerMenu").animate({ opacity: 0 }, 100)
+                    }
+                    pressing_btn = 'down'
+                    break;
+                case 'up':
+                    if (pressing_btn !== 'up') {
+                        $("#playerMenu").animate({ opacity: 1 }, 100)
+                        mb.listen('player:media.position', function (data) {
+                            if (data.value > 5) {
+                                var percentOfPos = data.value / data.full_time * 100
+                                var progressbarWidth = percentOfPos + '%'
+                                $('#progressBar').width(progressbarWidth)
+                                secondsToTime(data.value, '#currentTime')
+                                secondsToTime(data.full_time, '#fullTime')
+                            }
+                        })
+                    }
+                    pressing_btn = 'up'
                     break;
             }
 
