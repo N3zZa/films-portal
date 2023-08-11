@@ -39,7 +39,7 @@ module.exports = function (inputText, res) {
             </div>
         </div>
         <div class="poster_playerBlock">
-            <div class="posterScreenshot" style="background: rgb(102, 102, 102);background-repeat: no-repeat; background-size: 100% 100%;">
+            <div class="posterScreenshot" style="background: rgb(70, 70, 70);background-repeat: no-repeat; background-size: 100% 100%;">
             <div class="playImgBlock">
             <img src="/img/playImg.svg" alt="playImg" />
             </div>

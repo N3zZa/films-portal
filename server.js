@@ -106,9 +106,9 @@ app.get('/searchItem', (req, resMain) => {
     })
    
 })
-app.get('', (req, res) => {
+app.get('fullHdfilms', (req, res) => {
     userModel.createFullHdList(() => {
-    
+        
     })
 })
 

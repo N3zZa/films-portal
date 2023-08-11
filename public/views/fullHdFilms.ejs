@@ -43,7 +43,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: url(/img/mainBg.jpg) no-repeat;
+        background: url(/img/bg.jpg) no-repeat;
         z-index: -10;
     }
 
@@ -243,8 +243,6 @@
         border: 5px solid transparent;
         width: 220px;
     }
-    
-    
 </style>
 
 <body>
@@ -262,43 +260,12 @@
     </header>
     <div class="wrap">
         <main data-nav_type="hbox">
-            <div id="filmsSlider" class="slider premieresSlider navigation-items" data-nav_type="hbox">
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/premieres.ejs') %>
-            </div>
-            <h1>Премьеры</h1>
-            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
-                <div class="filmsItem item fullhdItem">
-                    <div id="filmFullHd" class="fullHdFilmsBtn nav-item"
-                        style="background: url('https://avatars.mds.yandex.net/i?id=2a00000189b813f4607406e9ae19ac6c8180-1714228-fast-images&n=13'); background-repeat:no-repeat;background-size: 100% 100%;">
-                    </div>
-                </div>
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/films.ejs') %>
-            </div>
-            <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider" data-nav_type="hbox">
-                <%- include('./elements/channels/channelImages.ejs') %>
-            </div>
-            <h1>Мульфильмы</h1>
-            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/cartoons.ejs') %>
-            </div>
-            <h1>Сериалы</h1>
-            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/serials.ejs') %>
-            </div>
+           
         </main>
     </div>
-    
+
     <script type="text/javascript">
-       
-        $('#channel125').after('<br/>');
-        var isShow = false;
         // код нажатия на клавиши
-        var i = 0
         $(document).keydown(function (e) {
             console.log(e.keyCode)
             var curItemPos = $('.focus')
