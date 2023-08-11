@@ -37,7 +37,7 @@ module.exports = new Promise(function(resolve, reject){
             </div>
         </div>
         <div class="poster_playerBlock">
-            <div class="posterScreenshot" style="background: rgb(48, 48, 48);background-repeat: no-repeat; background-size: 100% 100%;">
+            <div class="posterScreenshot" style="background: rgb(34, 34, 34);background-repeat: no-repeat; background-size: 100% 100%;">
             <div class="playImgBlock">
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
