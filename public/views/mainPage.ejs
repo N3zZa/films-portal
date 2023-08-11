@@ -243,188 +243,12 @@
         border: 5px solid transparent;
         width: 220px;
     }
-      .progress_bar-empty {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        border-bottom: 5px solid gray;
-        z-index: 10;
-        margin: 0 auto;
-    }
-
-    .progress_bar {
-        position: absolute;
-        width: 0%;
-        height: 100%;
-        border-bottom: 5px solid yellow;
-    }
-
-    .progress_bar-empty p {
-        width: 300px;
-        margin: 0 auto;
-    }
-
-    .adviceClickDown {
-        position: absolute;
-        width: 100%;
-        top: -25px;
-    }
-
-    .playerMenu {
-        padding: 10px 0 0 0;
-        width: 100%;
-        position: fixed;
-        bottom: 0;
-        height: 35px;
-        z-index: 15;
-    }
-
-    .playerMenu p {
-        color: white;
-        display: inline-block;
-        font-family: 'Roboto', sans-serif;
-        font-weight: bold;
-    }
-    .playerTime {
-        display: inline-block;
-        white-space: nowrap;
-        width: 100px;
-        text-align: center;
-        top: 0;
-    }
     
-
-    .adviceClickDown div {
-        width: 35px;
-        margin: 0 auto;
-    }
-    .adviceClickDown img {
-        width: 35px;
-        height: 35px;
-        z-index: 15;
-    }
-
-    .playerMenu__inner {
-        position: relative;
-        width: 80%;
-        margin: 0 auto;
-    }
-
-    .muteBlock {
-        display: none;
-        float: left;
-        margin-right: 30px;
-    }
-    
-    .muteImg {
-        color: white;
-        width: 100px;
-        height: 100px;
-    }
-
-    .soundPopup {
-        float: left;
-        width: 50px;
-        text-align: center;
-        padding: 10px;
-        border-radius: 20px;
-    }
-
-    .soundPopup p {
-        color: white;
-        font-size: 32px;
-        font-weight: bold;
-    }
-
-    .soundPopup span {
-        font-size: 40px;
-        color: yellow;
-    }
-    .soundPopup img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .current_time {
-        position: absolute;
-        left: 25px;
-    }
-    .full_time {
-        position: absolute;
-        right: 25px;
-    }
-    .barCicle {
-        position: absolute;
-        right: -7px;
-        background: yellow;
-        border-radius: 50%;
-        width: 10px;
-        height: 10px;
-        top: -3px;
-    }
-    
-    .popups_block {
-        position: absolute;
-        top: 100px;
-        right: 100px;
-        z-index: 10;
-    }
-    .pause_block {
-        position: absolute;
-        width: 100%;
-        top: 50%;
-    }
-    .pause_block img {
-        display: none;
-        width: 70px;
-        height: 70px;
-    }
-    .pause_block-inner {
-        width: 70px;
-        height: 70px;
-        margin: 0 auto;
-    }
 </style>
 
 <body>
     <div class="bg"></div>
-<div class="popups_block">
-    <div id="mute" class="muteBlock">
-        <img class="muteImg" src="/img/mute.svg" alt="mute">
-    </div>
-    <div class="soundPopup" id="soundPopup">
-        <img src="/img/Vol.svg" alt="volume">
-        <div class="volume">
-            <p id="volume">0</p>
-        </div>
-    </div>
-</div>
-<div class="playerMenu" id="playerMenu">
-    <div class="playerTime current_time">
-        <p id="currentTime">1:00:00</p>
-    </div>
-    <div class="adviceClickDown">
-        <div>
-            <img width="35" height="35" src="/img/downArrow.svg" alt="downArrow">
-        </div>
-    </div>
-    <div class="playerMenu__inner">
-        <div id="progressBarEmpty" class="progress_bar-empty">
-            <div id="progressBar" class="progress_bar">
-                <div class="barCicle"></div>
-            </div>
-        </div>
-    </div>
-    <div class="playerTime full_time">
-        <p id="fullTime">1:50:00</p>
-    </div>
-</div>
-<div class="pause_block">
-    <div class="pause_block-inner">
-        <img id="play" src="/img/play.svg" alt="play">
-        <img id="pause" src="/img/pause.svg" alt="pause">
-    </div>
-</div>
+
     <header class="header">
         <h2>13:00</h2>
         <div class="header_images navigation-items">
@@ -477,9 +301,6 @@
             console.log(e.keyCode)
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
-            if (e.keyCode === 13) {
-                console.log('click')
-            }
         });
         $('#filmFullHd').click(function () {
             window.location = '/fullHdFilms'
