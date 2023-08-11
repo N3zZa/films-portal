@@ -19,6 +19,7 @@ userModel.getPremieres.then((data) => {
     data[2].forEach((elem, index) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
         fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs', data[1][elem.index].toString().split('<script')[0])
          userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
@@ -32,6 +33,7 @@ userModel.getFilms.then((data) => {
     data[2].forEach((elem, index) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
         fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs',  data[1][elem.index].toString().split('<script')[0])
          userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
@@ -46,6 +48,7 @@ userModel.getSerials.then((data) => {
     data[2].forEach((elem, index) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
         fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs',  data[1][elem.index].toString().split('<script')[0])
         userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
@@ -58,6 +61,7 @@ userModel.getCartoons.then((data) => {
     data[2].forEach((elem, index) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
         fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs',  data[1][elem.index].toString().split('<script')[0])
          userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
@@ -99,6 +103,7 @@ app.get('/searchItem', (req, resMain) => {
     data[2].forEach((elem, index) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
         fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs',  data[1][elem.index].toString().split('<script')[0])
          userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
         res.render('filmInfoPage.ejs')
     })
