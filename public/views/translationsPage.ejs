@@ -277,6 +277,9 @@ ul { overflow: -moz-scrollbars-none; }
                  var curItemPos = $('#list .focus')
                 $("#list").scrollTop($("#list").scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
             }
+            if (e.keyCode === 13) {
+                e.preventDefault()
+            }
         })
     </script>
 </body>
