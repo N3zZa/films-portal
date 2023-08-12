@@ -67,7 +67,7 @@ module.exports = function (inputText, res) {
         `
         <div id="searchItem${index}" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;" class="item searchItem nav-item">
             <div class="searchText text">
-            <h1>${elem.info.rus}</h1>
+            <p>${elem.info.rus.substring(0,20)}</p>
             <h1>${elem.info.year} ${elem.serial === '1' ? 'Сериал' : 'Фильм'}</h1>
             </div>
         </div>

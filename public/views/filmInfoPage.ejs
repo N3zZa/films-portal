@@ -69,7 +69,7 @@
         .poster_playerBlock {
             position: absolute;
             padding-top: 20px;
-            right: 20px;
+            right: 10px;
             width:72.5%;
             height: 400px;
         }
@@ -129,7 +129,7 @@
         }
 
         .navbar_wrap h2{
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 400;
             color: yellow;
             margin: 15px 0 20px 5px;
@@ -165,7 +165,7 @@ ul { overflow: -moz-scrollbars-none; }
             background-color: none;
             transition: 0.5s ease-in-out;
             z-index: 10;
-            background: rgba(61, 61, 61, 0.726);
+            background: rgba(44, 44, 44, 0.726);
         }
 
         .close {
@@ -190,6 +190,9 @@ ul { overflow: -moz-scrollbars-none; }
             margin-bottom: 2px;
             background: #0173dd;
         }
+        .playlist li p {
+            margin-left: 150px;
+        }
 
         .playlist li.focus {
             background-color: #fff;
@@ -210,10 +213,11 @@ ul { overflow: -moz-scrollbars-none; }
             bottom: 0;
             width: 100%;
             height: 20px;
-            background: rgba(0, 20, 73, 0.438);
+            background: rgba(0, 15, 58, 0.863);
             color: white;
             font-family: 'Roboto Mono', monospace;
             text-align: center;
+            font-style: italic;
         }
        
     </style>
@@ -228,7 +232,7 @@ ul { overflow: -moz-scrollbars-none; }
     <div class="wrap">
         <%- include('./elements/filmInfo/filmInfo.ejs') %>
     </div>
-    <div class="freezesWarn">Если будут наблюдаться зависания при просмотре видео, оперируйте клавишами прокрутки</div>
+    <div class="freezesWarn">Если будут наблюдаться зависания при просмотре видео, оперируйте клавишами прокрутки, или channel+, channel-</div>
     </div>
     <script type="text/javascript">
         // при клике на стрелку перейти обратно

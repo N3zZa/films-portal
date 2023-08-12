@@ -57,14 +57,16 @@
         margin: 0 auto;
         display: fixed;
         position: relative;
-        padding: 15px;
-        height: 20px;
-        background: rgb(73, 73, 73);
+        padding: 10px;
+        height: 30px;
+        background: rgb(20, 20, 20);
     }
 
     .header h2 {
         color: white;
         float: left;
+        margin-top: 2px;
+        margin-left: 35px;
     }
 
     .header_images {
@@ -90,7 +92,6 @@
     }
 
     main {
-        padding-top: 20px;
         width: 100%;
     }
 
@@ -107,9 +108,15 @@
     }
 
     .slider {
+        position: relative;
         overflow-x: scroll;
         white-space: nowrap;
         margin-bottom: 20px;
+        word-wrap: break-word;
+    }
+    .slider p {
+        white-space: wrap;
+        word-wrap: break-word;
     }
 
     #channelsSlider {
@@ -118,11 +125,9 @@
     }
 
     main h1 {
-        color: white;
-    }
-
-    .premieresSlider {
-        max-height: 300px;
+        font-size: 24px;
+        margin: 0;
+        text-transform: uppercase;
     }
 
     .slider::-webkit-scrollbar-thumb {
@@ -143,26 +148,36 @@
 
     .text {
         white-space: wrap;
+        word-wrap: break-word;
         color: #fff;
     }
 
     .text h1 {
-        max-width: 100%;
         font-size: 18px;
         margin: 0;
+        color: white;
+        text-transform: none;
     }
 
     .filmsItemText {
         position: absolute;
+        width: 160px;
+        max-height: 80px;
+        width: 100%;
     }
-
     .filmsItemText h1 {
         white-space: wrap;
-        font-size: 13px;
+        font-size: 14px;
     }
-
+    .filmsItemText p {
+        white-space: wrap;
+        font-size: 14px;
+        color: white;
+    }
+    .filmItemTexth1 {
+        word-wrap: break-word;
+    }
     .premieresSlider .premieresText {
-        display: none;
         position: absolute;
         left: 5px;
         bottom: 10px;
@@ -186,13 +201,12 @@
     }
 
     .premieresItem {
-        margin-right: 10px;
-        width: 500px;
+        width: 700px;
         height: 300px;
     }
 
     .filmsItem {
-        height: 260px;
+        height: 240px;
         width: 150px;
         margin-right: 10px;
     }
@@ -210,13 +224,13 @@
     }
 
     .cartoonsItem {
-        height: 260px;
+        height: 240px;
         width: 150px;
         margin-right: 10px;
     }
 
     .serialItem {
-        height: 260px;
+        height: 240px;
         width: 150px;
         margin-right: 10px;
     }
@@ -246,7 +260,7 @@
 
     .fullhdItem {
         border: 5px solid transparent;
-        width: 220px;
+        width: 200px;
     }
     
     
@@ -273,9 +287,9 @@
             </div>
             <h1>Премьеры</h1>
             <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
-                <div class="filmsItem item fullhdItem">
-                    <div id="filmFullHd" class="fullHdFilmsBtn nav-item"
-                        style="background: url('https://avatars.mds.yandex.net/i?id=2a00000189b813f4607406e9ae19ac6c8180-1714228-fast-images&n=13'); background-repeat:no-repeat;background-size: 100% 100%;">
+                <div class="filmsItem item fullhdItem nav-item">
+                    <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
+                        style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
                     </div>
                 </div>
                 <!-- с помощью шаблонизатора импортирую html разметку -->

@@ -66,7 +66,7 @@ module.exports = new Promise(function(resolve, reject){
         <div class="filmsItemBg" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;" >
         </div>
          <div class="text filmsItemText">
-        <h1>${elem.info.rus.substring(0,33).replace(/('|")/g, ``)}</h1>
+        <p>${elem.info.rus.substring(0,20).replace(/('|")/g, ``)}</p>
         <h1>(${elem.info.year})</h1>
         </div>
         </div>
