@@ -109,7 +109,7 @@
             margin-right: 10px;
             padding: 5px 10px;
         }
-        
+
 
         .playlist li.focus p {
             color: black;
@@ -152,30 +152,39 @@
         ul {
             overflow: -moz-scrollbars-none;
         }
+
         #allChannels {
             display: block;
         }
+
         #news {
             display: none;
         }
+
         #filmsSerials {
             display: none;
         }
+
         #sport {
             display: none;
         }
+
         #music {
             display: none;
         }
+
         #child {
             display: none;
         }
+
         #docum {
             display: none;
         }
+
         #inter {
             display: none;
         }
+
         #playlistChannels {
             display: none;
         }
@@ -188,14 +197,30 @@
     <div class="wrap">
         <div class="playlist" id="playlistChannels">
             <ul class="navigation-items" id="listChannels">
-                <li class="nav-item" id="allChannelsCategory" data-playlist-id="allChannels"><p>Все каналы</p></li>
-                <li class="nav-item" data-playlist-id="news"><p>Новостные</p></li>
-                <li class="nav-item" data-playlist-id="filmsSerials"><p>Фильмы/Сериалы</p></li>
-                <li class="nav-item" data-playlist-id="sport"><p>Спортивное</p></li>
-                <li class="nav-item" data-playlist-id="music"><p>Музыкальные</p></li>
-                <li class="nav-item" data-playlist-id="child"><p>Детские</p></li>
-                <li class="nav-item" data-playlist-id="docum"><p>Познавательные</p></li>
-                <li class="nav-item" data-playlist-id="inter"><p>Международные</p></li>
+                <li class="nav-item" id="allChannelsCategory" data-playlist-id="allChannels">
+                    <p>Все каналы</p>
+                </li>
+                <li class="nav-item" data-playlist-id="news">
+                    <p>Новостные</p>
+                </li>
+                <li class="nav-item" data-playlist-id="filmsSerials">
+                    <p>Фильмы/Сериалы</p>
+                </li>
+                <li class="nav-item" data-playlist-id="sport">
+                    <p>Спортивное</p>
+                </li>
+                <li class="nav-item" data-playlist-id="music">
+                    <p>Музыкальные</p>
+                </li>
+                <li class="nav-item" data-playlist-id="child">
+                    <p>Детские</p>
+                </li>
+                <li class="nav-item" data-playlist-id="docum">
+                    <p>Познавательные</p>
+                </li>
+                <li class="nav-item" data-playlist-id="inter">
+                    <p>Международные</p>
+                </li>
             </ul>
         </div>
         <div class="playlist" id='playlist'>
@@ -243,18 +268,18 @@
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
             // скроллю чуть меньше чтобы лучше видно было элемент
-             switch (key) {
-                case 'back': 
-                     mb.send('player.stop');
-                     document.location.href = '/'
-                break;
-                case 'left': 
+            switch (key) {
+                case 'back':
+                    mb.send('player.stop');
+                    document.location.href = '/'
+                    break;
+                case 'left':
                     $('#playlist').hide()
                     $('#playlist ul').hide()
                     $('#playlistChannels').show()
                     $$nav.current('#allChannelsCategory');
                     $$nav.on('#listChannels');
-                break;
+                    break;
             }
         })
         // при клике на стрелку перейти обратно
@@ -263,7 +288,10 @@
         })
         var channelFocusUrl = $('#allChannels').find('.focus')[0].getAttribute('id')
         console.log(channelFocusUrl)
-       
+        mb.send('display.osd_over_video', { value: false });
+        mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
+        mb.send('player.enqueue', { url: channelFocusUrl, title: 'channel' });
+        mb.send('player.play');
         // при клике на каналы перейти к его просмотру
         $('#playlist').find('li')[0].click(function (e) {
             var channelUrl = e.currentTarget.getAttribute('href')
