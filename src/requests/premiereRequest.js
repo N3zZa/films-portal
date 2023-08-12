@@ -33,7 +33,6 @@ module.exports = new Promise(function(resolve, reject){
                 <div class="yearGenreDirector">
                 <p>Год:${elem.info.year}</p>
                 <p>Жанр:${elem.info.genre}</p>
-                <p>Режиссер:${elem.info.director}</p>
                 </div>
             </div>
         </div>
