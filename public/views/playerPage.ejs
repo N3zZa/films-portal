@@ -270,7 +270,7 @@
             var obj = hours + ':' + minutes + ':' + seconds
             $(item).html(obj)
         }
-
+        mb.send('display.pip', { value: false, w: '100%', h: '100%'});
         $(document).keydown(function (e) {
 
             var key = config.app.keys[config.app.mode][e.keyCode];

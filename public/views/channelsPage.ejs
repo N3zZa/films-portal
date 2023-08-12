@@ -260,7 +260,6 @@
         $(selectedChannel).get(0).scrollIntoView() - 100
         $(document).scrollTop($(document).scrollTop() - 100)
         $$nav.on()
-        console.log(selectedChannel)
         $$nav.current(selectedChannel);
         // код нажатия на клавиши
         $(document).keydown(function (e) {
@@ -270,8 +269,13 @@
             // скроллю чуть меньше чтобы лучше видно было элемент
             switch (key) {
                 case 'back':
-                    mb.send('player.stop');
-                    document.location.href = '/'
+                    if (mb.get('player:state').value === 'play') {
+                         $('body').show()
+                         mb.send('player.stop');
+                    } else {
+                        document.location.href = '/'
+                        mb.send('player.stop');
+                    }
                     break;
                 case 'left':
                     $('#playlist').hide()
@@ -287,26 +291,25 @@
             window.location = '/'
         })
         var channelFocusUrl = $('#allChannels').find('.focus')[0].getAttribute('id')
-        console.log(channelFocusUrl)
         mb.send('display.osd_over_video', { value: false });
         mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
         mb.send('player.enqueue', { url: channelFocusUrl, title: 'channel' });
         mb.send('player.play');
         // при клике на каналы перейти к его просмотру
-        $('#playlist').find('li')[0].click(function (e) {
+        $('#playlist').find('li').click(function (e) {
             var channelUrl = e.currentTarget.getAttribute('href')
             mb.send('player.stop');
-            mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
+            mb.send('display.pip', { value: false, w: '100%', h: '100%' });
             mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
             mb.send('player.play');
+            $('body').hide()
         })
-        console.log($('#listChannels').find('li')[0])
         $('#listChannels').find('li').click(function (e) {
-            var channelUrl = '#' + e.currentTarget.getAttribute('data-playlist-id')
-            console.log(channelUrl)
+            var channelId = '#' + e.currentTarget.getAttribute('data-playlist-id')
+            console.log(channelId)
             $('#playlistChannels').hide()
             $('#playlist').show()
-            $(channelUrl).show()
+            $(channelId).show()
             $$nav.on('#playlist')
         })
 
