@@ -261,6 +261,8 @@
         $(document).scrollTop($(document).scrollTop() - 100)
         $$nav.on()
         $$nav.current(selectedChannel);
+        mb.send('display.osd_over_video', { value: false });
+      
         // код нажатия на клавиши
         $(document).keydown(function (e) {
             var key = config.app.keys[config.app.mode][e.keyCode];
@@ -284,6 +286,20 @@
                     $$nav.current('#allChannelsCategory');
                     $$nav.on('#listChannels');
                     break;
+                case 'up':
+                    mb.send('player.stop');
+                    mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
+                    var channelUrl = $('#playlist').find('li').getAttribute('href');
+                    mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                    mb.send('player.play');
+                    break;
+                case 'down':
+                    mb.send('player.stop');
+                    mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
+                    var channelUrl = $('#playlist').find('li').getAttribute('href');
+                    mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                    mb.send('player.play');
+                    break;
             }
         })
         // при клике на стрелку перейти обратно
@@ -291,29 +307,24 @@
             window.location = '/'
         })
         var channelFocusUrl = $('#allChannels').find('.focus')[0].getAttribute('id')
-        mb.send('display.osd_over_video', { value: false });
-        mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
+       
         mb.send('player.enqueue', { url: channelFocusUrl, title: 'channel' });
         mb.send('player.play');
         // при клике на каналы перейти к его просмотру
         $('#playlist').find('li').click(function (e) {
             var channelUrl = e.currentTarget.getAttribute('href')
             mb.send('player.stop');
-            mb.send('display.pip', { value: false, w: '100%', h: '100%' });
+            mb.send('display.pip', { value: true, w: '100%', h: '100%' });
             mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
             mb.send('player.play');
-            $('body').hide()
         })
         $('#listChannels').find('li').click(function (e) {
             var channelId = '#' + e.currentTarget.getAttribute('data-playlist-id')
-            console.log(channelId)
             $('#playlistChannels').hide()
             $('#playlist').show()
             $(channelId).show()
             $$nav.on('#playlist')
         })
-
-
 
     </script>
 </body>
