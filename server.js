@@ -68,6 +68,7 @@ userModel.getCartoons.then((data) => {
     })
 })
 userModel.getChannels.then((data) => {
+    console.log(data.inter)
     fs.writeFileSync('./public/views/elements/channels/allChannels.ejs', data.allChannels.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/news.ejs', data.news.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/filmsSerials.ejs', data.filmsSerials.join('').toString())
@@ -75,7 +76,7 @@ userModel.getChannels.then((data) => {
     fs.writeFileSync('./public/views/elements/channels/music.ejs', data.music.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/child.ejs', data.child.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/docum.ejs', data.docum.join('').toString())
-    fs.writeFileSync('./public/views/elements/channels/fs.ejs', data.inter.join('').toString())
+    fs.writeFileSync('./public/views/elements/channels/inter.ejs', data.inter.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', `${data.images('sts.jpg').join('').toString()}`)
 })
 
