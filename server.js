@@ -68,7 +68,6 @@ userModel.getCartoons.then((data) => {
     })
 })
 userModel.getChannels.then((data) => {
-    console.log(data.inter)
     fs.writeFileSync('./public/views/elements/channels/allChannels.ejs', data.allChannels.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/news.ejs', data.news.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/filmsSerials.ejs', data.filmsSerials.join('').toString())

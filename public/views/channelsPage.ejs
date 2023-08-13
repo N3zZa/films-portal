@@ -266,16 +266,18 @@
         $$nav.on()
         $$nav.current(selectedChannel);
         mb.send('display.osd_over_video', { value: false });
-        var channelFocusUrl = $('#allChannels').find('.focus').attr('href')
+        var channelFocusUrlNow = $('#playlist').find('.focus').attr('href')
         mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
-        mb.send('player.enqueue', { url: channelFocusUrl, title: 'channel' });
+        mb.send('player.enqueue', { url: channelFocusUrlNow, title: 'channel' });
         mb.send('player.play');
 
 
         // код нажатия на клавиши
         $(document).keydown(function (e) {
+
             var key = config.app.keys[config.app.mode][e.keyCode];
-            var curItemPos = $('.focus')
+
+            
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
             // скроллю чуть меньше чтобы лучше видно было элемент
             switch (key) {
@@ -296,7 +298,6 @@
                     $$nav.on('#listChannels');
                     break;
                 case 'up':
-                    
                     if ($('#playlist').find('.focus').attr('href')) {
                         mb.send('player.stop');
                         mb.send('display.pip', { value: true, x: '33%', y: '17%', w: '1280', h: '720' });
