@@ -319,9 +319,9 @@
         // код нажатия на клавиши
         var i = 0
         $(document).keydown(function (e) {
-            console.log(e.keyCode)
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
+            $('main .focus').get(0).scrollIntoView($('main .focus').scrollLeft - 100); // скроллить к элементу 
         });
         $('#filmFullHd').click(function () {
             window.location = '/fullHdFilms'

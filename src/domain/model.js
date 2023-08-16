@@ -104,15 +104,15 @@ module.exports = {
                             .then((response) => response.json())
                             .then((jsonResponse) => {
                                 // создаю блок с озвучками
-                                const htmlTranslations = jsonResponse.results.map((translationElem, i) => {
-                                    const items = `
+                                const htmlData = jsonResponse.results.map((translationElem, i) => {
+                                    const htmlForTransl = `
                                          <li id="transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}" class="channel nav-item"
                                      >
                                         <p>${translationElem.translation}${translationElem.studio !== null ? ', ' + translationElem.studio : ''}</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}').click(function (e) {
-                                     window.location = '/player${kinopoisk_id + index}&season=${season ? season : 'none'}&episode=${episode ? episode : 'none'}&transl=${translationElem.translation.replace(/[\(\)\s]/g,"")}'
+                                     window.location = '/selectQuality&=${kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}'
                                     })
                                      $(document).keydown(function (e) {
                                          switch (e.keyCode) {
@@ -122,26 +122,126 @@ module.exports = {
                                         }
                                     })
                                     </script>
-                                        `
-                                    return items
-                                })
+                                        ` 
+                                    if (isSerial === '1') {
 
-                                jsonResponse.results.forEach((elem) => { //перебор массива озвучек и создание страницы для каждой
-                                    model.createPlayerPage(app, season, episode, elem, index)
+
+                                    const qualityObj = translationElem.playlists;
+                                    const qualitySeason = qualityObj[`${season}`];
+                                    const qualityEpisode = qualitySeason[`${episode}`] ? qualitySeason[`${episode}`] : {'Нет эпизодов с данной озвучкой': 'Нет эпизодов с данной озвучкой'}; ;
+                                    const objKeysQuality = Object.keys(qualityEpisode)
+
+                                    const qualityItems = objKeysQuality.map(quality => {
+                                        if (quality === 'Нет эпизодов с данной озвучкой') {
+                                             const qualityItem = `
+                                         <li id="quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
+                                     >
+                                        <p>${quality}</p>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
+                                     window.location = '${translPageUrl}';
+                                    })
+                                     $(document).keydown(function (e) {
+                                         switch (e.keyCode) {
+                                            case 8:
+                                                document.location.href = '/filmInfo${kinopoisk_id + index}';
+                                            break;
+                                        }
+                                    })
+                                    </script>
+                                        ` 
+                                        return [qualityItem, quality]
+                                        } else {
+                                             const qualityItem = `
+                                         <li id="quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
+                                     >
+                                        <p>${quality}</p>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
+                                     window.location = '/player${kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}'
+                                    })
+                                     $(document).keydown(function (e) {
+                                         switch (e.keyCode) {
+                                            case 8:
+                                                document.location.href = '/filmInfo${kinopoisk_id + index}';
+                                            break;
+                                        }
+                                    })
+                                    </script>
+                                        ` 
+                                        return [qualityItem, quality]
+                                        }
+                                   
+                                        
+                                    })
+                                    model.getQualities(season, episode, translationElem, index, app, qualityItems)
+                                    } else {
+                                    const qualityObj = Object.keys(translationElem.playlists)
+                                   const qualityItems = qualityObj.map(quality => {
+                                    const qualityItem = `
+                                         <li id="quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
+                                     >
+                                        <p>${quality}</p>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
+                                     window.location = '/player${kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}'
+                                    })
+                                     $(document).keydown(function (e) {
+                                         switch (e.keyCode) {
+                                            case 8:
+                                                document.location.href = '/filmInfo${kinopoisk_id + index}';
+                                            break;
+                                        }
+                                    })
+                                    </script>
+                                        ` 
+                                        return [qualityItem, quality]
+                                    })
+                                    model.getQualities(season, episode, translationElem, index, app, qualityItems)
+                                    }
+                                    
+                                    
+                                    return htmlForTransl
                                 })
+                                
 
                                 // создание файла с озвучками
-                                fs.writeFileSync('./public/views/elements/filmInfo/seasons&translations.ejs', htmlTranslations.join('').toString())
+                                fs.writeFileSync('./public/views/elements/filmInfo/seasons&translations.ejs', htmlData.join('').toString())
                                 res.render('translationsPage.ejs') // вывод страницы и передаю url при переходе назад
                             })
                           } catch (error) {
-                            console.error('videosFetchError', error) // обработка ошибки
+                            console.error('getTranslationsFetchError', error) // обработка ошибки
                             res.render('errorsPage.ejs') // вывод страницы с ошибкой
                           }
         })
       } catch (error) {
         console.error('translationsError', error) // обработка ошибки
       }
+    },
+    getQualities: (season, episode, translationElem, index, app, qualityItems) => {
+          let model = module.exports
+             app.get(`/selectQuality&=${translationElem.kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
+                try {
+                    qualityItems.forEach((elem) => { //перебор массива озвучек и создание страницы для каждой
+                        model.createPlayerPage(app, season, episode, translationElem, index, elem[1])
+                    })
+                     const arrQualitiesHtml = []
+                         qualityItems.forEach(qualityItem => {
+                         qualityItem.pop()
+                          arrQualitiesHtml.push(qualityItem)
+                     })
+                     fs.writeFileSync('./public/views/elements/filmInfo/quality.ejs', arrQualitiesHtml.join('').toString())
+                    res.render('qualityPage.ejs')
+                     arrQualitiesHtml.length = 0
+                } catch (error) {
+                    console.error('getQualitiesFetchError', error) // обработка ошибки
+                    res.render('errorsPage.ejs') // вывод страницы с ошибкой
+                }
+            })
+       
     },
     createSearchItems: (inputText, res) => {
         return new Promise(function(resolve, reject){
@@ -161,9 +261,8 @@ module.exports = {
 
     },
     // метод создания страницы с плеером
-    createPlayerPage: (app, season, episode, elem, index) => {
-        console.log("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${episode ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`)
-        app.get("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
+    createPlayerPage: (app, season, episode, elem, index, quality) => {
+        app.get("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}`, (req, res) => {
             if (season === undefined) {
             const videoPlaylist = elem.playlists
             // ----- ниже делаю проверку на качество видео, чтобы давало лучшее из всех -----

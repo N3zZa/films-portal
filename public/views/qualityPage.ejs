@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
+    <title>Translation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/keyboard.css" />
+
+    <script type="text/javascript" src="libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
+    <script type="text/javascript" src="libs/event_emitter.js"></script>
+    <script type="text/javascript" src="js/lib/smartbox.js"></script>
+    <script type="text/javascript">
+        var isPlaylistShow
+    </script>
+
+    <style type="text/css">
+        p,
+        li,
+        h1,
+        h2,
+        h3,
+        a,
+        h4 {
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+        }
+
+        .bg {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(/img/mainBg.jpg) no-repeat 100% 100%;
+            z-index: -10;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .wrap {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+
+        #navbar {
+            position: absolute;
+            width: 23%;
+            padding: 20px;
+            transition: 0.5s ease-in-out;
+        }
+
+        .poster_playerBlock {
+            position: absolute;
+            padding-top: 20px;
+            right: 10px;
+            width: 72.5%;
+            height: 400px;
+        }
+
+        .poster_playerBlock p {
+            margin-top: 5px;
+            color: #09a3e0;
+        }
+
+        .poster_playerBlock h1 {
+            font-size: 20px;
+            position: absolute;
+            color: white;
+            background: #09a3e0;
+            padding: 20px 30px;
+            border-radius: 20px;
+            width: 8%;
+            height: 5%;
+            top: 47.5%;
+            left: 45%;
+            right: 45%;
+            bottom: 47.5%;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            display: fixed;
+            position: relative;
+            padding: 15px;
+            height: 40px;
+        }
+
+        .header h2 {
+            float: left;
+        }
+
+        .header_images {
+            float: right;
+        }
+
+        .navbar_wrap p {
+            font-size: 16px;
+            font-weight: 400;
+            margin: 5px 0 5px 5px;
+            color: white;
+            word-wrap: break-word;
+        }
+
+        .navbar_wrap h2 {
+            font-size: 22px;
+            font-weight: 400;
+            color: yellow;
+            margin: 15px 0 20px 5px;
+        }
+
+        .posterScreenshot {
+            width: 100%;
+            height: 100%;
+        }
+
+        .posterImg {
+            width: 100%;
+            height: 380px;
+        }
+
+        ul {
+            max-height: 530px;
+            overflow-y: scroll;
+            margin: 0;
+        }
+
+        /* хром, сафари */
+        ul::-webkit-scrollbar {
+            width: 0;
+        }
+
+        /* ie 10+ */
+        ul {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* фф (свойство больше не работает, других способов тоже нет)*/
+        ul {
+            overflow: -moz-scrollbars-none;
+        }
+
+        li p {
+            color: white;
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+
+        .filmInfo_navbar {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: #09a3e0;
+            height: 100vh;
+            width: 30%;
+            padding: 20px;
+        }
+
+        .film_descr {
+            margin-left: 20px;
+            color: white;
+            max-width: 60%;
+        }
+
+        .nav_backbtn img,
+        h1 {
+            display: inline-block;
+        }
+
+        .navbar_menu .nav-item {
+            position: relative;
+            padding: 10px 25px;
+            border-bottom: 5px solid transparent;
+        }
+
+        .navbar_menu .nav-item h1 {
+            font-size: 24px;
+            color: white;
+        }
+
+        .navbar_menu img {
+            position: absolute;
+            left: -10px;
+            top: 5px;
+        }
+
+        .navbar_menu .focus {
+            border-bottom: 5px solid yellow;
+        }
+
+        #playlist {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            padding: 1px 0;
+            background-color: none;
+            transition: 0.5s ease-in-out;
+            z-index: 10;
+            background: rgba(44, 44, 44, 0.726);
+            left: 0;
+            padding: 200px 0 0 0;
+        }
+
+
+        #playlist ul {
+            list-style: none;
+            overflow-x: hidden;
+            padding: 0;
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        #playlist li {
+            padding: 2px;
+            margin-bottom: 2px;
+            background: #0173dd;
+        }
+
+        #playlist li.focus {
+            background-color: #fff;
+            color: #000;
+        }
+
+        #playlist li.focus a {
+            color: #000;
+        }
+
+        li p {
+            color: white;
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+
+        #playlist li.focus p {
+            color: black;
+        }
+
+        .playImgBlock {
+            margin: 0 auto;
+            height: 100%;
+            width: 30px;
+        }
+
+        .playImgBlock img {
+            width: 80px;
+            height: 80px;
+            margin: 200px 0;
+        }
+
+        .freezesWarn {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 15, 58, 0.863);
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg"></div>
+    <div id="wrap" class="wrap">
+        <%- include('./elements/filmInfo/filmInfoTranslations.ejs') %>
+            <div id='playlist'>
+                <ul id="list">
+                    <!-- с помощью шаблонизатора импортирую html разметку -->
+                    <%- include('./elements/filmInfo/quality.ejs') %>
+                </ul>
+            </div>
+    </div>
+    <div class="freezesWarn">Если будут наблюдаться зависания при просмотре видео, оперируйте клавишами прокрутки, или
+        channel+, channel-</div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $$nav.on('#list')
+        })
+        // код нажатия на клавиши
+        $(document).keydown(function (e) {
+            if ($('#list .focus')[0]) {
+                var curItemPos = $('#list .focus')
+                $("#list").scrollTop($("#list").scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
+            }
+            if (e.keyCode === 13) {
+                e.preventDefault()
+            }
+        })
+    </script>
+</body>
+
+</html>
