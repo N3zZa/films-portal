@@ -104,6 +104,7 @@ module.exports = {
                             .then((response) => response.json())
                             .then((jsonResponse) => {
                                 // создаю блок с озвучками
+                                
                                 const htmlData = jsonResponse.results.map((translationElem, i) => {
                                     const htmlForTransl = `
                                          <li id="transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}" class="channel nav-item"
@@ -114,6 +115,7 @@ module.exports = {
                                     $('#transl${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}').click(function (e) {
                                      window.location = '/selectQuality&=${kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}'
                                     })
+                                    
                                      $(document).keydown(function (e) {
                                          switch (e.keyCode) {
                                             case 8:
@@ -124,24 +126,24 @@ module.exports = {
                                     </script>
                                         ` 
                                     if (isSerial === '1') {
-
-
                                     const qualityObj = translationElem.playlists;
                                     const qualitySeason = qualityObj[`${season}`];
-                                    const qualityEpisode = qualitySeason[`${episode}`] ? qualitySeason[`${episode}`] : {'Нет эпизодов с данной озвучкой': 'Нет эпизодов с данной озвучкой'}; ;
+                                    const qualityEpisode = qualitySeason !== undefined && qualitySeason[`${episode}`] ? qualitySeason[`${episode}`] : {'Нет эпизодов с данной озвучкой': 'Нет эпизодов с данной озвучкой'};
                                     const objKeysQuality = Object.keys(qualityEpisode)
+
 
                                     const qualityItems = objKeysQuality.map(quality => {
                                         if (quality === 'Нет эпизодов с данной озвучкой') {
                                              const qualityItem = `
                                          <li id="quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
                                      >
-                                        <p>${quality}</p>
+                                        <p class="noEpisodesText">${quality}</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
                                      window.location = '${translPageUrl}';
                                     })
+                                    $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160').removeClass('nav-item')
                                      $(document).keydown(function (e) {
                                          switch (e.keyCode) {
                                             case 8:
@@ -156,7 +158,7 @@ module.exports = {
                                              const qualityItem = `
                                          <li id="quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
                                      >
-                                        <p>${quality}</p>
+                                        <p>${quality}p</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
@@ -169,6 +171,12 @@ module.exports = {
                                             break;
                                         }
                                     })
+                                    if ( $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160') !== undefined) {
+                                         $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160').removeClass('nav-item')
+                                        $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160').addClass('lockQuality')
+                                        $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160').append('<img src="/img/lock.png" alt="lock">')
+                                        $('.blockedQualities').hide()
+                                    }
                                     </script>
                                         ` 
                                         return [qualityItem, quality]
@@ -179,11 +187,12 @@ module.exports = {
                                     model.getQualities(season, episode, translationElem, index, app, qualityItems)
                                     } else {
                                     const qualityObj = Object.keys(translationElem.playlists)
+                                    
                                    const qualityItems = qualityObj.map(quality => {
                                     const qualityItem = `
                                          <li id="quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
                                      >
-                                        <p>${quality}</p>
+                                        <p>${quality}p</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
@@ -196,6 +205,12 @@ module.exports = {
                                             break;
                                         }
                                     })
+                                     if ( $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160') !== undefined) {
+                                         $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160').removeClass('nav-item')
+                                        $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160').addClass('lockQuality')
+                                        $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}2160').append('<img src="/img/lock.png" alt="lock">')
+                                        $('.blockedQualities').hide()
+                                    }
                                     </script>
                                         ` 
                                         return [qualityItem, quality]
@@ -222,20 +237,30 @@ module.exports = {
       }
     },
     getQualities: (season, episode, translationElem, index, app, qualityItems) => {
+          let items = qualityItems
           let model = module.exports
              app.get(`/selectQuality&=${translationElem.kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
                 try {
                     qualityItems.forEach((elem) => { //перебор массива озвучек и создание страницы для каждой
                         model.createPlayerPage(app, season, episode, translationElem, index, elem[1])
                     })
-                     const arrQualitiesHtml = []
-                         qualityItems.forEach(qualityItem => {
-                         qualityItem.pop()
-                          arrQualitiesHtml.push(qualityItem)
+                    const arrQualitiesHtml = []
+                    let poppedItem
+                     try {
+                        items.forEach(qualityItem => {
+                            if (qualityItem.length === 2) {
+                                 poppedItem = qualityItem.pop()
+                                 arrQualitiesHtml.push(qualityItem)
+                            } else {
+                                arrQualitiesHtml.push(qualityItem)
+                            }
                      })
-                     fs.writeFileSync('./public/views/elements/filmInfo/quality.ejs', arrQualitiesHtml.join('').toString())
-                    res.render('qualityPage.ejs')
-                     arrQualitiesHtml.length = 0
+                     } finally {
+                        fs.writeFileSync('./public/views/elements/filmInfo/quality.ejs', arrQualitiesHtml.join('').toString())
+                        res.render('qualityPage.ejs')
+                        items = qualityItems
+                     }
+                    
                 } catch (error) {
                     console.error('getQualitiesFetchError', error) // обработка ошибки
                     res.render('errorsPage.ejs') // вывод страницы с ошибкой
@@ -247,11 +272,9 @@ module.exports = {
         return new Promise(function(resolve, reject){
              // запрос на поиск фильмов
         const searchRequestModel = require('../requests/search/searchRequest');
-        setTimeout(() => {
          searchRequestModel(inputText, res).then((elem) => {
             resolve(elem)
         })
-        }, 1500)
         })
     },
     createFullHdList: () => {

@@ -14,6 +14,7 @@
     <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
     <script type="text/javascript" src="libs/event_emitter.js"></script>
     <script type="text/javascript" src="js/lib/smartbox.js"></script>
+    <script type="text/javascript" src="js/lib/config.js"></script>
     <script>
         // запуск навигации
         $(function () {
@@ -52,7 +53,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-image: url(/img/mainBg.jpg) 100% 100%;
+        background: url(/img/mainBg.jpg) no-repeat 100% 100%;
         z-index: -1;
     }
 
@@ -96,7 +97,7 @@
     }
 
     .searchBlock-container .focus {
-         border: 3px solid yellow;
+        border: 3px solid yellow;
     }
 
     .clickOk {
@@ -121,7 +122,8 @@
         display: inline-block;
         margin-left: 30px;
     }
-    .inputInnerBlock .focus{
+
+    .inputInnerBlock .focus {
         border: none;
         border-bottom: 1px solid white;
     }
@@ -139,32 +141,33 @@
         bottom: 5px;
     }
 
-     .searchedItems_block {
+    .searchedItems_block {
         margin: 150px auto;
-        padding: 0 50px 0 50px;
+        padding: 0;
     }
 
     .searchedItems_block .nav-item {
         border: 5px solid transparent
     }
 
-    .searchText{
-        display:none;
+    .searchText {
+        display: none;
         position: absolute;
         left: 5px;
         bottom: 10px;
     }
-    
-    .focus .searchText{
-        display:block;
+
+    .focus .searchText {
+        display: block;
     }
-    .focus .searchText{
-        display:none;
+
+    .focus .searchText {
+        display: none;
         position: absolute;
         left: 5px;
         bottom: 10px;
     }
-    
+
     .item {
         position: relative;
         display: inline-block;
@@ -172,18 +175,54 @@
         transition: .2s ease-in-out;
         -webkit-transition: .2s ease-in-out;
     }
-    
+
     .searchItem {
-        margin-right: 10px;
-        height: 360px;
-        width: 250px;
+        margin: 0 auto;
+        height: 300px;
+        width: 200px;
     }
+
     .searchedItems_wrap .focus {
         border: 5px solid yellow;
     }
-    .searchedItems_wrap {   
+
+    .searchedItems_wrap {
         max-width: 1095px;
         margin: 0 auto;
+    }
+
+    #log {
+        position: fixed;
+        top: 10%;
+        left: 25%;
+        color: red;
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    .iText {
+        position: absolute;
+        right: 15px;
+        top: -12px;
+        position: absolute;
+        color: rgba(165, 165, 165, 0.582);
+    }
+
+    .waitingPopup {
+        display: none;
+        position: absolute;
+        width: 100%;
+        margin: 0 auto;
+        top: 100px;
+        z-index: 20;
+    }
+    .waitingPopup_inner {
+        width: 200px;
+        background: rgba(0, 0, 0, 0.685);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+        margin: 0 auto;
+        border-radius: 10px;
+        padding: 20px;
     }
 </style>
 
@@ -191,22 +230,28 @@
 
     <div class="bg"></div>
     <div id="app" class="app wrap">
+        <div class="waitingPopup">
+            <div class="waitingPopup_inner">
+                <h1>Загрузка...</h1>
+            </div>
+        </div>
         <div class="searchBlock">
             <div class="scene js-scene-input navigation-items searchBlock-container" data-nav_loop="true">
                 <span class="clickOk">Нажмите кнопку "OK" для вызова клавиатуры</span>
                 <img class="searchImg" src="/img/search.svg" alt="search">
                 <div class="inputInnerBlock">
                     <label for="input">Введите название</label>
-                    <input name="input" type="text" id="input" value="<%= inputText %>" class="nav-item search-input input-item" name="input"
-                        placeholder="Введите текст">
+                    <input name="input" type="text" id="input" value="<%= inputText %>"
+                        class="nav-item search-input input-item" name="input" placeholder="Введите текст">
                 </div>
+                <p class="iText">Нажмите "i" для поиска</p>
                 <button type="button" id="inputBtn" class="navigation-item nav-item search-button">Поиск</button>
             </div>
         </div>
         <div class="searchedItems_block">
             <!-- с помощью шаблонизатора импортирую html разметку -->
             <div class="searchedItems_wrap navigation-items">
-            <%- include('./elements/search/searchItems.ejs') %>
+                <%- include('./elements/search/searchItems.ejs') %>
             </div>
         </div>
     </div>
@@ -224,29 +269,33 @@
         })
         var bla
         $('html').keyup(function (e) {
+            var key = config.app.keys[config.app.mode][e.keyCode];
+
             bla = inputElem.getAttribute('data-value') // get the current value of the input field.
             $('button#inputBtn.focus').on('click', function () {
+                $('.waitingPopup').show()
                 window.location = '/searchItem?' + bla
             });
-            switch (e.keyCode) {
-                case 8: /* назад */
+            switch (key) {
+                case 'back': /* назад */
                     window.location = '/search'
                     break;
-                case 89: 
-                   window.location = '/searchItem?' + bla
+                case 91: //i
+                    $('.waitingPopup').show()
+                    window.location = '/searchItem?' + bla
                     break;
-                case 39: //right
+                case 'right': //right
                     if ($('button#inputBtn.focus')[0] && $('#input').val === '') {
                         $('label').show()
                     }
-                break;
+                    break;
             }
         });
 
         $('html').keydown(function (e) {
-                var curItemPos = $('.focus')
-                $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
-                $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
+            var curItemPos = $('.focus')
+            $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
+            $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
         })
 
     </script>

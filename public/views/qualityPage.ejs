@@ -229,9 +229,16 @@
         }
 
         #playlist li {
+            position: relative;
             padding: 2px;
             margin-bottom: 2px;
             background: #0173dd;
+        }
+        #playlist li p {
+            width: 100%;
+            max-width: 100px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         #playlist li.focus {
@@ -276,6 +283,35 @@
             text-align: center;
             font-style: italic;
         }
+        .blockedQualities {
+            height: 30px;
+            background: rgba(0, 94, 182, 0.829) !important;
+        }
+        .blockedQualities p{
+            width: 100%;
+            max-width: 100px;
+        }
+        .blockedQualities img {
+            position: absolute;
+            right: 5px;
+            width: 20px;
+            margin-top: 2px;
+            top: 0;
+            z-index: 10;
+        }
+        .lockQuality {
+            height: 30px;
+            background: rgba(0, 94, 182, 0.829) !important;
+        }
+        .lockQuality img {
+            width: 20px;
+            float: right;
+            margin-top: 2px;
+        }
+        .noEpisodesText {
+            max-width: 500px !important;
+        }
+        
     </style>
 </head>
 
@@ -287,6 +323,19 @@
                 <ul id="list">
                     <!-- с помощью шаблонизатора импортирую html разметку -->
                     <%- include('./elements/filmInfo/quality.ejs') %>
+
+                    <li id="quality1080ultra" class="channel blockedQualities">
+                        <p>1080 ultra</p>
+                        <img src="/img/lock.png" alt="lock">
+                    </li>
+                    <li id="quality2k" class="channel blockedQualities">
+                        <p>2k</p>
+                        <img src="/img/lock.png" alt="lock">
+                    </li>
+                    <li id="quality4k" class="channel blockedQualities">
+                        <p>4k</p>
+                        <img src="/img/lock.png" alt="lock">
+                    </li>
                 </ul>
             </div>
     </div>

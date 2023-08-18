@@ -103,7 +103,7 @@ app.get('/searchItem', (req, resMain) => {
         if(err) {
              resMain.render('errorPage.ejs', {errorMessage: 'Ничего не найдено'})
         } else {
-             resMain.render('searchedItemsPage.ejs', {inputText: inputText})
+            setTimeout(() =>  resMain.render('searchedItemsPage.ejs', {inputText: inputText}), 5000)
         }
      })
 

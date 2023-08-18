@@ -55,6 +55,13 @@ module.exports = function (inputText, res) {
                  ${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '"'};
             }
             }
+            if (isPlaylistShow === false) {
+                        document.location.href = "/search";
+                    } else {
+                        $('#playlistSeasons').hide()
+                        isPlaylistShow = false;
+                        $$nav.on('.navbar_menu')
+                    }
          })
         </script>
          </div>
