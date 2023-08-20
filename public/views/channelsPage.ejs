@@ -189,6 +189,87 @@
         .close {
             display: none !important;
         }
+
+        .popups_block {
+            position: absolute;
+            bottom: 100px;
+            right: 100px;
+            z-index: 10;
+        }
+
+        .pause_block {
+            position: absolute;
+            z-index: 20;
+            width: 100%;
+            top: 50%;
+        }
+
+        .pause_block img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .pause_block-inner {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+        }
+
+        #pause {
+            display: none;
+        }
+
+        .soundPopupMute {
+            display: none;
+        }
+
+        .muteImg {
+            color: white;
+            width: 100px;
+            height: 100px;
+        }
+
+        .soundPopup {
+            display: none;
+            float: left;
+            width: 50px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 20px;
+            z-index: 20;
+            opacity: 1 !important;
+        }
+
+        .soundPopup p {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .soundPopup span {
+            font-size: 40px;
+            color: yellow;
+        }
+
+        .soundPopup img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .hiddenItem {
+            display: none;
+        }
+
+        .channelInputNum {
+            display: none;
+            position: fixed;
+            top: 15px;
+            right: 50px;
+            padding: 35px;
+            background: #000;
+            font-size: 24px;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -228,7 +309,7 @@
             <div class="playlistArrow_block">
                 <img width="20" height="20" class="playlistLeftArrow" src="../img/play.svg" alt="arrowLeft">
             </div>
-            <ul id="allChannels">
+            <ul id="allChannels" class="activeCategory">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/channels/allChannels.ejs') %>
             </ul>
@@ -261,31 +342,62 @@
                 <%- include('./elements/channels/inter.ejs') %>
             </ul>
         </div>
-        <div></div>
+        <div class="popups_block">
+            <div class="soundPopup" id="soundPopup">
+                <img id="soundPopupVol" src="/img/Vol.svg" alt="volume">
+                <img id="soundPopupMute" src="/img/mute.svg" alt="mute">
+                <div class="volume">
+                    <p id="volume">0</p>
+                </div>
+            </div>
+        </div>
+        <p class="channelInputNum" id="channelInputNum"></p>
+
     </div>
     <script type="text/javascript">
         var selectedChannel = document.getElementById("body").getAttribute("data-selectedChannel")
+        var numOfChannelInput = $('#channelInputNum')
         $(selectedChannel).get(0).scrollIntoView($(selectedChannel).scrollTop - 100)
         $$nav.on()
         $$nav.current(selectedChannel);
-        var channelFocusUrlNow = $('#playlist ul').find('.focus').attr('href')
-        mb.send('display.osd_over_video', { value: false });
-        mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
-        mb.send('player.enqueue', { url: channelFocusUrlNow, title: 'channel' });
-        mb.send('player.play');
+        var channelFocusUrlNow = $('.activeCategory').find('.focus').attr('href')
+         mb.send('display.osd_over_video', { value: false });
+         mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
+         mb.send('player.enqueue', { url: channelFocusUrlNow, title: 'channel' });
+         mb.send('player.play');
         var numOfClick = 0
 
         // код нажатия на клавиши
         var clickItem = ''
         $(document).keydown(function (e) {
+            var timer = setTimeout(function () {
+                $('#soundPopup').hide()
+            }, 5000)
+            var timerInput = setTimeout(function () {
+                numOfChannelInput.hide()
+                var inputTextValue = '#channel' + numOfChannelInput.text()
+                if (numOfChannelInput.text() !== '') {
+                    $$nav.current($('.activeCategory').find(inputTextValue))
+                    $('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // скроллить к элементу 
+                    mb.send('player.stop');
+                    mb.send('display.osd_over_video', { value: false });
+                    var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                    mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                    mb.send('player.play');
+                }
+                numOfChannelInput.text('')
+            }, 4000)
             var key = config.app.keys[config.app.mode][e.keyCode];
             $('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // скроллить к элементу 
             // скроллю чуть меньше чтобы лучше видно было элемент
             switch (key) {
                 case 'back':
+                    $('.bg').removeClass('hiddenItem')
+                    $('.playlist').removeClass('hiddenItem')
                     if ($('#allChannels').attr('class') === 'close') {
                         if ($('#playlistChannels').attr('class') === 'playlist close') {
                             if ($('body').attr('class') === 'hidden') {
+                                mb.send('display.osd_over_video', { value: false });
                                 mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
                                 $('body').removeClass('hidden')
                             } else {
@@ -294,16 +406,27 @@
                                 $('#playlistChannels').removeClass('close')
                                 $$nav.current('#allChannelsCategory');
                                 $$nav.on('#listChannels');
+
                             }
                         } else {
                             $('#playlistChannels').addClass('close')
                             $('#playlist').removeClass('close')
                             $('#allChannels').removeClass('close')
+                            $('.activeCategory').removeClass('activeCategory')
+                            $('#allChannels').addClass('activeCategory')
                             $('#allChannels').show()
                             $$nav.on('#allChannels');
+                            mb.send('player.stop');
+                            mb.send('display.osd_over_video', { value: false });
+                            var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                            mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                            mb.send('player.play');
                         }
                     } else if ($('body').attr('class') === 'hidden') {
+                        mb.send('display.osd_over_video', { value: false });
                         mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
+                        $('.bg').removeClass('hiddenItem')
+                        $('.playlist').removeClass('hiddenItem')
                         $('body').removeClass('hidden')
                     } else {
                         mb.send('player.stop');
@@ -315,74 +438,337 @@
                     clickItem = 'back'
                     break;
                 case 'left':
-                    $('#playlist').addClass('close')
-                    $('#playlist ul').addClass('close')
-                    $('#playlistChannels').removeClass('close')
-                    $$nav.current('#allChannelsCategory');
-                    $$nav.on('#listChannels');
-                    clickItem = 'left'
+                    if ($('body').attr('class') !== 'hidden') {
+                        $('#playlist').addClass('close')
+                        $('#playlist ul').addClass('close')
+                        $('#playlistChannels').removeClass('close')
+                        $('#playlist ul').removeClass('activeCategory')
+                        $$nav.current('#allChannelsCategory');
+                        $$nav.on('#listChannels');
+                        clickItem = 'left'
+                    }
+
                     break;
                 case 'up':
-                    if ($('#playlist').find('.focus').attr('href') !== undefined) {
-                        mb.send('player.stop');
-                        var channelUrl = $('#playlist').find('.focus').attr('href');
-                        mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
-                        mb.send('player.play');
-                    }
+                    setTimeout(function () {
+                        if ($('#playlist').find('.focus').attr('href') !== undefined) {
+                            if ($('body').attr('class') !== 'hidden') {
+                                mb.send('player.stop');
+                                mb.send('display.osd_over_video', { value: false });
+                                var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                                mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                                mb.send('player.play');
+                            }
+                        }
+                    }, 1000)
                     clickItem = 'up'
                     break;
                 case 'down':
-                    if ($('#playlist').find('.focus').attr('href') !== undefined) {
-                        mb.send('player.stop');
-                        var channelUrl = $('#playlist').find('.focus').attr('href');
-                        mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
-                        mb.send('player.play');
-                    }
+                    setTimeout(function () {
+                        if ($('#playlist').find('.focus').attr('href') !== undefined) {
+                            if ($('body').attr('class') !== 'hidden') {
+                                mb.send('player.stop');
+                                mb.send('display.osd_over_video', { value: false });
+                                var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                                mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                                mb.send('player.play');
+                            }
+                        }
+                    }, 1000)
                     clickItem = 'down'
+                    break;
+                case 'chup':
+                    console.log('chup')
+                    if ($('.activeCategory').find('.focus').attr('href') !== undefined) {
+                        if ($('body').attr('class') === 'hidden') {
+                            mb.send('player.stop');
+                            mb.send('display.osd_over_video', { value: false });
+                            var prevChanneId = $('.activeCategory').find('.focus').attr('id');
+                            var channelIdNum = Number(prevChanneId.split('l')[1]) + 1
+                            var channelId = '#channel' + channelIdNum
+                            $$nav.current($('.activeCategory').find(channelId))
+                            var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                            mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                            mb.send('player.play');
+                            console.log(channelUrl)
+                        }
+                    }
+                    clickItem = 'chup'
+                    break;
+                case 'chdown':
+                    console.log('chdown')
+                    if ($('.activeCategory').find('.focus').attr('href') !== undefined) {
+                        if ($('body').attr('class') === 'hidden') {
+                            mb.send('player.stop');
+                            mb.send('display.osd_over_video', { value: false });
+                            var prevChanneId = $('.activeCategory').find('.focus').attr('id');
+                            var channelIdNum = Number(prevChanneId.split('l')[1]) - 1
+                            var channelId = '#channel' + channelIdNum
+                            $$nav.current($('.activeCategory').find(channelId))
+                            var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                            mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                            mb.send('player.play');
+                            console.log(channelUrl)
+                        }
+                    }
+                    clickItem = 'chdown'
                     break;
                 case 'volup':
                     mb.send('player.volume', { delta: +10 })
-                    clickItem = 'volup'
+                    var volumeValue = mb.get('nvram.av.volume').value
+                    $("#volume").html(volumeValue)
+                    if (Number(volumeValue) > 0) {
+                        $("#soundPopupVol").show()
+                        $("#soundPopupMute").hide()
+                    }
+                    $('#soundPopup').show()
+                    timer
+                    pressing_btn = 'volup'
                     break;
                 case 'voldown':
                     mb.send('player.volume', { delta: -10 })
-                    clickItem = 'voldown'
+                    var volumeValue = mb.get('nvram.av.volume').value
+                    if (Number(volumeValue) === 0) {
+                        $("#soundPopupVol").hide()
+                        $("#soundPopupMute").show()
+                    } else {
+                        $("#soundPopupVol").show()
+                        $("#soundPopupMute").hide()
+                    }
+
+                    $('#soundPopup').show()
+                    $("#volume").html(volumeValue)
+                    timer
+                    pressing_btn = 'voldown'
+                    break;
+                case 'mute':
+                    var volumeValue = mb.get('nvram.av.volume').value
+                    var muteStatus = mb.get('player:mute');
+                    if (muteStatus.value === 'false') {
+                        mb.send('player.mute', { value: true })
+                        $("#volume").html('0')
+                        $("#soundPopupVol").hide()
+                        $("#soundPopupMute").show()
+                        $('#soundPopup').show()
+                    } else {
+                        mb.send('player.mute', { value: false })
+                        $("#volume").html(volumeValue)
+                        $("#soundPopupVol").show()
+                        $("#soundPopupMute").hide()
+                        $('#soundPopup').hide()
+                    }
+                    pressing_btn = 'mute'
                     break;
                 case 'ok':
                     numOfClick += 1
                     if (numOfClick === 2) {
+                        mb.send('display.osd_over_video', { value: false });
                         mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
+                        $('.bg').removeClass('hiddenItem')
+                        $('.playlist').removeClass('hiddenItem')
                         $('body').removeClass('hidden')
                         numOfClick = 0
                     }
                     clickItem = 'ok'
                     break;
             }
+            switch (e.keyCode) {
+                case 49:
+                    numOfChannelInput.show()
+                    console.log(numOfChannelInput.text().length)
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '1')
+                    }
+
+                    timerInput
+                    break;
+                case 50:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '2')
+                    }
+                    timerInput
+                    break;
+                case 51:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '3')
+                    }
+                    timerInput
+                    break;
+                case 52:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '4')
+                    }
+                    timerInput
+                    break;
+                case 53:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '5')
+                    }
+                    timerInput
+                    break;
+                case 54:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '6')
+                    }
+                    timerInput
+                    break;
+                case 55:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '7')
+                    }
+                    timerInput
+                    break;
+                case 56:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '8')
+                    }
+                    timerInput
+                    break;
+                case 57:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '9')
+                    }
+                    timerInput
+                    break;
+                case 48:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '0')
+                    }
+
+                    timerInput
+                    break;
+            }
         })
 
+        $('#playlist').keydown(function (e) {
+            var timerInput = setTimeout(function () {
+                numOfChannelInput.hide()
+                var inputTextValue = '#channel' + numOfChannelInput.text()
+                if (numOfChannelInput.text() !== '') {
+                    $$nav.current($('.activeCategory').find(inputTextValue))
+                    $('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // скроллить к элементу 
+                     $('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // скроллить к элементу 
+                    mb.send('player.stop');
+                    mb.send('display.osd_over_video', { value: false });
+                    var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                    mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                    mb.send('player.play');
+                }
+                numOfChannelInput.text('')
+            }, 4000)
+            switch (e.keyCode) {
+                case 49:
+                    numOfChannelInput.show()
+                    console.log(numOfChannelInput.text().length)
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '1')
+                    }
 
+                    timerInput
+                    break;
+                case 50:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '2')
+                    }
+                    timerInput
+                    break;
+                case 51:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '3')
+                    }
+                    timerInput
+                    break;
+                case 52:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '4')
+                    }
+                    timerInput
+                    break;
+                case 53:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '5')
+                    }
+                    timerInput
+                    break;
+                case 54:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '6')
+                    }
+                    timerInput
+                    break;
+                case 55:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '7')
+                    }
+                    timerInput
+                    break;
+                case 56:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '8')
+                    }
+                    timerInput
+                    break;
+                case 57:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '9')
+                    }
+                    timerInput
+                    break;
+                case 48:
+                    numOfChannelInput.show()
+                    if (numOfChannelInput.text().length < 3) {
+                        numOfChannelInput.text(numOfChannelInput.text() + '0')
+                    }
+
+                    timerInput
+                    break;
+            }
+        })
         // при клике на каналы перейти к его просмотру
         $('#playlist').find('li').click(function (e) {
             var channelUrl = e.currentTarget.getAttribute('href')
             if ($('.focus').attr('id') === e.currentTarget.getAttribute('id')) {
-                mb.send('display.pip', { value: true, x: '0', y: '0', w: '100%', h: '100%' });
+                 mb.send('display.osd_over_video', { value: true });
+                mb.send('display.pip', { value: false, x: '0', y: '0', w: '100%', h: '100%' });
             } else {
                 mb.send('player.stop');
-                mb.send('display.pip', { value: true, x: '0', y: '0', w: '100%', h: '100%' });
+                 mb.send('display.osd_over_video', { value: true });
+                mb.send('display.pip', { value: false, x: '0', y: '0', w: '100%', h: '100%' });
                 mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
                 mb.send('player.play');
             }
+            $('.bg').addClass('hiddenItem')
+            $('.playlist').addClass('hiddenItem')
             $('body').addClass('hidden')
         })
         $('#listChannels').find('li').click(function (e) {
             numOfClick = 1
             var channelId = '#' + e.currentTarget.getAttribute('data-playlist-id')
-            mb.send('player.stop');
+             mb.send('player.stop');
             $('#playlistChannels').addClass('close')
             $('#playlist').removeClass('close')
             $(channelId).removeClass('close')
-            $$nav.on('#playlist')
-            var channelFocusUrl = $('#playlist').find('.focus').attr('href')
+            $(channelId).addClass('activeCategory')
+            $$nav.on(channelId)
+            var channelFocusUrl = $(channelId).find('.focus').attr('href')
+            mb.send('display.osd_over_video', { value: false });
             mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
             mb.send('player.enqueue', { url: channelFocusUrl, title: 'channel' });
             mb.send('player.play');

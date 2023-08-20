@@ -78,6 +78,8 @@ userModel.getChannels.then((data) => {
     fs.writeFileSync('./public/views/elements/channels/inter.ejs', data.inter.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', `${data.images('sts.jpg').join('').toString()}`)
 })
+userModel.createFullHdList(app)
+
 
 // -----------------------------------------------------------------------------------------------------------------------
 
@@ -103,7 +105,7 @@ app.get('/searchItem', (req, resMain) => {
         if(err) {
              resMain.render('errorPage.ejs', {errorMessage: 'Ничего не найдено'})
         } else {
-            setTimeout(() =>  resMain.render('searchedItemsPage.ejs', {inputText: inputText}), 5000)
+            setTimeout(() =>  resMain.render('searchedItemsPage.ejs', {inputText: inputText}), 10000)
         }
      })
 
@@ -119,11 +121,8 @@ app.get('/searchItem', (req, resMain) => {
     })
    
 })
-app.get('fullHdfilms', (req, res) => {
-    userModel.createFullHdList(() => {
-        
-    })
-})
+
+
 
 
 

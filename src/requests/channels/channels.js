@@ -11,7 +11,7 @@ const fs = require("fs");
 const channels = []
  const allChannelsValues = allChannels.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
@@ -20,7 +20,7 @@ const channels = []
     })
     const newsValues = news.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
@@ -29,7 +29,7 @@ const channels = []
     })
     const filmsSerialsValues = filmsSerials.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
@@ -38,7 +38,7 @@ const channels = []
     })
     const sportValues = sport.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
@@ -47,7 +47,7 @@ const channels = []
     })
     const musicValues = music.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
@@ -56,7 +56,7 @@ const channels = []
     })
     const childValues = child.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
@@ -65,7 +65,7 @@ const channels = []
     })
     const documValues = docum.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
@@ -74,7 +74,7 @@ const channels = []
     })
     const interValues = inter.map((elem, index) => {
        return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,0,0,#arrowBack">
+        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>

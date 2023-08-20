@@ -272,7 +272,10 @@
         }
         mb.send('display.pip', { value: false, w: '100%', h: '100%'});
         $(document).keydown(function (e) {
-
+            var timerSound = setTimeout(function() {
+                 $('#soundPopup').hide()
+                 clearTimeout(timerSound)
+            }, 3000)
             var key = config.app.keys[config.app.mode][e.keyCode];
             var pressing_btn = ''
             // управление плеером
@@ -283,6 +286,7 @@
                 secondsToTime(data.value, '#currentTime')
                 secondsToTime(data.full_time, '#fullTime')
             })
+             
             switch (key) {
                 case 'left':
                     $("#playerMenu").animate({ opacity: 1 }, 100)
@@ -344,7 +348,6 @@
                     pressing_btn = 'mute'
                     break;
                 case 'volup':
-                    $("#playerMenu").animate({ opacity: 1 }, 100)
                     mb.send('player.volume', { delta: +10 })
                     var volumeValue = mb.get('nvram.av.volume').value
                     $("#volume").html(volumeValue)
@@ -353,10 +356,10 @@
                         $("#soundPopupMute").hide()
                     }
                     $('#soundPopup').show()
+                    timerSound
                     pressing_btn = 'volup'
                     break;
                 case 'voldown':
-                    $("#playerMenu").animate({ opacity: 1 }, 100)
                     mb.send('player.volume', { delta: -10 })
                     var volumeValue = mb.get('nvram.av.volume').value
                     if (Number(volumeValue) === 0) {
@@ -369,6 +372,7 @@
 
                     $('#soundPopup').show()
                     $("#volume").html(volumeValue)
+                    timerSound
                     pressing_btn = 'voldown'
                     break;
                 case 'back':

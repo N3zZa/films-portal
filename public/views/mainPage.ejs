@@ -263,7 +263,14 @@
         width: 200px;
     }
     
-    
+    #log {
+        position: fixed;
+        top: 100px;
+        left: 200px;
+        color: red;
+        font-size: 24px;
+        z-index: 20;
+    }
 </style>
 
 <body>
@@ -274,9 +281,9 @@
         <div class="header_images navigation-items">
             <a href="/search" class="search_block">
                 <img id="search" class="search nav-item" src="/img/search.svg" alt="search"
-                    data-nav_ud="0,0,#premiere0,0">
+                    >
             </a>
-            <img class="nav-item" src="/img/profile.svg" alt="profile" data-nav_ud="0,0,#premiere0,0">
+            <img class="nav-item" src="/img/profile.svg" alt="profile" >
         </div>
     </header>
     <div class="wrap">
@@ -287,7 +294,7 @@
             </div>
             <h1>Премьеры</h1>
             <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
-                <div class="filmsItem item fullhdItem nav-item">
+                <div id="fullhdItem" class="filmsItem item fullhdItem nav-item">
                     <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
                         style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
                     </div>
@@ -296,7 +303,7 @@
                 <%- include('./elements/films.ejs') %>
             </div>
             <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider" data-nav_type="hbox">
+            <div class="slider" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,0,none">
                 <%- include('./elements/channels/channelImages.ejs') %>
             </div>
             <h1>Мульфильмы</h1>
@@ -313,18 +320,24 @@
     </div>
     
     <script type="text/javascript">
-       
-        $('#channel125').after('<br/>');
-        var isShow = false;
+        $('#channel125').after('<br/>')
         // код нажатия на клавиши
-        var i = 0
         $(document).keydown(function (e) {
             var curItemPos = $('.focus')
-            $('.focus').get(0).scrollIntoView($('.focus').scrollLeft - 100); // скроллить к элементу 
+            $('.focus').get(0).scrollIntoView($('.focus').scrollTop + 20); // скроллить к элементу 
+            switch (e.keyCode) {
+                case 37: //left
+                $('.focus').scrollLeft(); 
+                break;
+                case 39: // right
+                 $('.focus').scrollLeft();
+                break;
+            }
         });
         $('#filmFullHd').click(function () {
             window.location = '/fullHdFilms'
         })
+       
     </script>
 </body>
 

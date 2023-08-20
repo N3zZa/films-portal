@@ -15,6 +15,7 @@
     <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
     <script type="text/javascript" src="libs/event_emitter.js"></script>
     <script type="text/javascript" src="js/lib/smartbox.js"></script>
+    <script type="text/javascript" src="js/lib/config.js"></script>
     <script>
         // запуск навигации
         $(function () {
@@ -22,254 +23,174 @@
         })
     </script>
 </head>
-<style>
-    body {
-        overflow-x: hidden;
-    }
-
-    body,
-    h1,
-    h2,
-    p,
-    div {
-        padding: 0;
-        margin: 0;
-        font-family: 'Roboto', sans-serif;
-        color: rgb(110, 197, 255);
-    }
-
-    .bg {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: url(/img/bg.jpg) no-repeat;
-        z-index: -10;
-    }
-
-    .wrap {
-        max-width: 1440px;
-        margin: 0 auto;
-    }
-
-    .header {
-        max-width: 1440px;
-        margin: 0 auto;
-        display: fixed;
-        position: relative;
-        padding: 15px;
-        height: 40px;
-        background: rgb(73, 73, 73);
-    }
-
-    .header h2 {
-        float: left;
-    }
-
-    .header_images {
-        float: right;
-    }
-
-    .header .focus {
-        border: 5px solid yellow;
-        margin: -5px
-    }
-
-    .search_block {
-        display: inline-block;
-        margin-right: 25px;
-    }
-
-    .filmText {
-        display: none;
-    }
-
-    main {
-        padding-top: 20px;
-        width: 100%;
-    }
-
-    main h1 {
-        margin: 20px 0 20px 0;
-    }
-
-    main .nav-item {
-        border: 5px solid transparent
-    }
-
-    #channelsSlider .focus {
-        border: 5px solid yellow;
-    }
-
-    .slider {
-        overflow-x: scroll;
-        white-space: nowrap;
-        margin-bottom: 20px;
-    }
-
-    #channelsSlider {
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    main h1 {
-        color: white;
-    }
-
-    .premieresSlider {
-        max-height: 300px;
-    }
-
-    .slider::-webkit-scrollbar-thumb {
-        background: none;
-    }
-
-    .slider::-webkit-scrollbar-track {
-        /* фон */
-        background: none;
-    }
-
-    .slider::-webkit-scrollbar {
-        /* фон */
-        width: 0;
-        height: 0;
-        background: none;
-    }
-
-    .text {
-        white-space: wrap;
-        color: #fff;
-    }
-
-    .text h1 {
-        max-width: 100%;
-        font-size: 18px;
-        margin: 0;
-    }
-
-    .filmsItemText {
-        position: absolute;
-    }
-
-    .filmsItemText h1 {
-        white-space: wrap;
-        font-size: 13px;
-    }
-
-    .premieresSlider .premieresText {
-        display: none;
-        position: absolute;
-        left: 5px;
-        bottom: 10px;
-    }
-
-    .focus .premieresText {
-        display: block;
-    }
-
-    .premieresSlider .focus .filmText {
-        display: none;
-        position: absolute;
-        left: 5px;
-        bottom: 10px;
-    }
-
-    .item {
-        position: relative;
-        display: inline-block;
-        margin: 0;
-    }
-
-    .premieresItem {
-        margin-right: 10px;
-        width: 500px;
-        height: 300px;
-    }
-
-    .filmsItem {
-        height: 260px;
-        width: 150px;
-        margin-right: 10px;
-    }
-
-    .filmsItemBg {
-        width: 100%;
-        height: 200px;
-    }
-
-    .fullHdFilmsBtn {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .cartoonsItem {
-        height: 260px;
-        width: 150px;
-        margin-right: 10px;
-    }
-
-    .serialItem {
-        height: 260px;
-        width: 150px;
-        margin-right: 10px;
-    }
-
-    .slider .focus {
-        border: 5px solid yellow;
-    }
-
-    .channel {
-        width: 250px;
-        height: 125px;
-        display: inline-block;
-        position: relative;
-    }
-
-    .channel .channelName {
-        display: none;
-    }
-
-    .focus .channelName {
-        display: block;
-        position: absolute;
-        bottom: 5px;
-        left: 5px;
-        color: white;
-    }
-
-    .fullhdItem {
-        border: 5px solid transparent;
-        width: 220px;
-    }
-</style>
+    <style type="text/css">
+        p,
+        li,
+        h1,
+        h2,
+        h3,
+        a {
+            font-family: 'Roboto Mono', monospace;
+        }
+    
+        .bg {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(/img/bg.jpg) no-repeat;
+            z-index: -10;
+        }
+    
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            z-index: -10;
+        }
+    
+        ul {
+            height: 100%;
+            overflow-y: scroll;
+            margin: 0;
+        }
+    
+        p {
+            margin: 0;
+        }
+    
+        .wrap {
+            max-width: 980px;
+            margin: 0 0 0 30px;
+            z-index: -4;
+            width: 60%;
+        }
+    
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    
+        p {
+            display: inline-block;
+        }
+    
+        .playlist {
+            width: 100%;
+            padding: 1px 0;
+            background-color: none;
+            transition: 0.5s ease-in-out;
+        }
+    
+        .show {
+            position: static;
+        }
+    
+        .playlist ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 4%;
+            overflow-y: auto;
+        }
+    
+        .playlist li {
+            padding: 10px;
+            margin-bottom: 2px;
+            background: #0173dd;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+    
+        .playlist li.focus {
+            background-color: #fff;
+            color: #000;
+        }
+    
+        .playlist li.focus a {
+            color: #000;
+        }
+    
+        li p {
+            color: white;
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+    
+    
+        .playlist li.focus p {
+            color: black;
+        }
+    
+        /* хром, сафари */
+        ul::-webkit-scrollbar {
+            width: 0;
+        }
+    
+        /* ie 10+ */
+        ul {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    
+        /* фф (свойство больше не работает, других способов тоже нет)*/
+        ul {
+            overflow: -moz-scrollbars-none;
+        }
+    
+    
+        #log {
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            z-index: 20;
+        }
+        .fullHdFilmPoster {
+            position: absolute;
+            top: 4%;
+            left: 65%;
+            width: 300px;
+            height: 400px;
+        }
+        .hidden {
+            display: none;
+        }
+       
+    </style>
 
 <body>
     <div class="bg"></div>
-
-    <header class="header">
-        <h2>13:00</h2>
-        <div class="header_images navigation-items">
-            <a href="/search" class="search_block">
-                <img id="search" class="search nav-item" src="/img/search.svg" alt="search"
-                    data-nav_ud="0,0,#premiere0,0">
-            </a>
-            <img class="nav-item" src="/img/profile.svg" alt="profile" data-nav_ud="0,0,#premiere0,0">
-        </div>
-    </header>
+    <!-- Передаю айди канала, чтобы фокусить его(также до этого перекинул его в url) -->
+    <div class="bg"></div>
     <div class="wrap">
-        <main data-nav_type="hbox">
-           
-        </main>
+        <div class="playlist" id='playlist'>
+            <ul id="films" class="activeCategory">
+                <!-- с помощью шаблонизатора импортирую html разметку -->
+                <%- include('./elements/fullHdFilms/fullHdFilms.ejs') %>
+            </ul>
+        </div>
     </div>
 
     <script type="text/javascript">
         // код нажатия на клавиши
         $(document).keydown(function (e) {
-            console.log(e.keyCode)
+            var key = config.app.keys[config.app.mode][e.keyCode];
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
+            switch (key) {
+                case 'up':
+                    $('#films .fullHdFilmPoster').addClass('hidden');
+                    var imageId = '#' + $('.focus').attr('data-imageId');
+                    $(imageId).removeClass('hidden')
+                    clickItem = 'up'
+                    break;
+                case 'down':
+                    $('#films .fullHdFilmPoster').addClass('hidden');
+                    var imageId = '#' + $('.focus').attr('data-imageId');
+                    $(imageId).removeClass('hidden')
+                    clickItem = 'down'
+                    break;
+            }
         });
         $('#filmFullHd').click(function () {
             window.location = '/fullHdFilms'
