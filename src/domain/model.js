@@ -280,6 +280,9 @@ module.exports = {
     createFullHdList: (app) => {
         let model = module.exports
 
+
+
+        // ваши фильмы
         const fullHdfilms = [
             {
                 title: 'Трансформеры: Восхождение Звероботов',
@@ -341,6 +344,11 @@ module.exports = {
                 imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
                 id: '10',
             }]
+
+
+
+
+
 
         var fullHdFilmsItem = fullHdfilms.map((item, index) => {
             model.createPlayerPage(app,_,_,item, index, _)

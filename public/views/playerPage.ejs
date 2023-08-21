@@ -270,7 +270,7 @@
             var obj = hours + ':' + minutes + ':' + seconds
             $(item).html(obj)
         }
-        mb.send('display.pip', { value: false, w: '100%', h: '100%'});
+       /*  mb.send('display.pip', { value: false, w: '100%', h: '100%'}); */
         $(document).keydown(function (e) {
             var timerSound = setTimeout(function() {
                  $('#soundPopup').hide()
@@ -279,13 +279,13 @@
             var key = config.app.keys[config.app.mode][e.keyCode];
             var pressing_btn = ''
             // управление плеером
-            mb.listen('player:media.position', function (data) {
+            /* mb.listen('player:media.position', function (data) {
                 var percentOfPos = data.value / data.full_time * 100
                 var progressbarWidth = percentOfPos + '%'
                 $('#progressBar').width(progressbarWidth)
                 secondsToTime(data.value, '#currentTime')
                 secondsToTime(data.full_time, '#fullTime')
-            })
+            }) */
              
             switch (key) {
                 case 'left':
@@ -377,8 +377,9 @@
                     break;
                 case 'back':
                     if (pressing_btn !== 'back') {
+                        var backUrl = $('#wrap').attr('data-backUrl')
                         mb.send('player.stop');
-                        window.location = '/';
+                        window.location = backUrl;
                     }
                     pressing_btn = 'back'
 

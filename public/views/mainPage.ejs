@@ -75,7 +75,7 @@
         bottom: 5px;
         float: right;
     }
-    
+
 
     .header .focus {
         border: 5px solid yellow;
@@ -114,6 +114,7 @@
         margin-bottom: 20px;
         word-wrap: break-word;
     }
+
     .slider p {
         white-space: wrap;
         word-wrap: break-word;
@@ -165,18 +166,22 @@
         max-height: 80px;
         width: 100%;
     }
+
     .filmsItemText h1 {
         white-space: wrap;
         font-size: 14px;
     }
+
     .filmsItemText p {
         white-space: wrap;
         font-size: 14px;
         color: white;
     }
+
     .filmItemTexth1 {
         word-wrap: break-word;
     }
+
     .premieresSlider .premieresText {
         position: absolute;
         left: 5px;
@@ -262,7 +267,7 @@
         border: 5px solid transparent;
         width: 200px;
     }
-    
+
     #log {
         position: fixed;
         top: 100px;
@@ -271,19 +276,50 @@
         font-size: 24px;
         z-index: 20;
     }
+
+    .loadingImg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        background: url(/img/loadingImg.jpg) no-repeat;
+        background-size: 100% 100%;
+        background-position: center center;
+        z-index: 50;
+    }
+
+    .loadingImg div {
+        position: fixed;
+        width: 100%;
+        top: 57%;
+    }
+
+    .loadingImg h1 {
+        color: gray;
+        margin: 0 auto;
+        width: 200px;
+        font-weight: 400;
+        font-size: 40px;
+    }
 </style>
 
 <body>
     <div class="bg"></div>
+    <div id="loadingImg" class="loadingImg">
+        <div>
+            <h1>Загрузка...</h1>
+        </div>
+    </div>
 
     <header class="header">
         <h2>UconTV</h2>
         <div class="header_images navigation-items">
             <a href="/search" class="search_block">
-                <img id="search" class="search nav-item" src="/img/search.svg" alt="search"
-                    >
+                <img id="search" class="search nav-item" src="/img/search.svg" alt="search">
             </a>
-            <img class="nav-item" src="/img/profile.svg" alt="profile" >
+            <img class="nav-item" src="/img/profile.svg" alt="profile">
         </div>
     </header>
     <div class="wrap">
@@ -318,8 +354,11 @@
             </div>
         </main>
     </div>
-    
+
     <script type="text/javascript">
+        setTimeout(function () {
+            $('#loadingImg').hide()
+        }, 8000)
         $('#channel125').after('<br/>')
         // код нажатия на клавиши
         $(document).keydown(function (e) {
@@ -327,17 +366,17 @@
             $('.focus').get(0).scrollIntoView($('.focus').scrollTop + 20); // скроллить к элементу 
             switch (e.keyCode) {
                 case 37: //left
-                $('.focus').scrollLeft(); 
-                break;
+                    $('.focus').scrollLeft();
+                    break;
                 case 39: // right
-                 $('.focus').scrollLeft();
-                break;
+                    $('.focus').scrollLeft();
+                    break;
             }
         });
-        $('#filmFullHd').click(function () {
+        $('#fullhdItem').click(function () {
             window.location = '/fullHdFilms'
         })
-       
+
     </script>
 </body>
 
