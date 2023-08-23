@@ -47,21 +47,17 @@ module.exports = function (inputText, res) {
         </div>
          <script type="text/javascript">
         $(document).keydown(function (e) {
-            if (e.keyCode === 13) {
+             if (e.keyCode === 13) {
                    if (isPlaylistShow === false) {
                 $('#playlistSeasons').show()
                 $$nav.on("#listseasons")
                 isPlaylistShow = true;
                  ${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '"'};
-            }
-            }
-            if (isPlaylistShow === false) {
-                        document.location.href = "/search";
-                    } else {
-                        $('#playlistSeasons').hide()
-                        isPlaylistShow = false;
-                        $$nav.on('.navbar_menu')
-                    }
+            } 
+          }
+          if (e.keyCode === 8) {
+            document.location.href = '/search'
+          }
          })
         </script>
          </div>

@@ -12,7 +12,10 @@ app.use(express.static(__dirname + '/public')); // делаю public дирек�
 
 
 // чтобы получить html разметку элементов создаю файлы с ними, который с помощью шаблонизатора вывожу на основной странице, также создаю файл с информацией о фильме
+// все методы из /src/domain/model.js
+
 userModel.getPremieres.then((data) => {
+    // создание html элементов на главную страницу
     fs.writeFileSync('./public/views/elements/premieres.ejs', data[0].join('').toString())
 
     // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
@@ -27,6 +30,7 @@ userModel.getPremieres.then((data) => {
     
 })
 userModel.getFilms.then((data) => {
+    // создание html элементов на главную страницу
     fs.writeFileSync('./public/views/elements/films.ejs', data[0].join('').toString())
 
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
@@ -40,8 +44,7 @@ userModel.getFilms.then((data) => {
     })
 })
 userModel.getSerials.then((data) => {
-    // data = [item, itemInfo, {id, index, episodes}]
-    
+    // создание html элементов на главную страницу
     fs.writeFileSync('./public/views/elements/serials.ejs', data[0].join('').toString())
 
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
@@ -55,6 +58,7 @@ userModel.getSerials.then((data) => {
     })
 })
 userModel.getCartoons.then((data) => {
+    // создание html элементов на главную страницу
     fs.writeFileSync('./public/views/elements/cartoons.ejs', data[0].join('').toString())
     
      // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
@@ -68,6 +72,7 @@ userModel.getCartoons.then((data) => {
     })
 })
 userModel.getChannels.then((data) => {
+    // создание html элементов на страницу с каналами(плейлисты)
     fs.writeFileSync('./public/views/elements/channels/allChannels.ejs', data.allChannels.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/news.ejs', data.news.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/filmsSerials.ejs', data.filmsSerials.join('').toString())
@@ -76,8 +81,11 @@ userModel.getChannels.then((data) => {
     fs.writeFileSync('./public/views/elements/channels/child.ejs', data.child.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/docum.ejs', data.docum.join('').toString())
     fs.writeFileSync('./public/views/elements/channels/inter.ejs', data.inter.join('').toString())
+
+    // создание html элементов на главную(также передаю ссылку на картинку)
     fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', `${data.images('sts.jpg').join('').toString()}`)
 })
+// вызов метода фулл хд фильмов
 userModel.createFullHdList(app)
 
 
@@ -87,19 +95,26 @@ userModel.createFullHdList(app)
 app.get('/', (req, res) => {
     res.render('mainPage.ejs')
 })
+
 app.get('/channels', (req, res) => {
- 
+    // из urla получаю индекс канала которого выбрали на главной и передаю его в страницу с каналами, чтобы зафокусить
     let channelId = "#channel" + req.originalUrl.substring(req.originalUrl.indexOf("?")+1);
     res.render('channelsPage.ejs', {channelId: channelId})
 })
+
 app.get('/search', (req, res) => {
     res.render('searchPage.ejs')
 })
+
+
 app.get('/searchItem', (req, resMain) => {
     var name = req.originalUrl.split("?").pop();
     var correctName = name.replace("+", " ");
     // код для форматирования текста с пробелами из url адреса
     let inputText = decodeURIComponent(correctName);
+
+
+    // создаю страницу с search элементами в виде html
     userModel.createSearchItems(inputText, resMain).then(data => {
      fs.writeFile('./public/views/elements/search/searchItems.ejs', data[0].join('').toString(), function(err) {
         if(err) {

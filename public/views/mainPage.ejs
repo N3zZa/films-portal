@@ -277,41 +277,11 @@
         z-index: 20;
     }
 
-    .loadingImg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        min-width: 100%;
-        height: 100%;
-        background: url(/img/loadingImg.jpg) no-repeat;
-        background-size: 100% 100%;
-        background-position: center center;
-        z-index: 50;
-    }
 
-    .loadingImg div {
-        position: fixed;
-        width: 100%;
-        top: 57%;
-    }
-
-    .loadingImg h1 {
-        color: gray;
-        margin: 0 auto;
-        width: 200px;
-        font-weight: 400;
-        font-size: 40px;
-    }
 </style>
 
 <body>
     <div class="bg"></div>
-    <div id="loadingImg" class="loadingImg">
-        <div>
-            <h1>Загрузка...</h1>
-        </div>
-    </div>
 
     <header class="header">
         <h2>UconTV</h2>
@@ -356,9 +326,7 @@
     </div>
 
     <script type="text/javascript">
-        setTimeout(function () {
-            $('#loadingImg').hide()
-        }, 8000)
+       
         $('#channel125').after('<br/>')
         // код нажатия на клавиши
         $(document).keydown(function (e) {

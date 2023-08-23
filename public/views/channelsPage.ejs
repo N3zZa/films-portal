@@ -355,24 +355,37 @@
 
     </div>
     <script type="text/javascript">
+        // получаю выбранный канал
         var selectedChannel = document.getElementById("body").getAttribute("data-selectedChannel")
         var numOfChannelInput = $('#channelInputNum')
+
+        // навожусь фокусом
         $(selectedChannel).get(0).scrollIntoView($(selectedChannel).scrollTop - 100)
         $$nav.on()
-        $$nav.current(selectedChannel);
+        $$nav.current(selectedChannel); // метод из смартбокс фокуса на элемент
+
+
+        //нахожу фокус элемент в активной категории(при запуске всегда категория 'все каналы') и запускаю плеер
         var channelFocusUrlNow = $('.activeCategory').find('.focus').attr('href')
+
          mb.send('display.osd_over_video', { value: false });
          mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
          mb.send('player.enqueue', { url: channelFocusUrlNow, title: 'channel' });
          mb.send('player.play');
+
+        // создаю переменную клика(нужна для клавиши 'ок')
         var numOfClick = 0
 
         // код нажатия на клавиши
         var clickItem = ''
         $(document).keydown(function (e) {
+
+            // таймаут для закрытия попапа
             var timer = setTimeout(function () {
                 $('#soundPopup').hide()
             }, 5000)
+
+            // таймаут для переключение по каналам цифрами
             var timerInput = setTimeout(function () {
                 numOfChannelInput.hide()
                 var inputTextValue = '#channel' + numOfChannelInput.text()
@@ -387,10 +400,18 @@
                 }
                 numOfChannelInput.text('')
             }, 4000)
+
+
+            // получение клавиш приставки
             var key = config.app.keys[config.app.mode][e.keyCode];
+
+
+            // фокус на элемент при клике на клавишу
             $('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // скроллить к элементу 
             // скроллю чуть меньше чтобы лучше видно было элемент
             switch (key) {
+
+                // назад
                 case 'back':
                     $('.bg').removeClass('hiddenItem')
                     $('.playlist').removeClass('hiddenItem')
@@ -437,6 +458,7 @@
                     numOfClick -= 1
                     clickItem = 'back'
                     break;
+                    // лево
                 case 'left':
                     if ($('body').attr('class') !== 'hidden') {
                         $('#playlist').addClass('close')
@@ -449,6 +471,7 @@
                     }
 
                     break;
+                    //верх
                 case 'up':
                     setTimeout(function () {
                         if ($('#playlist').find('.focus').attr('href') !== undefined) {
@@ -463,6 +486,7 @@
                     }, 1000)
                     clickItem = 'up'
                     break;
+                    // вниз
                 case 'down':
                     setTimeout(function () {
                         if ($('#playlist').find('.focus').attr('href') !== undefined) {
@@ -477,6 +501,7 @@
                     }, 1000)
                     clickItem = 'down'
                     break;
+                // ch+
                 case 'chup':
                     console.log('chup')
                     if ($('.activeCategory').find('.focus').attr('href') !== undefined) {
@@ -495,6 +520,7 @@
                     }
                     clickItem = 'chup'
                     break;
+                    // ch-
                 case 'chdown':
                     console.log('chdown')
                     if ($('.activeCategory').find('.focus').attr('href') !== undefined) {
@@ -513,6 +539,7 @@
                     }
                     clickItem = 'chdown'
                     break;
+                    // vol+
                 case 'volup':
                     mb.send('player.volume', { delta: +10 })
                     var volumeValue = mb.get('nvram.av.volume').value
@@ -525,6 +552,7 @@
                     timer
                     pressing_btn = 'volup'
                     break;
+                    // vol-
                 case 'voldown':
                     mb.send('player.volume', { delta: -10 })
                     var volumeValue = mb.get('nvram.av.volume').value
@@ -541,6 +569,7 @@
                     timer
                     pressing_btn = 'voldown'
                     break;
+                    // mute
                 case 'mute':
                     var volumeValue = mb.get('nvram.av.volume').value
                     var muteStatus = mb.get('player:mute');
@@ -559,6 +588,7 @@
                     }
                     pressing_btn = 'mute'
                     break;
+                    // ok
                 case 'ok':
                     numOfClick += 1
                     if (numOfClick === 2) {
@@ -572,6 +602,8 @@
                     clickItem = 'ok'
                     break;
             }
+
+            // методы клика на цифры
             switch (e.keyCode) {
                 case 49:
                     numOfChannelInput.show()
@@ -649,7 +681,10 @@
             }
         })
 
+        // обработка нажатия клавиш в плейлисте(цифр)
         $('#playlist').keydown(function (e) {
+
+            // таймер для переключение по цифрам
             var timerInput = setTimeout(function () {
                 numOfChannelInput.hide()
                 var inputTextValue = '#channel' + numOfChannelInput.text()
@@ -665,6 +700,8 @@
                 }
                 numOfChannelInput.text('')
             }, 4000)
+
+            // Обработка цифр
             switch (e.keyCode) {
                 case 49:
                     numOfChannelInput.show()
@@ -758,6 +795,8 @@
             $('.playlist').addClass('hiddenItem')
             $('body').addClass('hidden')
         })
+
+        // меню категорий
         $('#listChannels').find('li').click(function (e) {
             numOfClick = 1
             var channelId = '#' + e.currentTarget.getAttribute('data-playlist-id')
@@ -774,6 +813,8 @@
             mb.send('player.play');
 
         })
+
+
     </script>
 </body>
 

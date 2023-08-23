@@ -212,6 +212,8 @@
             <h1 id="no-episodes_text"></h1>
         </div>
     </div>
+
+
     <div class="popups_block">
         <div class="soundPopup" id="soundPopup">
             <img id="soundPopupVol" src="/img/Vol.svg" alt="volume">
@@ -221,6 +223,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="playerMenu" id="playerMenu">
         <div class="playerTime current_time">
             <p id="currentTime">1:00:00</p>
@@ -242,6 +246,8 @@
             <p id="fullTime">1:50:00</p>
         </div>
     </div>
+
+    
     <div class="pause_block">
         <div class="pause_block-inner">
             <img id="pause" src="/img/pause.svg" alt="pause">
@@ -251,6 +257,11 @@
 
     <script type="text/javascript">
 
+
+        // ВСЕ МЕТОДЫ ПРИСТАВКИ ОПИСАНЫ В ДОКЕ /docs
+        // ЗАПУСК ПЛЕЕРА ПРОИЗВОДИТСЯ В /js/app.js
+
+        // перевожу секунды в час:минуты:секунды
         function secondsToTime(secs, item) {
             var hours = Math.floor(secs / (60 * 60));
             if (hours < 10) {
@@ -270,27 +281,46 @@
             var obj = hours + ':' + minutes + ':' + seconds
             $(item).html(obj)
         }
-       /*  mb.send('display.pip', { value: false, w: '100%', h: '100%'}); */
+
+
+
+
+        mb.send('display.pip', { value: false, w: '100%', h: '100%'});
+
+
+        // методы при клике на клавише
         $(document).keydown(function (e) {
+
+            // таймаут, чтобы спрятать звук через 3 секунды
             var timerSound = setTimeout(function() {
                  $('#soundPopup').hide()
                  clearTimeout(timerSound)
             }, 3000)
+
+            // получаю из конфига клавиши
             var key = config.app.keys[config.app.mode][e.keyCode];
+
+
             var pressing_btn = ''
-            // управление плеером
-            /* mb.listen('player:media.position', function (data) {
+
+           
+            mb.listen('player:media.position', function (data) {
                 var percentOfPos = data.value / data.full_time * 100
                 var progressbarWidth = percentOfPos + '%'
                 $('#progressBar').width(progressbarWidth)
                 secondsToTime(data.value, '#currentTime')
                 secondsToTime(data.full_time, '#fullTime')
-            }) */
+            })
              
+             // управление плеером
             switch (key) {
+                //лево
                 case 'left':
+                    // показываю меню
                     $("#playerMenu").animate({ opacity: 1 }, 100)
+
                     mb.send('player.seek', { delta: -60 })
+
                     mb.listen('player:media.position', function (data) {
                         if (data.value > 5) {
                             var percentOfPos = data.value / data.full_time * 100
@@ -302,9 +332,13 @@
                     })
                     pressing_btn = 'left'
                     break;
+                // право
                 case 'right':
+                     // показываю меню
                     $("#playerMenu").animate({ opacity: 1 }, 100)
+
                     mb.send('player.seek', { delta: +60 })
+
                     mb.listen('player:media.position', function (data) {
                         if (data.value < data.full_time - 10) {
                             var percentOfPos = data.value / data.full_time * 100
@@ -314,10 +348,16 @@
                             secondsToTime(data.full_time, '#fullTime')
                         }
                     })
+
                     pressing_btn = 'right'
                     break;
+
+                // ок
                 case 'ok':
+
                     var isPause = mb.get('player:state').value
+
+                    // проверка плеера, запущен ли он
                     if (isPause === 'play') {
                         mb.send('player.pause')
                         $('#pause').show()
@@ -329,9 +369,12 @@
                     }
 
                     break;
+                // мут
                 case 'mute':
                     var volumeValue = mb.get('nvram.av.volume').value
+
                     var muteStatus = mb.get('player:mute');
+
                     if (muteStatus.value === 'false') {
                         mb.send('player.mute', { value: true })
                         $("#volume").html('0')
@@ -345,8 +388,12 @@
                         $("#soundPopupMute").hide()
                         $('#soundPopup').hide()
                     }
+
+
                     pressing_btn = 'mute'
                     break;
+
+                // vol +
                 case 'volup':
                     mb.send('player.volume', { delta: +10 })
                     var volumeValue = mb.get('nvram.av.volume').value
@@ -359,6 +406,7 @@
                     timerSound
                     pressing_btn = 'volup'
                     break;
+                // vol -
                 case 'voldown':
                     mb.send('player.volume', { delta: -10 })
                     var volumeValue = mb.get('nvram.av.volume').value
@@ -375,7 +423,9 @@
                     timerSound
                     pressing_btn = 'voldown'
                     break;
+                // назад
                 case 'back':
+
                     if (pressing_btn !== 'back') {
                         var backUrl = $('#wrap').attr('data-backUrl')
                         mb.send('player.stop');
@@ -384,6 +434,7 @@
                     pressing_btn = 'back'
 
                     break;
+                // вниз
                 case 'down':
                     if (pressing_btn !== 'down') {
                         $('#soundPopup').hide()
@@ -391,14 +442,19 @@
                     }
                     pressing_btn = 'down'
                     break;
+                // вверх
                 case 'up':
                     if (pressing_btn !== 'up') {
                         $("#playerMenu").animate({ opacity: 1 }, 100)
                     }
                     pressing_btn = 'up'
                     break;
+
+                // ch+
                 case 'chup': // быстрая перемотка
+                    // показываю меню
                     $("#playerMenu").animate({ opacity: 1 }, 100)
+
                     mb.send('player.seek', { delta: +300 })
                     mb.listen('player:media.position', function (data) {
                         if (data.value < data.full_time - 300) {
@@ -411,7 +467,9 @@
                     })
                     pressing_btn = 'chup'
                     break;
+                // ch-
                 case 'chdown': // быстрая перемотка
+                    // показываю меню
                     $("#playerMenu").animate({ opacity: 1 }, 100)
                     mb.send('player.seek', { delta: -300 })
                     mb.listen('player:media.position', function (data) {

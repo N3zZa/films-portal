@@ -9,6 +9,8 @@ const inter = (require('./inter.json'));
 const fs = require("fs");
 
 const channels = []
+
+// ниже создаю массивы с html элементами каждой категории каналов
  const allChannelsValues = allChannels.map((elem, index) => {
        return (
         `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
@@ -83,10 +85,10 @@ const channels = []
 })
 module.exports = new Promise(function(resolve, reject){
    try {
-   // из полученных данных создаю массив с html блоками
+   // из полученных данных создаю массив с html блоками(на главной странице)
    const channelImages = (imgUrl) => allChannels.map((elem, index) => {
        return (
-        `<div style="background: url('/img/channels/${imgUrl}'); background-repeat:no-repeat;  background-size:cover;" id="channel${index + 1}" class="channel nav-item">
+        `<div style="background: url('/img/${imgUrl}'); background-repeat:no-repeat;  background-size:cover;" id="channel${index + 1}" class="channel nav-item">
             <p class="channelName">${elem.Name}</p>
         </div>
         <script type="text/javascript">

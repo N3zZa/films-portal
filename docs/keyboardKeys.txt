@@ -1,0 +1,1 @@
+клавиши получаю из public/js/lib/config.js

@@ -1,0 +1,24 @@
+экспортирует методы в server.js
+
+переменная IP_APIVIDEOS должна иметь ваш ip
+
+переменная fullHdfilms хранит в себе данные о fullhd фильмах
+
+
+имеет кучу методов:
+
+getPremieres |
+getFilms     | 
+getSerials   | --- получены из /src/requests/
+getCartoons  |
+getChannels  |
+
+getSeasons - метод, который используется в каждом методе выше для получения сезонов и эпизодов
+getTranslations - метод, который используется в методе getSeasons для получения озвучек
+getQualities - метод, который используется в методе getTranslations для получения качеств
+
+createSearchItems - создание списка полученных фильмов, введенных в поисковик
+
+createFullHdList - создание списка fullhd фильмов
+
+createPlayerPage - создание страницы с плеером, в этот метод передается все из перечисленных выше методов

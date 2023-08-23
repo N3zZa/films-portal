@@ -9,16 +9,19 @@
 
     initialize: function () {
       this.$wrap = $('.wrap');
+      // получаю ссылку видеофайла
       var playerUrl = document.getElementById("wrap").getAttribute('data-url');
+
       var _inited;
       this.scenes.video = {
     init: function () {
+        // запускаю плеер
            if (playerUrl === '') {
             document.getElementById('no-episodes_text').innerText = 'Нет эпизодов с данной озвучкой'
             console.log('Нет эпизодов')
         } else {
-           /*  mb.send('player.enqueue', { url: playerUrl, title: 'Плеер' });
-            mb.send('player.play'); */
+            mb.send('player.enqueue', { url: playerUrl, title: 'Плеер' });
+            mb.send('player.play');
             console.log('Плеер запущен')
         }
 

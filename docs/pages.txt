@@ -1,0 +1,14 @@
+все страницы находятся в /public/views
+
+в /public/views/elements находятся элементы, которые создаются с помощью nodejs, поэтому в elements нет смысла что-то менять
+
+mainPage - главная
+channelPage - страница каналов
+errorPage - страница ошибки
+filmInfoPage - страница инофрмации о фильме
+fullHdFilms - страница фуллхд фильмов
+playerPage - страница плеера
+qualityPage - страница качеств
+searchedItemsPage - страница найденных поиском элементов
+searchPage - страница поиска
+translationsPage - страница озвучек

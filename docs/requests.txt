@@ -1,0 +1,10 @@
+все методы для определенных категорий
+
+channels.js - метод каналов
+cartoonsRequest.js - метод мультфильмов
+filmRequest.js - метод фильмов
+premiereRequest.js - метод премьер
+serialRequest.js - метод сериалов
+searchRequest.js - метод поиска
+
+также в папке channels находятся json файлы - категории каналов
