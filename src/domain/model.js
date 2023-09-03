@@ -333,8 +333,8 @@ module.exports = {
           let model = module.exports
              app.get(`/selectQuality&=${translationElem.kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
                 try {
-                    qualityItems.forEach((elem) => { //перебор массива качеств и создание страницы для каждой
-                        model.createPlayerPage(app, season, episode, translationElem, index, elem[1])
+                    qualityItems.forEach((elem, i) => { //перебор массива качеств и создание страницы для каждой
+                        model.createPlayerPage(app, season, episode, translationElem, i, elem[1])
                     })
                     const arrQualitiesHtml = []
                     let poppedItem
@@ -410,6 +410,7 @@ module.exports = {
                 res.render('playerPage.ejs', {playerUrl: elem.videoUrl, backUrl: '/fullHdFilms'}); // Отправка ответа в виде HTML(также передаю ссылку при клике назад и конечно ссылку на видеофайл)
             })
         } else {
+            console.log("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation)}&quality=${quality}`)
             app.get("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}`, (req, res) => {
             console.log(quality)
             // проверка на сезон

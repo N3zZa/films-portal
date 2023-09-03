@@ -20,6 +20,12 @@
     <script type="text/javascript" src="js/lib/gapi.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 
+   <script>
+    // запуск навигации
+    $(function () {
+        $$nav.on()
+    })
+</script>
 </head>
 <style>
     body {
@@ -204,12 +210,43 @@
     .soundPopupMute {
         display: none;
     }
+    #warningText {
+        width: 650px;
+        background: rgba(0, 0, 0, 0.685);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        color: white;
+        font-size: 18px;
+        margin: 0 auto;
+    }
+    #warningText .focus {
+        border: 3px solid yellow;
+    }
+
+    #warningTextBtn {
+        margin: 0 auto;
+        width: 100px;
+        background: rgba(0, 0, 0, 0.685);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+        outline: none;
+        border: none;
+        color: white;
+    }
+
 </style>
 
 <body>
     <div id="wrap" data-url="<%= playerUrl %>" data-backUrl="<%= backUrl %>" class="wrap">
-        <div class="No episodes">
+        <div class="No-episodes">
             <h1 id="no-episodes_text"></h1>
+        </div>
+        <div class="navigation-items" id="warningText">
+            <h4>Уважаемый абонент, при просмотре видео, с повышенным интересом со стороны аудитории премьера которого состоялась
+            недавно, возможно у вас могут быть "лаги" или задержки видео во время просмотра в связи с перегруженностью сервера
+            высоким спросом на просмотр. Поэтому, рекомендуем Вам попробовать снизить качество просматриваемого видео или же
+            вернуться к просмотру данного контента через пару дней, после снижения ажиотажа. Так же можете использовать кнопки
+            "вправо", "влево" или же кнопки :chan+", "chan-" на пульте для промотки зависающих моментов видеоконтента.</h4>
+            <button class="nav-item" id="warningTextBtn">OK</button>
         </div>
     </div>
 
@@ -256,7 +293,9 @@
 
 
     <script type="text/javascript">
-
+         $('#warningTextBtn').click(function () {
+                $('#warningText').hide()
+        })
 
         // ВСЕ МЕТОДЫ ПРИСТАВКИ ОПИСАНЫ В ДОКЕ /docs
         // ЗАПУСК ПЛЕЕРА ПРОИЗВОДИТСЯ В /js/app.js
@@ -486,6 +525,9 @@
             }
 
         });
+
+
+       
     </script>
 </body>
 

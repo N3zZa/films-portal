@@ -1,11 +1,11 @@
 
          <div>
-         <div id='navbar'>
+            <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_1404737.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>Вечеринка</h2>
+                <div class="posterImg" style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_1316601.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>Дом дракона</h2>
                 <p>Год:2022</p>
-                <p>Жанр:комедия,криминал,детектив</p>
+                <p>Жанр:фэнтези,боевик,драма,мелодрама</p>
             </div>
         </div>
         <div class="poster_playerBlock">
@@ -14,18 +14,22 @@
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>Когда вечеринка в честь встречи выпускников заканчивается смертью, под подозрение попадают все. Детектив «маринует» бывших одноклассников одного за другим и вытягивает из них возможные мотивы для убийства, пока те рассказывают свои версии произошедшего....</p>
+            <p>Члены дома Таргариенов оставляют обреченную Валирию и отправляются на запад, где обнаруживают огромную территорию, населенную враждующими королевствами....</p>
         </div>
-        <script type="text/javascript">
-         $(document).keydown(function (e) {
-            if (e.keyCode === 13) {
-                 if (isPlaylistShow === false) {
+         <script type="text/javascript">
+        $(document).keydown(function (e) {
+             if (e.keyCode === 13) {
+                   if (isPlaylistShow === false) {
                 $('#playlistSeasons').show()
                 $$nav.on("#listseasons")
                 isPlaylistShow = true;
-            }
-            }
+                 ;
+            } 
+          }
+          if (e.keyCode === 8) {
+            document.location.href = '/search'
+          }
          })
         </script>
-      </div>
+         </div>
         
