@@ -275,15 +275,15 @@ module.exports = {
                                     // для фильма
                                     const qualityObj = Object.keys(translationElem.playlists)
                                     
-                                   const qualityItems = qualityObj.map((quality, index) => {
+                                   const qualityItems = qualityObj.map((quality, i) => {
                                     const qualityItem = `
-                                         <li id="quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
+                                         <li id="quality${kinopoisk_id}${season ? season + episode + i : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}" class="channel nav-item"
                                      >
                                         <p>${quality}p</p>
                                     </li>
                                     <script type="text/javascript">
-                                    $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
-                                     window.location = '/player${kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}'
+                                    $('#quality${kinopoisk_id}${season ? season + episode + i : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
+                                     window.location = '/player${kinopoisk_id  + i}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}'
                                     })
                                      $(document).keydown(function (e) {
                                          switch (e.keyCode) {
@@ -292,17 +292,17 @@ module.exports = {
                                             break;
                                         }
                                     })
-                                     if ( $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160') !== undefined) {
-                                         $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160').removeClass('nav-item')
-                                        $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160').addClass('lockQuality')
-                                        $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160').append('<img src="/img/lock.png" alt="lock">')
+                                     if ( $('#quality${kinopoisk_id}${season ? season + episode + i : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160') !== undefined) {
+                                         $('#quality${kinopoisk_id}${season ? season + episode + i : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160').removeClass('nav-item')
+                                        $('#quality${kinopoisk_id}${season ? season + episode + i : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160').addClass('lockQuality')
+                                        $('#quality${kinopoisk_id}${season ? season + episode + i : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${index}2160').append('<img src="/img/lock.png" alt="lock">')
                                         $('.blockedQualities').hide()
                                     }
                                     </script>
                                         ` 
                                         return [qualityItem, quality]
                                     })
-                                    model.getQualities(season, episode, translationElem, index, app, qualityItems) // вызов метода
+                                    model.getQualities(season, episode, translationElem, i,index, app, qualityItems) // вызов метода
                                     }
                                     
                                     
@@ -328,13 +328,13 @@ module.exports = {
       }
     },
     // метод получения качества видео(в методе getTranslations я его получаю и передаю в этот метод)
-    getQualities: (season, episode, translationElem, index, app, qualityItems) => {
+    getQualities: (season, episode, translationElem, indexQuality, indexFilm, app, qualityItems) => {
           let items = qualityItems
           let model = module.exports
-             app.get(`/selectQuality&=${translationElem.kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
+             app.get(`/selectQuality&=${translationElem.kinopoisk_id  + indexFilm}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}`, (req, res) => {
                 try {
                     qualityItems.forEach((elem, i) => { //перебор массива качеств и создание страницы для каждой
-                        model.createPlayerPage(app, season, episode, translationElem, i, elem[1])
+                        model.createPlayerPage(app, season, episode, translationElem, i, indexFilm, elem[1])
                     })
                     const arrQualitiesHtml = []
                     let poppedItem
@@ -381,7 +381,7 @@ module.exports = {
 
         // создаю html блоки для выбора фильмов на странице fullhdFilms
         var fullHdFilmsItem = fullHdfilms.map((item, index) => {
-            model.createPlayerPage(app,_,_,item, index, _)
+            model.createPlayerPage(app,_,_,item, index, _, _)
             return `
             <li data-imageId="image${item.id}" href="${item.videoUrl}" id="fullhdFilm${item.id}" class="channel nav-item">
                 <a>${item.title}</a>
@@ -402,7 +402,7 @@ module.exports = {
         })
     },
     // метод создания страницы с плеером
-    createPlayerPage: (app, season, episode, elem, index, quality) => {
+    createPlayerPage: (app, season, episode, elem, indexQulity, indexFilm, quality) => {
         
         // проверка title для fullhdfilms, если ее нет, то фильм с базона
         if (elem.title !== undefined) {
@@ -410,8 +410,8 @@ module.exports = {
                 res.render('playerPage.ejs', {playerUrl: elem.videoUrl, backUrl: '/fullHdFilms'}); // Отправка ответа в виде HTML(также передаю ссылку при клике назад и конечно ссылку на видеофайл)
             })
         } else {
-            console.log("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation)}&quality=${quality}`)
-            app.get("/player" + elem.kinopoisk_id  + index + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}`, (req, res) => {
+            console.log("/player" + elem.kinopoisk_id  + indexQulity + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation)}&quality=${quality}`)
+            app.get("/player" + elem.kinopoisk_id  + indexQulity + `&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(elem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}`, (req, res) => {
             console.log(quality)
             // проверка на сезон
             if (season === undefined) {
@@ -419,7 +419,7 @@ module.exports = {
             
             const video = videoPlaylist[`${quality}`] // получаю качество видео, которое выбрал пользователь
             console.log('videoURL', video)
-            res.render('playerPage.ejs', {playerUrl: video, backUrl: '/filmInfo' + elem.kinopoisk_id + index}); // Отправка ответа в виде HTML
+            res.render('playerPage.ejs', {playerUrl: video, backUrl: '/filmInfo' + elem.kinopoisk_id + indexFilm}); // Отправка ответа в виде HTML
             } else {
                  const videoPlaylist = elem.playlists
                                 const seasonObj = videoPlaylist[`${season}`]; // получаю сезоны
@@ -431,7 +431,7 @@ module.exports = {
 
                                 console.log('videoURL', video)  
                             
-                                res.render('playerPage.ejs', {playerUrl: video, backUrl: '/filmInfo' + elem.kinopoisk_id + index}); // Отправка ответа в виде HTML
+                                res.render('playerPage.ejs', {playerUrl: video, backUrl: '/filmInfo' + elem.kinopoisk_id + indexFilm}); // Отправка ответа в виде HTML
             }
                                
         })

@@ -34,7 +34,7 @@
     }
 
     h1,
-    p {
+    p, button {
         color: #fff;
         font-family: 'Roboto', sans-serif;
     }
@@ -211,13 +211,15 @@
         display: none;
     }
     #warningText {
-        width: 650px;
-        background: rgba(0, 0, 0, 0.685);
+        width: 800px;
+        background: rgba(0, 0, 0, 0.85);
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
         padding: 20px;
         color: white;
-        font-size: 18px;
+        font-size: 30px;
         margin: 0 auto;
+        text-align: center;
+        border-radius: 5px;
     }
     #warningText .focus {
         border: 3px solid yellow;
@@ -231,8 +233,14 @@
         outline: none;
         border: none;
         color: white;
+        margin: 0 auto;
+        border-radius: 5px;
     }
 
+
+    .hidden {
+        display: none;
+    }
 </style>
 
 <body>
@@ -241,7 +249,7 @@
             <h1 id="no-episodes_text"></h1>
         </div>
         <div class="navigation-items" id="warningText">
-            <h4>Уважаемый абонент, при просмотре видео, с повышенным интересом со стороны аудитории премьера которого состоялась
+            <h4>Уважаемый абонент, при просмотре видео, с повышенным интересом со стороны аудитории, премьера которого состоялась
             недавно, возможно у вас могут быть "лаги" или задержки видео во время просмотра в связи с перегруженностью сервера
             высоким спросом на просмотр. Поэтому, рекомендуем Вам попробовать снизить качество просматриваемого видео или же
             вернуться к просмотру данного контента через пару дней, после снижения ажиотажа. Так же можете использовать кнопки
@@ -294,7 +302,7 @@
 
     <script type="text/javascript">
          $('#warningTextBtn').click(function () {
-                $('#warningText').hide()
+            $('#warningText').addClass('hidden')
         })
 
         // ВСЕ МЕТОДЫ ПРИСТАВКИ ОПИСАНЫ В ДОКЕ /docs
@@ -398,8 +406,8 @@
 
                     // проверка плеера, запущен ли он
                     if (isPause === 'play') {
-                        mb.send('player.pause')
-                        $('#pause').show()
+                             mb.send('player.pause')
+                            $('#pause').show()
                     } else {
                         mb.send('player.pause')
                         $('#soundPopup').hide()
