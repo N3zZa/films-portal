@@ -213,7 +213,7 @@ module.exports = {
 
 
                                     // создаю html блок с качеством
-                                    const qualityItems = objKeysQuality.map(quality => {
+                                    const qualityItems = objKeysQuality.map((quality, i) => {
 
                                         // проверка на качество
                                         if (quality === 'Нет эпизодов с данной озвучкой') {
@@ -246,7 +246,7 @@ module.exports = {
                                     </li>
                                     <script type="text/javascript">
                                     $('#quality${kinopoisk_id}${season ? season + episode + index : ''}${translationElem.translation.replace(/[\(\)\s]/g,"")}${quality}').click(function (e) {
-                                     window.location = '/player${kinopoisk_id  + index}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}'
+                                     window.location = '/player${kinopoisk_id  + i}&season=${season ? season : 'none'}&episode=${season ? episode : 'none'}&transl=${encodeURI(translationElem.translation.replace(/[\(\)\s]/g,""))}&quality=${quality}'
                                     })
                                      $(document).keydown(function (e) {
                                          switch (e.keyCode) {
@@ -270,7 +270,7 @@ module.exports = {
                                     })
 
                                     // вызываю метод
-                                    model.getQualities(season, episode, translationElem, index, app, qualityItems)
+                                    model.getQualities(season, episode, translationElem, i,index, app, qualityItems) // вызов метода
                                     } else {
                                     // для фильма
                                     const qualityObj = Object.keys(translationElem.playlists)

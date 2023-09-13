@@ -1,11 +1,13 @@
 
-          <div>
-            <div id='navbar'>
+         <div>
+         <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('https://bazon.cc/download/poster/4991145.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>Полтора дня</h2>
+                <div class="posterImg" style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_5255607.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>СуперИвановы</h2>
+                <div class="yearGenreDirector">
                 <p>Год:2023</p>
-                <p>Жанр:триллер,драма,боевик</p>
+                <p>Жанр:детектив,комедия</p>
+                </div>
             </div>
         </div>
         <div class="poster_playerBlock">
@@ -14,14 +16,19 @@
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>Полицейский Лукас оказывается в самом напряженном и эмоционально насыщенном дорожном путешествии, когда вынужден выслеживать Артана и Луизу, разведенную пару. Весь этот критический момент начинается, когда Артан решает взять Луизу в заложники, став это единственным способом воссоединиться со своей дочерью. Путешествие прокладывается через маленькие...</p>
+            <p>Женщины семьи Ивановых обладают удивительным даром — каждая своим. Дарина видит людей насквозь, её мама Тамара Петровна умеет варить зелья, а дар дочери-подростка Кати зрителю ещё предстоит узнать. И только супруг Дарины, школьный учитель физики Валера, остаётся верен науке. Вскоре сарафанное радио разносит слухи о волшебном семействе, и Ивановы на...</p>
         </div>
          <script type="text/javascript">
-         $(document).keydown(function (e) {
+          $(document).keydown(function (e) {
             if (e.keyCode === 13) {
-                document.location.href = "/selectTranslation49911454";
+                  if (isPlaylistShow === false) {
+                $('#playlistSeasons').show()
+                $$nav.on("#listseasons")
+                isPlaylistShow = true;
+                ;
+            }
             }
          })
-         </script>
+        </script>
          </div>
         
