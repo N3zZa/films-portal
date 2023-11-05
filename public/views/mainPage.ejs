@@ -60,6 +60,7 @@
         padding: 10px;
         height: 30px;
         background: rgb(20, 20, 20);
+        margin-bottom: 50px;
     }
 
     .header h2 {
@@ -294,9 +295,9 @@
     </header>
     <div class="wrap">
         <main data-nav_type="hbox">
-            <div id="filmsSlider" class="slider premieresSlider navigation-items" data-nav_type="hbox">
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/premieres.ejs') %>
+            <h1>Телеканалы</h1>
+            <div class="slider" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,0,none">
+                <%- include('./elements/channels/channelImages.ejs') %>
             </div>
             <h1>Премьеры</h1>
             <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
@@ -318,10 +319,7 @@
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
-            <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,0,none">
-                <%- include('./elements/channels/channelImages.ejs') %>
-            </div>
+            
         </main>
     </div>
 

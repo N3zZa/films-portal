@@ -82,12 +82,6 @@ const APIVIDEOS_URL = `https://bazon.cc/api/playlist?token=${API_TOKEN}&kp=`
 // импортирую все функции из папки requests в методы
 // добавил setTimeout'ы для задержки(чтобы базон не блочил)
 module.exports = {
-    // премьеры
-    getPremieres: new Promise(function(resolve, reject){
-        require('../requests/premiereRequest').then((elem) => {
-            resolve(elem)
-        })
-    }),
     // фильмы
     getFilms: new Promise(function(resolve, reject){
         setTimeout(() => {
