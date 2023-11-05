@@ -1,13 +1,11 @@
 
          <div>
-         <div id='navbar'>
+            <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_5255607.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>СуперИвановы</h2>
-                <div class="yearGenreDirector">
-                <p>Год:2023</p>
-                <p>Жанр:детектив,комедия</p>
-                </div>
+                <div class="posterImg" style="background-image: url('https://st.kp.yandex.net/images/film_iphone/iphone360_502838.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>Шерлок</h2>
+                <p>Год:2010</p>
+                <p>Жанр:триллер,детектив,драма,криминал</p>
             </div>
         </div>
         <div class="poster_playerBlock">
@@ -16,18 +14,21 @@
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>Женщины семьи Ивановых обладают удивительным даром — каждая своим. Дарина видит людей насквозь, её мама Тамара Петровна умеет варить зелья, а дар дочери-подростка Кати зрителю ещё предстоит узнать. И только супруг Дарины, школьный учитель физики Валера, остаётся верен науке. Вскоре сарафанное радио разносит слухи о волшебном семействе, и Ивановы на...</p>
+            <p>События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разре...</p>
         </div>
          <script type="text/javascript">
-          $(document).keydown(function (e) {
-            if (e.keyCode === 13) {
-                  if (isPlaylistShow === false) {
+        $(document).keydown(function (e) {
+             if (e.keyCode === 13) {
+                   if (isPlaylistShow === false) {
                 $('#playlistSeasons').show()
                 $$nav.on("#listseasons")
                 isPlaylistShow = true;
-                ;
-            }
-            }
+                 ;
+            } 
+          }
+          if (e.keyCode === 8) {
+            document.location.href = '/search'
+          }
          })
         </script>
          </div>

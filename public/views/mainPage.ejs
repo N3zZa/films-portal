@@ -308,10 +308,6 @@
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
-            <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,0,none">
-                <%- include('./elements/channels/channelImages.ejs') %>
-            </div>
             <h1>Мульфильмы</h1>
             <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
@@ -321,6 +317,10 @@
             <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
+            </div>
+            <h1>Телеканалы</h1>
+            <div class="slider" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,0,none">
+                <%- include('./elements/channels/channelImages.ejs') %>
             </div>
         </main>
     </div>
