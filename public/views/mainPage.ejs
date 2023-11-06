@@ -114,6 +114,7 @@
         white-space: nowrap;
         margin-bottom: 20px;
         word-wrap: break-word;
+        overflow-y:none;
     }
 
     .slider p {
@@ -296,7 +297,7 @@
     <div class="wrap">
         <main data-nav_type="hbox">
             <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,0,none">
+            <div class="slider" id="channelsSlider">
                 <%- include('./elements/channels/channelImages.ejs') %>
             </div>
             <h1>Премьеры</h1>
@@ -325,19 +326,11 @@
 
     <script type="text/javascript">
        
-        $('#channel125').after('<br/>')
+        $('#channel127').after('<br/>')
         // код нажатия на клавиши
         $(document).keydown(function (e) {
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView($('.focus').scrollTop + 20); // скроллить к элементу 
-            switch (e.keyCode) {
-                case 37: //left
-                    $('.focus').scrollLeft();
-                    break;
-                case 39: // right
-                    $('.focus').scrollLeft();
-                    break;
-            }
         });
         $('#fullhdItem').click(function () {
             window.location = '/fullHdFilms'
