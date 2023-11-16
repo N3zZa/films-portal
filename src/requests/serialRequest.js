@@ -2,7 +2,7 @@ require("dotenv").config(); // Config file
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const API_TOKEN = process.env.BAZON_TOKEN;
 
-const APISERIALS_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=serial&page=1`;
+const APISERIALS_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=serial&page=1&year=${new Date().getFullYear()}`;
 
 // функция для задержки
 function sleeper(ms) {
@@ -33,6 +33,7 @@ module.exports = new Promise(function(resolve, reject){
                 <h2>${elem.info.rus}</h2>
                 <p>Год:${elem.info.year}</p>
                 <p>Жанр:${elem.info.genre}</p>
+                <img class="logo" src="../../../img/ucontv.png" alt="ucontv" />
             </div>
         </div>
         <div class="poster_playerBlock">

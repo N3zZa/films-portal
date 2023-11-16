@@ -35,6 +35,7 @@ module.exports = new Promise(function(resolve, reject){
                 <h2>${elem.info.rus}</h2>
                 <p>Год:${elem.info.year}</p>
                 <p>Жанр:${elem.info.genre}</p>
+                <img class="logo" src="../../../img/ucontv.png" alt="ucontv" />
             </div>
         </div>
         <div class="poster_playerBlock">

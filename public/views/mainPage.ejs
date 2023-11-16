@@ -60,7 +60,7 @@
         padding: 10px;
         height: 30px;
         background: rgb(20, 20, 20);
-        margin-bottom: 50px;
+        margin-bottom: 10px;
     }
 
     .header h2 {
@@ -86,6 +86,7 @@
     .search_block {
         display: inline-block;
         margin-right: 25px;
+        margin-bottom: 4px;
     }
 
     .filmText {
@@ -291,7 +292,6 @@
             <a href="/search" class="search_block">
                 <img id="search" class="search nav-item" src="/img/search.svg" alt="search">
             </a>
-            <img class="nav-item" src="/img/profile.svg" alt="profile">
         </div>
     </header>
     <div class="wrap">
@@ -320,6 +320,16 @@
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
+            <h1>Мультсериалы</h1>
+            <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox">
+                <!-- с помощью шаблонизатора импортирую html разметку -->
+                <%- include('./elements/cartoonSerials.ejs') %>
+            </div>
+            <h1>Аниме</h1>
+            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox">
+                <!-- с помощью шаблонизатора импортирую html разметку -->
+                <%- include('./elements/anime.ejs') %>
+            </div>
             
         </main>
     </div>
@@ -330,7 +340,7 @@
         // код нажатия на клавиши
         $(document).keydown(function (e) {
             var curItemPos = $('.focus')
-            $('.focus').get(0).scrollIntoView($('.focus').scrollTop + 20); // скроллить к элементу 
+            $('.focus').get(0).scrollIntoView(0); // скроллить к элементу 
         });
         $('#fullhdItem').click(function () {
             window.location = '/fullHdFilms'
