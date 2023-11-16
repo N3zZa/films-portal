@@ -24,7 +24,7 @@
 </head>
 <style>
     body {
-        overflow-x: hidden;
+        overflow: hidden;
     }
 
     body,
@@ -95,6 +95,7 @@
 
     main {
         width: 100%;
+        margin: 0 auto;
     }
 
     main h1 {
@@ -113,9 +114,9 @@
         position: relative;
         overflow-x: scroll;
         white-space: nowrap;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         word-wrap: break-word;
-        overflow-y:none;
+        height: 280px;
     }
 
     .slider p {
@@ -295,13 +296,13 @@
         </div>
     </header>
     <div class="wrap">
-        <main data-nav_type="hbox">
+        <main>
             <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider">
+            <div class="slider" id="channelsSlider" data-nav_loop="true">
                 <%- include('./elements/channels/channelImages.ejs') %>
             </div>
             <h1>Премьеры</h1>
-            <div id="premieresSlider" class="slider navigation-items">
+            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
                 <div id="fullhdItem" class="filmsItem item fullhdItem nav-item">
                     <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
                         style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
@@ -311,36 +312,45 @@
                 <%- include('./elements/films.ejs') %>
             </div>
             <h1>Мульфильмы</h1>
-            <div id="cartoonsSlider" class="slider navigation-items">
+            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoons.ejs') %>
             </div>
             <h1>Сериалы</h1>
-            <div id="serialsSlider" class="slider navigation-items">
+            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
             <h1>Мультсериалы</h1>
-            <div id="cartoonSerialsSlider" class="slider navigation-items">
+            <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoonSerials.ejs') %>
             </div>
             <h1>Аниме</h1>
-            <div id="animeSlider" class="slider navigation-items">
+            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/anime.ejs') %>
             </div>
             
         </main>
     </div>
+    
 
     <script type="text/javascript">
        
-        $('#channel127').after('<br/>')
+        $('#channel125').after('<br/>')
         // код нажатия на клавиши
         $(document).keydown(function (e) {
             var curItemPos = $('.focus')
             $('.focus').get(0).scrollIntoView(0); // скроллить к элементу 
+            switch (e.keyCode) {
+                case 37: //left
+                    $('.focus').scrollLeft();
+                    break;
+                case 39: // right
+                    $('.focus').scrollLeft();
+                    break;
+            }
         });
         $('#fullhdItem').click(function () {
             window.location = '/fullHdFilms'
