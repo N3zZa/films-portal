@@ -116,7 +116,6 @@
         white-space: nowrap;
         margin-bottom: 15px;
         word-wrap: break-word;
-        height: 280px;
     }
 
     .slider p {
@@ -342,13 +341,13 @@
         // код нажатия на клавиши
         $(document).keydown(function (e) {
             var curItemPos = $('.focus')
-            $('.focus').get(0).scrollIntoView(0); // скроллить к элементу 
+            $('.focus').get(0).scrollIntoView(1); // скроллить к элементу 
             switch (e.keyCode) {
                 case 37: //left
-                    $('.focus').scrollLeft();
+                    $('.focus').scrollLeft(50);
                     break;
                 case 39: // right
-                    $('.focus').scrollLeft();
+                    $('.focus').scrollLeft(50);
                     break;
             }
         });

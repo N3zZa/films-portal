@@ -64,7 +64,7 @@ module.exports = new Promise(function(resolve, reject){
     const item = data.results.map((elem, index) => {
        return (
         `
-        <div id="cartoon${index}" class="cartoonsItem item nav-item" data-nav_ud="#film0,0,#serial0,0">
+        <div id="cartoon${index}" class="cartoonsItem item nav-item">
           <div class="filmsItemBg" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;">
         </div>
          <div class="text filmsItemText">

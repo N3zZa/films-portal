@@ -88,7 +88,7 @@ module.exports = {
       require("../requests/filmRequest").then((elem) => {
         resolve(elem);
       });
-    }, 500);
+    }, 100);
   }),
   // сериалы
   getSerials: new Promise(function (resolve, reject) {
@@ -96,7 +96,7 @@ module.exports = {
       require("../requests/serialRequest").then((elem) => {
         resolve(elem);
       });
-    }, 1000);
+    }, 400);
   }),
   // мультики
   getCartoons: new Promise(function (resolve, reject) {
@@ -104,7 +104,7 @@ module.exports = {
       require("../requests/cartoonsRequest").then((elem) => {
         resolve(elem);
       });
-    }, 1400);
+    }, 600);
   }),
   // каналы
   getChannels: new Promise(function (resolve, reject) {
@@ -112,7 +112,7 @@ module.exports = {
       require("../requests/channels/channels").then((elem) => {
         resolve(elem);
       });
-    }, 1500);
+    }, 800);
   }),
   // аниме
   getAnime: new Promise(function (resolve, reject) {
@@ -120,7 +120,7 @@ module.exports = {
       require("../requests/animeRequest.js").then((elem) => {
         resolve(elem);
       });
-    }, 2200);
+    }, 1100);
   }),
   // мультсериалы
   getCartoonSerials: new Promise(function (resolve, reject) {
@@ -128,7 +128,7 @@ module.exports = {
       require("../requests/cartoonSerials.js").then((elem) => {
         resolve(elem);
       });
-    }, 2500);
+    }, 1500);
   }),
   // метод получения сезонов
   getSeasons: (episodes, kinopoisk_id, index, app, isSerial) => {
