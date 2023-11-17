@@ -24,9 +24,9 @@
 </head>
 <style>
     body {
-        overflow: hidden;
+        overflow-y: hidden;
     }
-
+   
     body,
     h1,
     h2,
@@ -50,6 +50,7 @@
     .wrap {
         max-width: 1440px;
         margin: 0 auto;
+        overflow: hidden;
     }
 
     .header {
@@ -94,8 +95,10 @@
     }
 
     main {
+        position: relative;
         width: 100%;
         margin: 0 auto;
+        overflow: hidden;
     }
 
     main h1 {
@@ -112,7 +115,7 @@
 
     .slider {
         position: relative;
-        overflow-x: scroll;
+        overflow: hidden;
         white-space: nowrap;
         margin-bottom: 15px;
         word-wrap: break-word;
@@ -124,7 +127,7 @@
     }
 
     #channelsSlider {
-        overflow-x: auto;
+        overflow:hidden;
         white-space: nowrap;
     }
 
@@ -134,21 +137,7 @@
         text-transform: uppercase;
     }
 
-    .slider::-webkit-scrollbar-thumb {
-        background: none;
-    }
-
-    .slider::-webkit-scrollbar-track {
-        /* фон */
-        background: none;
-    }
-
-    .slider::-webkit-scrollbar {
-        /* фон */
-        width: 0;
-        height: 0;
-        background: none;
-    }
+   
 
     .text {
         white-space: wrap;
@@ -206,18 +195,11 @@
         position: relative;
         display: inline-block;
         margin: 0;
-    }
-
-    .premieresItem {
-        width: 700px;
-        height: 300px;
-    }
-
-    .filmsItem {
         height: 240px;
         width: 150px;
         margin-right: 10px;
     }
+
 
     .filmsItemBg {
         width: 100%;
@@ -231,17 +213,7 @@
         height: 100%;
     }
 
-    .cartoonsItem {
-        height: 240px;
-        width: 150px;
-        margin-right: 10px;
-    }
-
-    .serialItem {
-        height: 240px;
-        width: 150px;
-        margin-right: 10px;
-    }
+  
 
     .slider .focus {
         border: 5px solid yellow;
@@ -252,6 +224,7 @@
         height: 125px;
         display: inline-block;
         position: relative;
+        overflow: none;
     }
 
     .channel .channelName {
@@ -289,15 +262,15 @@
     <header class="header">
         <h2>UconTV</h2>
         <div class="header_images navigation-items">
-            <a href="/search" class="search_block">
+            <div class="search_block">
                 <img id="search" class="search nav-item" src="/img/search.svg" alt="search">
-            </a>
+            </div>
         </div>
     </header>
     <div class="wrap">
-        <main>
+        <main class="navigation-items">
             <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider" data-nav_loop="true">
+            <div class="slider" id="channelsSlider" data-nav_type="hbox">
                 <%- include('./elements/channels/channelImages.ejs') %>
             </div>
             <h1>Премьеры</h1>
@@ -310,11 +283,12 @@
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
-            <h1>Мульфильмы</h1>
-            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
+            <h1>Аниме</h1>
+            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/cartoons.ejs') %>
+                <%- include('./elements/anime.ejs') %>
             </div>
+            
             <h1>Сериалы</h1>
             <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
@@ -325,10 +299,10 @@
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoonSerials.ejs') %>
             </div>
-            <h1>Аниме</h1>
-            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox">
+            <h1>Мульфильмы</h1>
+            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/anime.ejs') %>
+                <%- include('./elements/cartoons.ejs') %>
             </div>
             
         </main>
@@ -337,22 +311,36 @@
 
     <script type="text/javascript">
        
-        $('#channel125').after('<br/>')
+        $('#channel150').after('<br/>')
         // код нажатия на клавиши
         $(document).keydown(function (e) {
-            var curItemPos = $('.focus')
-            $('.focus').get(0).scrollIntoView(1); // скроллить к элементу 
-            switch (e.keyCode) {
+              var focusLeft = $('.focus').offset().left
+              
+              switch (e.keyCode) {
                 case 37: //left
-                    $('.focus').scrollLeft(50);
+                    console.log(focusLeft)
+                    $('.focus').get(0).scrollIntoView(0)
                     break;
                 case 39: // right
-                    $('.focus').scrollLeft(50);
+                    $('.focus').get(0).scrollIntoView(0)
+                    break;
+                case 38: // top
+                    var focusHeight = $('.focus').offset().top
+                      window.scrollTo(0, focusHeight)
+                    break;
+                case 40: // bottom
+                    var focusHeight = $('.focus').offset().top
+                    window.scrollTo(0, focusHeight)
                     break;
             }
+            var focusHeight = $('.focus').offset().top
+            window.scrollTo(0, focusHeight)
         });
         $('#fullhdItem').click(function () {
             window.location = '/fullHdFilms'
+        })
+        $('.search_block').click(function () {
+            window.location = '/search'
         })
 
     </script>
