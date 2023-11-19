@@ -23,8 +23,6 @@
     </script>
 </head>
 <style>
-    
-   
     body,
     h1,
     h2,
@@ -125,7 +123,7 @@
     }
 
     #channelsSlider {
-        overflow:hidden;
+        overflow: hidden;
         white-space: nowrap;
     }
 
@@ -135,7 +133,7 @@
         text-transform: uppercase;
     }
 
-   .slider::-webkit-scrollbar-thumb {
+    .slider::-webkit-scrollbar-thumb {
         background: none;
     }
 
@@ -225,7 +223,7 @@
         height: 100%;
     }
 
-  
+
 
     .slider .focus {
         border: 5px solid yellow;
@@ -264,8 +262,6 @@
         font-size: 24px;
         z-index: 20;
     }
-
-
 </style>
 
 <body>
@@ -282,11 +278,13 @@
     <div class="wrap">
         <main class="navigation-items">
             <h1>Телеканалы</h1>
-            <div class="slider navigation-items" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,#premieresSlider,none">
+            <div class="slider navigation-items" id="channelsSlider" data-nav_type="hbox"
+                data-nav_ud="0,none,#premieresSlider,none">
                 <%- include('./elements/channels/channelImages.ejs') %>
             </div>
             <h1>Премьеры</h1>
-            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#channelsSlider,none,#animeSlider,none">
+            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#channelsSlider,none,#filmsSlider,none">
                 <div id="fullhdItem" class="filmsItem item fullhdItem nav-item" data-nav_ud="0,none,0,none">
                     <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
                         style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
@@ -296,16 +294,12 @@
                 <%- include('./elements/premieres.ejs') %>
             </div>
             <h1>Фильмы</h1>
-            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#channelsSlider,none,#animeSlider,none">
-                <div id="fullhdItem" class="filmsItem item fullhdItem nav-item" data-nav_ud="0,none,0,none">
-                    <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
-                        style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
-                    </div>
-                </div>
+            <div id="filmsSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#premieresSlider,none,#animeSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
-            
+
             <h1>Мульфильмы</h1>
             <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox"
                 data-nav_ud="#cartoonSerialsSlider,none,0,none">
@@ -313,17 +307,19 @@
                 <%- include('./elements/cartoons.ejs') %>
             </div>
             <h1>Сериалы</h1>
-            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#animeSlider,none,#cartoonSerialsSlider,none">
+            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#animeSlider,none,#cartoonSerialsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
-            
+
             <h1>Мультсериалы</h1>
-            <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#serialsSlider,none,#cartoonsSlider,none">
+            <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#serialsSlider,none,#cartoonsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoonSerials.ejs') %>
             </div>
-           
+
             <h1>Аниме</h1>
             <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox"
                 data-nav_ud="#premieresSlider,none,#serialsSlider,none">
@@ -332,25 +328,25 @@
             </div>
         </main>
     </div>
-    
+
 
     <script type="text/javascript">
-       
+
         $('#channel154').after('<br/>')
         // код нажатия на клавиши
         var count = 0
         $(document).keydown(function (e) {
-              
-              switch (e.keyCode) {
+
+            switch (e.keyCode) {
                 case 37: //left
-                      $('.focus').get(0).scrollIntoView(1)
+                    $('.focus').get(0).scrollIntoView(1)
                     break;
                 case 39: // right
-                        $('.focus').get(0).scrollIntoView(1)
+                    $('.focus').get(0).scrollIntoView(1)
                     break;
                 case 38: // top
                     var focusHeight = $('.focus').offset().top
-                      window.scrollTo(0, focusHeight)
+                    window.scrollTo(0, focusHeight)
                     break;
                 case 40: // bottom
                     var focusHeight = $('.focus').offset().top
