@@ -1,14 +1,13 @@
 require("dotenv").config(); // Config file
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const API_TOKEN = process.env.BAZON_TOKEN;
 
-const APICARTOONSERIALS_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=serial&page=1&cat=мультфильм&year=${new Date().getFullYear()}`;
+const APIPREMIERES_URL = `https://bazon.cc/api/json?token=${API_TOKEN}&type=all&page=1&year=${new Date().getFullYear()}`;
 
 // функция для задержки
 function sleeper(ms) {
-  return function (x) {
-    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
+  return function(x) {
+    return new Promise(resolve => setTimeout(() => resolve(x), ms));
   };
 }
 
@@ -16,8 +15,8 @@ module.exports = new Promise(function (resolve, reject) {
   try {
     // Timeout для базона
     setTimeout(() => {
-      sleeper(800);
-      fetch(APICARTOONSERIALS_URL)
+      sleeper(1100);
+      fetch(APIPREMIERES_URL)
         .then((response) => {
           return response.json();
         })
@@ -29,12 +28,11 @@ module.exports = new Promise(function (resolve, reject) {
             episodes: film.episodes,
             isSerial: film.serial,
           }));
-
           // массив с html блоками для информации о фильме
           const itemInfo = data.results.map((elem, index) => {
             return `
-         <div>
-         <div id='navbar'>
+          <div>
+            <div id='navbar'>
             <div class="navbar_wrap">
                 <div class="posterImg" style="background-image: url('${
                   elem.info.poster
@@ -58,37 +56,45 @@ module.exports = new Promise(function (resolve, reject) {
                 .substring(0, 350) + "..."
             }</p>
         </div>
-        <script type="text/javascript">
-         $(document).keydown(function (e) {
+         <script type="text/javascript">
+          $(document).keydown(function (e) {
             if (e.keyCode === 13) {
-                 if (isPlaylistShow === false) {
+                  if (isPlaylistShow === false) {
                 $('#playlistSeasons').show()
                 $$nav.on("#listseasons")
                 isPlaylistShow = true;
+                ${
+                  elem.serial === "1"
+                    ? ""
+                    : 'document.location.href = "/selectTranslation' +
+                      elem.kinopoisk_id +
+                      index +
+                      '"'
+                };
             }
             }
          })
         </script>
-      </div>
+         </div>
         `;
           });
           // из полученных данных создаю массив с html блоками
           const item = data.results.map((elem, index) => {
             return `
-        <div id="cartoonserial${index}" class="item serialItem nav-item">
+        <div id="premiere${index}" class="filmsItem item nav-item">
         <div class="filmsItemBg" style="background: url('${
           elem.info.poster
-        }'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;" >
+        }'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
         </div>
-         <div class="text filmsItemText">
-        <p>${elem.info.rus.substring(0, 20).replace(/('|")/g, ``)}</p>
-        <h1>(${elem.info.year})</h1>
+        <div class="text filmsItemText">
+        <p class="filmItemTexth1">${elem.info.rus.substring(0, 20)}</p>
+        <p>(${elem.info.year})</p>
         </div>
         </div>
         <script type="text/javascript">
             var _elem${
               elem.kinopoisk_id + index
-            } = document.getElementById("cartoonserial${index}")
+            } = document.getElementById("premiere${index}")
             _elem${
               elem.kinopoisk_id + index
             }.addEventListener("click", function (event) {document.location.href = "/filmInfo${
@@ -102,8 +108,9 @@ module.exports = new Promise(function (resolve, reject) {
         .catch((error) => {
           console.log(error);
         });
-    })
+    });
   } catch (error) {
-    console.log("fetchErrorSerial", error); // обработка ошибки
+    console.log("fetchErrorPremieres", error); // обработка ошибки
   }
 });
+

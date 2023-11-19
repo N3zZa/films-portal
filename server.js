@@ -14,6 +14,22 @@ app.use(express.static(__dirname + '/public')); // делаю public дирек�
 // чтобы получить html разметку элементов создаю файлы с ними, который с помощью шаблонизатора вывожу на основной странице, также создаю файл с информацией о фильме
 // все методы из /src/domain/model.js
 
+// премьеры
+userModel.getPremieres.then((data) => {
+    // создание html элементов на главную страницу
+    fs.writeFileSync('./public/views/elements/premieres.ejs', data[0].join('').toString())
+
+    // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs', data[1][elem.index].toString().split('<script')[0])
+         userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
+        res.render('filmInfoPage.ejs')
+    })
+    })
+    
+})
 // фильмы
 userModel.getFilms.then((data) => {
     // создание html элементов на главную страницу

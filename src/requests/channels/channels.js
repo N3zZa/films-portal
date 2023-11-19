@@ -88,7 +88,7 @@ module.exports = new Promise(function(resolve, reject){
    // из полученных данных создаю массив с html блоками(на главной странице)
    const channelImages = (imgUrl) => allChannels.map((elem, index) => {
        return (
-        `<div style="background: url('/img/${imgUrl}'); background-repeat:no-repeat;  background-size:cover;" id="channel${index + 1}" class="channel nav-item" data-nav_ud="0,none,0,none">
+        `<div style="background: url('/img/${imgUrl}'); background-repeat:no-repeat;  background-size:cover;" id="channel${index + 1}" class="channel nav-item">
             <p class="channelName">${elem.Name}</p>
         </div>
         <script type="text/javascript">

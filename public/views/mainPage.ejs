@@ -287,7 +287,17 @@
             </div>
             <h1>Премьеры</h1>
             <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#channelsSlider,none,#animeSlider,none">
-                <div id="fullhdItem" class="filmsItem item fullhdItem nav-item">
+                <div id="fullhdItem" class="filmsItem item fullhdItem nav-item" data-nav_ud="0,none,0,none">
+                    <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
+                        style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
+                    </div>
+                </div>
+                <!-- с помощью шаблонизатора импортирую html разметку -->
+                <%- include('./elements/premieres.ejs') %>
+            </div>
+            <h1>Фильмы</h1>
+            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#channelsSlider,none,#animeSlider,none">
+                <div id="fullhdItem" class="filmsItem item fullhdItem nav-item" data-nav_ud="0,none,0,none">
                     <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
                         style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
                     </div>
@@ -295,28 +305,31 @@
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
-            <h1>Аниме</h1>
-            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#premieresSlider,none,#serialsSlider,none">
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/anime.ejs') %>
-            </div>
             
+            <h1>Мульфильмы</h1>
+            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#cartoonSerialsSlider,none,0,none">
+                <!-- с помощью шаблонизатора импортирую html разметку -->
+                <%- include('./elements/cartoons.ejs') %>
+            </div>
             <h1>Сериалы</h1>
             <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#animeSlider,none,#cartoonSerialsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
+            
             <h1>Мультсериалы</h1>
             <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#serialsSlider,none,#cartoonsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoonSerials.ejs') %>
             </div>
-            <h1>Мульфильмы</h1>
-            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#cartoonSerialsSlider,none,0,none">
+           
+            <h1>Аниме</h1>
+            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#premieresSlider,none,#serialsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/cartoons.ejs') %>
+                <%- include('./elements/anime.ejs') %>
             </div>
-            
         </main>
     </div>
     
@@ -325,34 +338,15 @@
        
         $('#channel154').after('<br/>')
         // код нажатия на клавиши
+        var count = 0
         $(document).keydown(function (e) {
-            
               
               switch (e.keyCode) {
                 case 37: //left
-                      var focusIndex = (((Math.round($('.slider').find('.focus').index())))) - 2
-                      var focusId = $('.slider').find('.focus').attr('id')
-                      var nextFocus = $('.focus').closest('.slider').children().eq(focusIndex);
-                      console.log(focusIndex)
-                     
-                      if (focusIndex < 0) {
-                        return false
-                      }
-                      $$nav.current(nextFocus)
-                      var nextFocusLeft = nextFocus.offset().left
-                      $('.slider').find(nextFocus).get(0).scrollIntoView(1)
+                      $('.focus').get(0).scrollIntoView(1)
                     break;
                 case 39: // right
-                    var focusIndex = (((Math.round($('.slider').find('.focus').index())))) + 2
-                    var focusId = $('.slider').find('.focus').attr('id')
-                    var nextFocus = $('.focus').closest('.slider').children().eq(focusIndex);
-                    if (nextFocus[0] === undefined) {
-                        return false
-                    }
-                    console.log(nextFocus)
-                    $$nav.current(nextFocus)
-                    var nextFocusLeft = nextFocus.offset().left
-                    $('.slider').find(nextFocus).get(0).scrollIntoView(1)
+                        $('.focus').get(0).scrollIntoView(1)
                     break;
                 case 38: // top
                     var focusHeight = $('.focus').offset().top

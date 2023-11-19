@@ -60,7 +60,7 @@ module.exports = new Promise(function(resolve, reject){
    // из полученных данных создаю массив с html блоками
     const item = data.results.map((elem, index) => {
        return `
-        <div id="film${index}" class="filmsItem item nav-item" data-nav_ud="0,none,0,none">
+        <div id="film${index}" class="filmsItem item nav-item">
         <div class="filmsItemBg" style="background: url('${
           elem.info.poster
         }'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >

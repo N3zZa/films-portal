@@ -82,13 +82,19 @@ const APIVIDEOS_URL = `https://bazon.cc/api/playlist?token=${API_TOKEN}&kp=`
 // импортирую все функции из папки requests в методы
 // добавил setTimeout'ы для задержки(чтобы базон не блочил)
 module.exports = {
+  // премьеры
+  getPremieres: new Promise(function (resolve, reject) {
+    require("../requests/premiereRequest").then((elem) => {
+      resolve(elem);
+    });
+  }),
   // фильмы
   getFilms: new Promise(function (resolve, reject) {
     setTimeout(() => {
       require("../requests/filmRequest").then((elem) => {
         resolve(elem);
       });
-    }, 100);
+    }, 300);
   }),
   // сериалы
   getSerials: new Promise(function (resolve, reject) {
@@ -96,7 +102,7 @@ module.exports = {
       require("../requests/serialRequest").then((elem) => {
         resolve(elem);
       });
-    }, 400);
+    }, 600);
   }),
   // мультики
   getCartoons: new Promise(function (resolve, reject) {
@@ -104,7 +110,7 @@ module.exports = {
       require("../requests/cartoonsRequest").then((elem) => {
         resolve(elem);
       });
-    }, 600);
+    }, 900);
   }),
   // каналы
   getChannels: new Promise(function (resolve, reject) {
@@ -112,7 +118,7 @@ module.exports = {
       require("../requests/channels/channels").then((elem) => {
         resolve(elem);
       });
-    }, 800);
+    }, 1200);
   }),
   // аниме
   getAnime: new Promise(function (resolve, reject) {
@@ -120,7 +126,7 @@ module.exports = {
       require("../requests/animeRequest.js").then((elem) => {
         resolve(elem);
       });
-    }, 1100);
+    }, 1500);
   }),
   // мультсериалы
   getCartoonSerials: new Promise(function (resolve, reject) {
@@ -128,7 +134,7 @@ module.exports = {
       require("../requests/cartoonSerials.js").then((elem) => {
         resolve(elem);
       });
-    }, 1500);
+    }, 1800);
   }),
   // метод получения сезонов
   getSeasons: (episodes, kinopoisk_id, index, app, isSerial) => {
