@@ -62,22 +62,28 @@ module.exports = new Promise(function(resolve, reject){
     })
   // из полученных данных создаю массив с html блоками
     const item = data.results.map((elem, index) => {
-       return (
-        `
-        <div id="cartoon${index}" class="cartoonsItem item nav-item">
-          <div class="filmsItemBg" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;">
+       return `
+        <div id="cartoon${index}" class="cartoonsItem item nav-item" data-nav_ud="0,none,0,none">
+          <div class="filmsItemBg" style="background: url('${
+            elem.info.poster
+          }'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;">
         </div>
          <div class="text filmsItemText">
-        <p>${elem.info.rus.substring(0,20)}</p>
+        <p>${elem.info.rus.substring(0, 20)}</p>
         <h1>(${elem.info.year})</h1>
         </div>
         </div>
         <script type="text/javascript">
-            var _elem${elem.kinopoisk_id + index} = document.getElementById("cartoon${index}")
-            _elem${elem.kinopoisk_id + index}.addEventListener("click", function (event) {document.location.href = "/filmInfo${elem.kinopoisk_id + index}"; $$nav.off()});
+            var _elem${
+              elem.kinopoisk_id + index
+            } = document.getElementById("cartoon${index}")
+            _elem${
+              elem.kinopoisk_id + index
+            }.addEventListener("click", function (event) {document.location.href = "/filmInfo${
+         elem.kinopoisk_id + index
+       }"; $$nav.off()});
         </script>
-        `
-       )
+        `;
     })
     resolve([item, itemInfo, filmDataId]) // отдаю массив с подмассивами
    }, 1500)

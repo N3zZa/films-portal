@@ -23,9 +23,7 @@
     </script>
 </head>
 <style>
-    body {
-        overflow-y: hidden;
-    }
+    
    
     body,
     h1,
@@ -115,7 +113,7 @@
 
     .slider {
         position: relative;
-        overflow: hidden;
+        overflow-y: hidden;
         white-space: nowrap;
         margin-bottom: 15px;
         word-wrap: break-word;
@@ -137,7 +135,21 @@
         text-transform: uppercase;
     }
 
-   
+   .slider::-webkit-scrollbar-thumb {
+        background: none;
+    }
+
+    .slider::-webkit-scrollbar-track {
+        /* фон */
+        background: none;
+    }
+
+    .slider::-webkit-scrollbar {
+        /* фон */
+        width: 0;
+        height: 0;
+        background: none;
+    }
 
     .text {
         white-space: wrap;
@@ -270,11 +282,11 @@
     <div class="wrap">
         <main class="navigation-items">
             <h1>Телеканалы</h1>
-            <div class="slider" id="channelsSlider" data-nav_type="hbox">
+            <div class="slider navigation-items" id="channelsSlider" data-nav_type="hbox" data-nav_ud="0,none,#premieresSlider,none">
                 <%- include('./elements/channels/channelImages.ejs') %>
             </div>
             <h1>Премьеры</h1>
-            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="premieresSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#channelsSlider,none,#animeSlider,none">
                 <div id="fullhdItem" class="filmsItem item fullhdItem nav-item">
                     <div id="filmFullHd" class="filmsItemBg fullHdFilmsBtn"
                         style="background: url('/img/fullhd.jpg'); background-repeat:no-repeat;background-size: 100% 100%;">
@@ -284,23 +296,23 @@
                 <%- include('./elements/films.ejs') %>
             </div>
             <h1>Аниме</h1>
-            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#premieresSlider,none,#serialsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/anime.ejs') %>
             </div>
             
             <h1>Сериалы</h1>
-            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#animeSlider,none,#cartoonSerialsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
             <h1>Мультсериалы</h1>
-            <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#serialsSlider,none,#cartoonsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoonSerials.ejs') %>
             </div>
             <h1>Мульфильмы</h1>
-            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox" data-nav_ud="#cartoonSerialsSlider,none,0,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/cartoons.ejs') %>
             </div>
@@ -311,18 +323,36 @@
 
     <script type="text/javascript">
        
-        $('#channel150').after('<br/>')
+        $('#channel154').after('<br/>')
         // код нажатия на клавиши
         $(document).keydown(function (e) {
-              var focusLeft = $('.focus').offset().left
+            
               
               switch (e.keyCode) {
                 case 37: //left
-                    console.log(focusLeft)
-                    $('.focus').get(0).scrollIntoView(0)
+                      var focusIndex = (((Math.round($('.slider').find('.focus').index())))) - 2
+                      var focusId = $('.slider').find('.focus').attr('id')
+                      var nextFocus = $('.focus').closest('.slider').children().eq(focusIndex);
+                      console.log(focusIndex)
+                     
+                      if (focusIndex < 0) {
+                        return false
+                      }
+                      $$nav.current(nextFocus)
+                      var nextFocusLeft = nextFocus.offset().left
+                      $('.slider').find(nextFocus).get(0).scrollIntoView(1)
                     break;
                 case 39: // right
-                    $('.focus').get(0).scrollIntoView(0)
+                    var focusIndex = (((Math.round($('.slider').find('.focus').index())))) + 2
+                    var focusId = $('.slider').find('.focus').attr('id')
+                    var nextFocus = $('.focus').closest('.slider').children().eq(focusIndex);
+                    if (nextFocus[0] === undefined) {
+                        return false
+                    }
+                    console.log(nextFocus)
+                    $$nav.current(nextFocus)
+                    var nextFocusLeft = nextFocus.offset().left
+                    $('.slider').find(nextFocus).get(0).scrollIntoView(1)
                     break;
                 case 38: // top
                     var focusHeight = $('.focus').offset().top
