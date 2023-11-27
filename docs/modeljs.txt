@@ -7,11 +7,13 @@
 
 имеет кучу методов:
 
-getPremieres |
-getFilms     | 
-getSerials   | --- получены из /src/requests/
-getCartoons  |
-getChannels  |
+getPremieres      |
+getFilms          | 
+getSerials        | 
+getCartoons       | --- получены из /src/requests/
+getChannels       |
+getAnime          |
+getCartoonSerials |
 
 getSeasons - метод, который используется в каждом методе выше для получения сезонов и эпизодов
 getTranslations - метод, который используется в методе getSeasons для получения озвучек

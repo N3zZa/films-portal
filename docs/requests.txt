@@ -6,5 +6,13 @@ filmRequest.js - метод фильмов
 premiereRequest.js - метод премьер
 serialRequest.js - метод сериалов
 searchRequest.js - метод поиска
+cartoonSerials.js - метод мультсериалов
 
 также в папке channels находятся json файлы - категории каналов
+
+
+В каждом методе(кроме каналов) объявлены переменные itemInfo, filmDataId, item:
+
+filmDataId - отдает массив с объектами с данными о фильме(id, index, episodes, isSerial)
+itemInfo - отдает html разметку в массиве с данными по фильме(для страницы filmInfo)
+item - отдает разметку для вывода на главную страницу постера

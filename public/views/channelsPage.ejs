@@ -193,7 +193,7 @@
         .popups_block {
             position: absolute;
             bottom: 100px;
-            right: 100px;
+            right: 180px;
             z-index: 10;
         }
 
@@ -274,18 +274,19 @@
 
         .images {
             position: fixed;
-            right: -50px;
+            right: -30px;
             bottom: 0;
-            width: 65%;
+            width: 70%;
             height: 150px;
             align-self: center;
+            z-index: -1;
         }
         .chan {
             float: left
         }
         .ucon {
-            height: 200px;
-            margin-top: -50px;
+            height: 150px;
+            margin-top: -20px;
             float: right;
         }
     </style>
@@ -442,12 +443,14 @@
                                 mb.send('display.osd_over_video', { value: false });
                                 mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '1280', h: '720' });
                                 $('body').removeClass('hidden')
+                                $('.images').show()
                             } else {
                                 $('#playlist').addClass('close')
                                 $('#playlist ul').addClass('close')
                                 $('#playlistChannels').removeClass('close')
                                 $$nav.current('#allChannelsCategory');
                                 $$nav.on('#listChannels');
+                                $('.images').show()
 
                             }
                         } else {
@@ -470,6 +473,7 @@
                         $('.bg').removeClass('hiddenItem')
                         $('.playlist').removeClass('hiddenItem')
                         $('body').removeClass('hidden')
+                        $('.images').show()
                     } else {
                         mb.send('player.stop');
                         document.location.href = '/'
@@ -484,6 +488,7 @@
                     if ($('body').attr('class') !== 'hidden') {
                         $('#playlist').addClass('close')
                         $('#playlist ul').addClass('close')
+                        $('.images').show()
                         $('#playlistChannels').removeClass('close')
                         $('#playlist ul').removeClass('activeCategory')
                         $$nav.current('#allChannelsCategory');
@@ -502,6 +507,7 @@
                                 var channelUrl = $('.activeCategory').find('.focus').attr('href');
                                 mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
                                 mb.send('player.play');
+                                $('.images').show()
                             }
                         }
                     }, 1000)
@@ -517,6 +523,7 @@
                                 var channelUrl = $('.activeCategory').find('.focus').attr('href');
                                 mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
                                 mb.send('player.play');
+                                $('.images').show()
                             }
                         }
                     }, 1000)
@@ -618,6 +625,7 @@
                         $('.bg').removeClass('hiddenItem')
                         $('.playlist').removeClass('hiddenItem')
                         $('body').removeClass('hidden')
+                        $('.images').show()
                         numOfClick = 0
                     }
                     clickItem = 'ok'
@@ -815,6 +823,7 @@
             $('.bg').addClass('hiddenItem')
             $('.playlist').addClass('hiddenItem')
             $('body').addClass('hidden')
+            $('.images').hide()
         })
 
         // меню категорий
@@ -824,6 +833,7 @@
              mb.send('player.stop');
             $('#playlistChannels').addClass('close')
             $('#playlist').removeClass('close')
+            $('.images').show()
             $(channelId).removeClass('close')
             $(channelId).addClass('activeCategory')
             $$nav.on(channelId)
