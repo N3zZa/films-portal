@@ -215,6 +215,24 @@ ul { overflow: -moz-scrollbars-none; }
         max-width: 270px;
         width: 100%;
        }
+
+        .waitingPopup {
+        z-index: 100;
+        display: none;
+        position: absolute;
+        width: 100%;
+        margin: 0 auto;
+        top: 250px;
+    }
+    .waitingPopup_inner {
+        width: 200px;
+        background: rgba(0, 0, 0, 0.685);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+        margin: 0 auto;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
     </style>
 </head>
 <body>
@@ -227,6 +245,11 @@ ul { overflow: -moz-scrollbars-none; }
     <div class="wrap">
         <%- include('./elements/filmInfo/filmInfo.ejs') %>
     </div>
+    </div>
+    <div class="waitingPopup">
+        <div class="waitingPopup_inner">
+            <h1>Загрузка...</h1>
+        </div>
     </div>
     <script type="text/javascript">
         // при клике на стрелку перейти обратно

@@ -338,7 +338,7 @@
 
         mb.send('display.pip', { value: false, w: '100%', h: '100%'});
 
-
+         var locked = false;
         // методы при клике на клавише
         $(document).keydown(function (e) {
 
@@ -348,6 +348,10 @@
                  clearTimeout(timerSound)
             }, 3000)
 
+             if (locked) {
+                return;
+            }
+            locked = true; 
             // получаю из конфига клавиши
             var key = config.app.keys[config.app.mode][e.keyCode];
 
@@ -538,7 +542,7 @@
 
         });
 
-
+        setTimeout(function () { locked = false; }, 5000); 
        
     </script>
 </body>

@@ -1,40 +1,52 @@
 require("dotenv").config(); // Config file
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-const API_TOKEN = process.env.BAZON_TOKEN;
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const VIDEOCDN_TOKEN = process.env.VIDEOCDN_TOKEN;
 
-const APISEARCH_URL = `https://bazon.cc/api/search?token=${API_TOKEN}&title=`;
+const APISEARCH_URL = `https://videocdn.tv/api/short?api_token=${VIDEOCDN_TOKEN}&title=`;
 
 // функция для задержки
 function sleeper(ms) {
-  return function(x) {
-    return new Promise(resolve => setTimeout(() => resolve(x), ms));
+  return function (x) {
+    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
   };
 }
 
-
 module.exports = function (inputText, res) {
-  return new Promise(function(resolve, reject){
-   try {
-    // Timeout для базона
-     setTimeout(() => {
-     sleeper(2000)
-      fetch(APISEARCH_URL + inputText).then((response) => {
-    return response.json()
-}).then(data =>  {
-  if (data.results) {
-    // просто сохраняю в переменную массив с данными о фильмах
-  const filmDataId = data.results.map((film, i) => ({id: film.kinopoisk_id, index: i, episodes: film.episodes, isSerial: film.serial}))
-  // массив с html блоками для информации о фильме
-   const itemInfo = data.results.map((elem, index) => {
-       return (
-        `
+  return new Promise(function (resolve, reject) {
+    try {
+      // Timeout для базона
+      setTimeout(() => {
+        sleeper(500);
+        fetch(APISEARCH_URL + inputText)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.data) {
+              const result = data.data.slice(0, 50);
+              // просто сохраняю в переменную массив с данными о фильмах
+              const filmDataId = result.map((film, i) => ({
+                id: film.kp_id,
+                index: i,
+                episodes: film.episodes,
+                isSerial: film.episodes ? "1" : "0",
+              }));
+              // массив с html блоками для информации о фильме
+              const itemInfo = result.map((elem, index) => {
+                var poster_url = `https://kinopoiskapiunofficial.tech/images/posters/kp/${elem.kp_id}.jpg`;
+                return `
          <div>
             <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('${elem.info.poster}');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>${elem.info.rus}</h2>
-                <p>Год:${elem.info.year}</p>
-                <p>Жанр:${elem.info.genre}</p>
+                <div class="posterImg" style="background-image: url('${poster_url}');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>${elem.title}</h2>
+                ${
+                  elem.released
+                    ? `<p>Год:${elem.released.substring(0, 4)}</p>`
+                    : ""
+                }
+                 <img class="logo" src="../../../img/ucontv.png" alt="ucontv" />
             </div>
         </div>
         <div class="poster_playerBlock">
@@ -43,7 +55,6 @@ module.exports = function (inputText, res) {
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>${elem.info.description.replace(/[\n\r]+/g, "").replace(/('|")/g, ``).substring(0,350) + '...'}</p>
         </div>
          <script type="text/javascript">
         $(document).keydown(function (e) {
@@ -52,7 +63,14 @@ module.exports = function (inputText, res) {
                 $('#playlistSeasons').show()
                 $$nav.on("#listseasons")
                 isPlaylistShow = true;
-                 ${elem.serial === '1' ? '' : 'document.location.href = "/selectTranslation' + elem.kinopoisk_id + index + '"'};
+                  ${
+                    elem.episodes
+                      ? ""
+                      : 'document.location.href = "/selectQuality&=' +
+                        elem.kp_id.toString() +
+                        index.toString() +
+                        '"'
+                  };
             } 
           }
           if (e.keyCode === 8) {
@@ -61,35 +79,39 @@ module.exports = function (inputText, res) {
          })
         </script>
          </div>
-        `
-       )
-    })
-  // из полученных данных создаю массив с html блоками
-    const item = data.results.map((elem, index) => {
-       return (
-        `
-        <div id="searchItem${index}" style="background: url('${elem.info.poster}'); background-repeat:no-repeat;  background-size:cover;" class="item searchItem nav-item">
+        `;
+              });
+              // из полученных данных создаю массив с html блоками
+              const item = result.map((elem, index) => {
+                var poster_url = `https://kinopoiskapiunofficial.tech/images/posters/kp/${elem.kp_id}.jpg`;
+                return `
+        <div id="searchItem${index}" style="background: url('${poster_url}'); background-repeat:no-repeat;  background-size:cover;" class="item searchItem nav-item">
             <div class="searchText text">
-            <p>${elem.info.rus.substring(0,20)}</p>
-            <h1>${elem.info.year} ${elem.serial === '1' ? 'Сериал' : 'Фильм'}</h1>
+            <p>${elem.title.substring(0, 20)}</p>
             </div>
         </div>
         <script type="text/javascript">
-            var _elem${elem.kinopoisk_id + index} = document.getElementById("searchItem${index}")
-            _elem${elem.kinopoisk_id + index}.addEventListener("click", function (event) {document.location.href = "/filmInfo${elem.kinopoisk_id + index}"; $$nav.off()});
+            var _elem${
+              elem.kp_id + index
+            } = document.getElementById("searchItem${index}")
+            _elem${
+              elem.kp_id + index
+            }.addEventListener("click", function (event) {document.location.href = "/filmInfo${
+                  elem.kp_id.toString() + index.toString()
+                }"; $$nav.off()});
         </script>
-        `
-       )
-    })
-    resolve([item, itemInfo, filmDataId]) // отдаю массив с подмассивами
-  } else {
-    res.render('errorPage.ejs', {errorMessage: 'Ничего не найдено'})
-  }
-   }, 1500)
-})
-   } catch (error) {
-        console.log('fetchErrorSearch', error) // обработка ошибки
+        `;
+              });
+              resolve([item, itemInfo, filmDataId]); // отдаю массив с подмассивами
+            } else {
+              res.render("errorPage.ejs", {
+                errorMessage: "Ничего не найдено",
+              });
+            }
+          }, 1500);
+      });
+    } catch (error) {
+      console.log("fetchErrorSearch", error); // обработка ошибки
     }
-});
-}
-
+  });
+};

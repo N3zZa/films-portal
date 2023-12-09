@@ -1,14 +1,13 @@
 require("dotenv").config(); // Config file
 const fs = require("fs");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const axios = require("axios");
 const _ = undefined;
-// API BAZON_TOKEN
-const API_TOKEN = process.env.BAZON_TOKEN;
-
-const IP_APIVIDEOS = '178.121.7.223'
+const API_TOKEN = "a3f15ddc-3330-43e1-a014-a18a1a7c4910";
 
 // ССЫЛКА НА АПИ ДЛЯ ЗАПРОСА НА ВИДЕОФАЙЛЫ
-const APIVIDEOS_URL = `https://bazon.cc/api/playlist?token=${API_TOKEN}&kp=`
+const APIVIDEOS_URL = `https://kinopoiskapiunofficial.tech/api/v2.2/films/`;
+const APIVIDEOS_MP4 = `http://127.0.0.1:8000/api/link/`;
 
 
 
@@ -88,13 +87,14 @@ module.exports = {
       resolve(elem);
     });
   }),
+
   // фильмы
   getFilms: new Promise(function (resolve, reject) {
     setTimeout(() => {
       require("../requests/filmRequest").then((elem) => {
         resolve(elem);
       });
-    }, 300);
+    }, 500);
   }),
   // сериалы
   getSerials: new Promise(function (resolve, reject) {
@@ -102,15 +102,7 @@ module.exports = {
       require("../requests/serialRequest").then((elem) => {
         resolve(elem);
       });
-    }, 600);
-  }),
-  // мультики
-  getCartoons: new Promise(function (resolve, reject) {
-    setTimeout(() => {
-      require("../requests/cartoonsRequest").then((elem) => {
-        resolve(elem);
-      });
-    }, 900);
+    }, 1000);
   }),
   // каналы
   getChannels: new Promise(function (resolve, reject) {
@@ -128,460 +120,7 @@ module.exports = {
       });
     }, 1500);
   }),
-  // мультсериалы
-  getCartoonSerials: new Promise(function (resolve, reject) {
-    setTimeout(() => {
-      require("../requests/cartoonSerials.js").then((elem) => {
-        resolve(elem);
-      });
-    }, 1800);
-  }),
-  // метод получения сезонов
-  getSeasons: (episodes, kinopoisk_id, index, app, isSerial) => {
-    try {
-      let model = module.exports;
 
-      // получение из запроса сезонов и эпизодов
-      if (isSerial === "1") {
-        // проверка на сериал
-        const seasonsArr = [];
-        // из эпизодов создаю htmlblock
-        for (let key of Object.keys(episodes)) {
-          Object.values(episodes[key]).forEach((_, i) => {
-            const arrElem = `
-                    <li id="season${key}episode${
-              i + 1
-            }" class="channel nav-item"
-                        >
-                        <p>${key} сезон, ${i + 1} серия</p>
-                     </li>
-                     <script type="text/javascript">
-                        $('#season${key}episode${i + 1}').click(function (e) {
-                            window.location = '/selectTranslation${
-                              kinopoisk_id + index
-                            }&season=${key}&episode=${i + 1}'
-                        })
-                     </script>
-                    `;
-            seasonsArr.push(arrElem);
-            model.getTranslations(
-              key,
-              i + 1,
-              kinopoisk_id,
-              index,
-              app,
-              isSerial
-            ); // метод получения озвучек(он ниже метода getSeasons)
-          });
-        }
-        fs.writeFileSync(
-          "./public/views/elements/filmInfo/seasons&translations.ejs",
-          seasonsArr.join("").toString()
-        ); // создаю html элемент с сезонами либо озвучками
-        seasonsArr.length = 0; // обнуляю массив
-      } else {
-        fs.writeFileSync(
-          "./public/views/elements/filmInfo/seasons&translations.ejs",
-          ""
-        ); // создаю пустой htmlэлемент
-        model.getTranslations(_, _, kinopoisk_id, index, app, isSerial); // метод получения озвучек(он ниже метода getSeasons)
-      }
-    } catch (error) {
-      console.error("episodesError", { error, episodes: episodes }); // обработка ошибки
-    }
-  },
-  // метод получения озвучек(также здесь платный запрос на видеофайлы и получение качества видео для передачи его в метод getQualities)
-  getTranslations: (season, episode, kinopoisk_id, index, app, isSerial) => {
-    try {
-      let model = module.exports;
-
-      // проверка на сериал и если сериал то в url вписывается сезон и серия, если нет -- не вписывается
-      const translPageUrl =
-        isSerial === "1"
-          ? "/selectTranslation" +
-            kinopoisk_id +
-            index +
-            `&season=${season}` +
-            `&episode=${episode}`
-          : "/selectTranslation" + kinopoisk_id + index;
-
-      // обработка страницы с озвучками
-      app.get(translPageUrl, (req, res) => {
-        try {
-          // запрос на получение видеофайлов
-          fetch(APIVIDEOS_URL + `${kinopoisk_id}&ref=&ip=${IP_APIVIDEOS}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          })
-            .then((response) => response.json())
-            .then((jsonResponse) => {
-              try {
-                // создаю блок с озвучками
-                const htmlData = jsonResponse.results.map(
-                  (translationElem, i) => {
-                    const htmlForTransl = `
-                                         <li id="transl${kinopoisk_id}${
-                      season ? season + episode + index : ""
-                    }${translationElem.translation.replace(
-                      /[\(\)\s]/g,
-                      ""
-                    )}" class="channel nav-item"
-                                     >
-                                        <p>${translationElem.translation}${
-                      translationElem.studio !== null
-                        ? ", " + translationElem.studio
-                        : ""
-                    }</p>
-                                    </li>
-                                    <script type="text/javascript">
-                                    $('#transl${kinopoisk_id}${
-                      season ? season + episode + index : ""
-                    }${translationElem.translation.replace(
-                      /[\(\)\s]/g,
-                      ""
-                    )}').click(function (e) {
-                                     window.location = '/selectQuality&=${
-                                       kinopoisk_id + index
-                                     }&season=${
-                      season ? season : "none"
-                    }&episode=${season ? episode : "none"}&transl=${encodeURI(
-                      translationElem.translation.replace(/[\(\)\s]/g, "")
-                    )}'
-                                    })
-                                    
-                                     $(document).keydown(function (e) {
-                                         switch (e.keyCode) {
-                                            case 8:
-                                                document.location.href = '/filmInfo${
-                                                  kinopoisk_id + index
-                                                }';
-                                            break;
-                                        }
-                                    })
-                                    </script>
-                                        `;
-
-                    // получаю ниже качество по проверке на сериал
-                    if (isSerial === "1") {
-                      // для сериала
-                      const qualityObj = translationElem.playlists;
-                      const qualitySeason = qualityObj[`${season}`];
-
-                      // обработка качества
-                      const qualityEpisode =
-                        qualitySeason !== undefined &&
-                        qualitySeason[`${episode}`]
-                          ? qualitySeason[`${episode}`]
-                          : {
-                              "Нет эпизодов с данной озвучкой":
-                                "Нет эпизодов с данной озвучкой",
-                            };
-
-                      const objKeysQuality = Object.keys(qualityEpisode);
-
-                      // создаю html блок с качеством
-                      const qualityItems = objKeysQuality.map((quality, i) => {
-                        // проверка на качество
-                        if (quality === "Нет эпизодов с данной озвучкой") {
-                          // блок с 'Нет эпизодов с данной озвучкой'
-                          const qualityItem = `
-                                         <li id="quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}${quality}" class="channel nav-item"
-                                     >
-                                        <p class="noEpisodesText">${quality}</p>
-                                    </li>
-                                    <script type="text/javascript">
-                                    $('#quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}${quality}').click(function (e) {
-                                     window.location = '${translPageUrl}';
-                                    })
-                                    $('#quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}2160').removeClass('nav-item')
-                                     $(document).keydown(function (e) {
-                                         switch (e.keyCode) {
-                                            case 8:
-                                                document.location.href = '/filmInfo${
-                                                  kinopoisk_id + index
-                                                }';
-                                            break;
-                                        }
-                                    })
-                                    </script>
-                                        `;
-                          return [qualityItem, quality]; // отдаю качество
-                        } else {
-                          const qualityItem = `
-                                         <li id="quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}${quality}" class="channel nav-item"
-                                     >
-                                        <p>${quality}p</p>
-                                    </li>
-                                    <script type="text/javascript">
-                                    $('#quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}${quality}').click(function (e) {
-                                     window.location = '/player${
-                                       kinopoisk_id + i
-                                     }&season=${
-                            season ? season : "none"
-                          }&episode=${
-                            season ? episode : "none"
-                          }&transl=${encodeURI(
-                            translationElem.translation.replace(/[\(\)\s]/g, "")
-                          )}&quality=${quality}'
-                                    })
-                                     $(document).keydown(function (e) {
-                                         switch (e.keyCode) {
-                                            case 8:
-                                                document.location.href = '/filmInfo${
-                                                  kinopoisk_id + index
-                                                }';
-                                            break;
-                                        }
-                                    })
-                                    if ( $('#quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}2160') !== undefined) {
-                                         $('#quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}2160').removeClass('nav-item')
-                                        $('#quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}2160').addClass('lockQuality')
-                                        $('#quality${kinopoisk_id}${
-                            season ? season + episode + index : ""
-                          }${translationElem.translation.replace(
-                            /[\(\)\s]/g,
-                            ""
-                          )}2160').append('<img src="/img/lock.png" alt="lock">')
-                                        $('.blockedQualities').hide()
-                                    }
-                                    </script>
-                                        `;
-                          return [qualityItem, quality];
-                        }
-                      });
-
-                      // вызываю метод
-                      model.getQualities(
-                        season,
-                        episode,
-                        translationElem,
-                        i,
-                        index,
-                        app,
-                        qualityItems
-                      ); // вызов метода
-                    } else {
-                      // для фильма
-                      const qualityObj = Object.keys(translationElem.playlists);
-
-                      const qualityItems = qualityObj.map((quality, i) => {
-                        const qualityItem = `
-                                         <li id="quality${kinopoisk_id}${
-                          season ? season + episode + i : ""
-                        }${translationElem.translation.replace(
-                          /[\(\)\s]/g,
-                          ""
-                        )}${quality}" class="channel nav-item"
-                                     >
-                                        <p>${quality}p</p>
-                                    </li>
-                                    <script type="text/javascript">
-                                    $('#quality${kinopoisk_id}${
-                          season ? season + episode + i : ""
-                        }${translationElem.translation.replace(
-                          /[\(\)\s]/g,
-                          ""
-                        )}${quality}').click(function (e) {
-                                     window.location = '/player${
-                                       kinopoisk_id + i
-                                     }&season=${
-                          season ? season : "none"
-                        }&episode=${
-                          season ? episode : "none"
-                        }&transl=${encodeURI(
-                          translationElem.translation.replace(/[\(\)\s]/g, "")
-                        )}&quality=${quality}'
-                                    })
-                                     $(document).keydown(function (e) {
-                                         switch (e.keyCode) {
-                                            case 8:
-                                                document.location.href = '/filmInfo${
-                                                  kinopoisk_id + index
-                                                }';
-                                            break;
-                                        }
-                                    })
-                                     if ( $('#quality${kinopoisk_id}${
-                          season ? season + episode + i : ""
-                        }${translationElem.translation.replace(
-                          /[\(\)\s]/g,
-                          ""
-                        )}${index}2160') !== undefined) {
-                                         $('#quality${kinopoisk_id}${
-                          season ? season + episode + i : ""
-                        }${translationElem.translation.replace(
-                          /[\(\)\s]/g,
-                          ""
-                        )}${index}2160').removeClass('nav-item')
-                                        $('#quality${kinopoisk_id}${
-                          season ? season + episode + i : ""
-                        }${translationElem.translation.replace(
-                          /[\(\)\s]/g,
-                          ""
-                        )}${index}2160').addClass('lockQuality')
-                                        $('#quality${kinopoisk_id}${
-                          season ? season + episode + i : ""
-                        }${translationElem.translation.replace(
-                          /[\(\)\s]/g,
-                          ""
-                        )}${index}2160').append('<img src="/img/lock.png" alt="lock">')
-                                        $('.blockedQualities').hide()
-                                    }
-                                    </script>
-                                        `;
-                        return [qualityItem, quality];
-                      });
-                      model.getQualities(
-                        season,
-                        episode,
-                        translationElem,
-                        i,
-                        index,
-                        app,
-                        qualityItems
-                      ); // вызов метода
-                    }
-
-                    return htmlForTransl;
-                  }
-                );
-
-                // создание файла с озвучками
-                fs.writeFileSync(
-                  "./public/views/elements/filmInfo/seasons&translations.ejs",
-                  htmlData.join("").toString()
-                );
-                res.render("translationsPage.ejs"); // вывод страницы и передаю url при переходе назад
-              } catch (error) {
-                console.error("getTranslationsFetchError", error); // обработка ошибки
-                res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
-              }
-            });
-        } catch (error) {
-          console.error(
-            "getTranslationsAppError",
-            error,
-            `запрос с базона:${jsonResponse}`
-          ); // обработка ошибки
-          res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
-        }
-      });
-    } catch (error) {
-      console.error("translationsError", error); // обработка ошибки
-    }
-  },
-  // метод получения качества видео(в методе getTranslations я его получаю и передаю в этот метод)
-  getQualities: (
-    season,
-    episode,
-    translationElem,
-    indexQuality,
-    indexFilm,
-    app,
-    qualityItems
-  ) => {
-    let items = qualityItems;
-    let model = module.exports;
-    app.get(
-      `/selectQuality&=${translationElem.kinopoisk_id + indexFilm}&season=${
-        season ? season : "none"
-      }&episode=${season ? episode : "none"}&transl=${encodeURI(
-        translationElem.translation.replace(/[\(\)\s]/g, "")
-      )}`,
-      (req, res) => {
-        try {
-          qualityItems.forEach((elem, i) => {
-            //перебор массива качеств и создание страницы для каждой
-            model.createPlayerPage(
-              app,
-              season,
-              episode,
-              translationElem,
-              i,
-              indexFilm,
-              elem[1]
-            );
-          });
-          const arrQualitiesHtml = [];
-          let poppedItem;
-          try {
-            // делаю так, потому что я закинул в массив 2 элемента: объект с html и просто строку с качеством, здесь удаляю строку с качеством чтобы получить только html и создать файл с ними
-            items.forEach((qualityItem) => {
-              if (qualityItem.length === 2) {
-                poppedItem = qualityItem.pop();
-                arrQualitiesHtml.push(qualityItem);
-              } else {
-                arrQualitiesHtml.push(qualityItem);
-              }
-            });
-          } finally {
-            // создаю файл с html блоками качеств
-            fs.writeFileSync(
-              "./public/views/elements/filmInfo/quality.ejs",
-              arrQualitiesHtml.join("").toString()
-            );
-            res.render("qualityPage.ejs"); // рендер страницы с качествами
-            // возобновляю массив с качествами
-            items = qualityItems;
-          }
-        } catch (error) {
-          console.error("getQualitiesFetchError", error); // обработка ошибки
-          res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
-        }
-      }
-    );
-  },
-
-  // создание страницы с фильмами по названию, которое ввел в поиске
-  createSearchItems: (inputText, res) => {
-    return new Promise(function (resolve, reject) {
-      // запрос на поиск фильмов
-      const searchRequestModel = require("../requests/search/searchRequest");
-      searchRequestModel(inputText, res).then((elem) => {
-        resolve(elem);
-      });
-    });
-  },
   // метод получение fullhd фильмов(они находятся в начале файла)
   createFullHdList: (app) => {
     let model = module.exports;
@@ -611,6 +150,349 @@ module.exports = {
       res.render("fullHdFilms.ejs"); // рендер страницы фулл хд фильмов
     });
   },
+  // метод получения сезонов
+  getSeasons: (episodes, kinopoisk_id, index, app, isSerial) => {
+    try {
+      let model = module.exports;
+      // получение из запроса сезонов и эпизодов
+      if (isSerial === "1") {
+        // проверка на сериал
+        const seasonsArr = [];
+        // из эпизодов создаю htmlblock
+        const sortedSeasons = episodes.sort(function (a, b) {
+          if (a.season_num === b.season_num) {
+            return parseFloat(
+              Number(a.num.substring(1, 3)) -
+                parseFloat(Number(b.num.substring(1, 3)))
+            );
+          }
+        });
+
+        const arrhtml = sortedSeasons.map((elem, i) => {
+          const arrElem = `
+                    <li id="season${elem.season_num}episode${
+            elem.num
+          }" class="channel nav-item"
+                        >
+                        <p>${elem.season_num} сезон, ${elem.num.substring(
+            1,
+            3
+          )} серия</p>
+                     </li>
+                     <script type="text/javascript">
+                        $('#season${elem.season_num}episode${
+            elem.num
+          }').click(function (e) {
+                            window.location = '/selectQuality&=${
+                              kinopoisk_id.toString() + index.toString()
+                            }'
+                            $('.waitingPopup').show();
+                        })
+                     </script>
+                    `;
+
+          seasonsArr.push(arrElem);
+          model.getQualities(
+            elem.season_num,
+            elem.num,
+            kinopoisk_id,
+            index,
+            app,
+            isSerial
+          ); // метод получения озвучек(он ниже метода getSeasons)
+        });
+        arrhtml;
+
+        fs.writeFileSync(
+          "./public/views/elements/filmInfo/seasons&translations.ejs",
+          seasonsArr.join("").toString()
+        ); // создаю html элемент с сезонами либо озвучками
+        seasonsArr.length = 0; // обнуляю массив
+      } else {
+        fs.writeFileSync(
+          "./public/views/elements/filmInfo/seasons&translations.ejs",
+          ""
+        ); // создаю пустой htmlэлемент
+        model.getQualities(_, _, kinopoisk_id, index, app, isSerial); // метод получения озвучек(он ниже метода getSeasons)
+      }
+    } catch (error) {
+      console.error("episodesError", { error }); // обработка ошибки
+    }
+  },
+  // метод получения качества видео(в методе getTranslations я его получаю и передаю в этот метод)
+  getQualities: (season, episode, kinopoisk_id, indexFilm, app, isSerial) => {
+    let model = module.exports;
+    const qualiryPageUrl = `/selectQuality&=${
+      kinopoisk_id.toString() + indexFilm.toString()
+    }`;
+    app.get(qualiryPageUrl, (req, res) => {
+      try {
+        try {
+          // запрос на получение видеофайлов
+          fetch(APIVIDEOS_URL + `${kinopoisk_id}`, {
+            method: "GET",
+            headers: {
+              "X-API-KEY": API_TOKEN,
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((filmresponse) => {
+              let genre = "";
+              const genresArr = filmresponse.genres.forEach((genreItem) => {
+                genre += genreItem.genre;
+              });
+              genresArr;
+              const filmValues = {
+                name: filmresponse.nameRu,
+                year: filmresponse.year.toString(),
+                genre: genre,
+                engname:
+                  filmresponse.nameOriginal !== null
+                    ? filmresponse.nameOriginal
+                    : "",
+                season: season ? season : "",
+                episode: episode ? episode.substring(1, 3) : "",
+              };
+              axios
+                .post(APIVIDEOS_MP4, filmValues)
+                .then(function (data) {
+                  return data;
+                })
+                .then((jsonResponse) => {
+                  try {
+                    // создаю блок с озвучками
+                    let videosData = jsonResponse.data.Link.videos;
+                    var qualityArr = Object.keys(videosData);
+                    function json2array() {
+                      // получаю ниже качество по проверке на сериал
+                      if (isSerial === "1") {
+                        // для сериала
+                        const objKeysQuality = qualityArr;
+
+                        // создаю html блок с качеством
+                        const qualityItems = objKeysQuality.map(
+                          (quality, i) => {
+                            // проверка на качество
+                            if (quality === "Нет эпизодов с данной озвучкой") {
+                              // блок с 'Нет эпизодов с данной озвучкой'
+                              const qualityItem = `
+                                         <li id="quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }${quality}" class="channel nav-item"
+                                     >
+                                        <p class="noEpisodesText">${quality}</p>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $('#quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }${quality}').click(function (e) {
+                                     window.location = '${translPageUrl}';
+                                    })
+                                    $('#quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }2160').removeClass('nav-item')
+                                     $(document).keydown(function (e) {
+                                         switch (e.keyCode) {
+                                            case 8:
+                                                document.location.href = '/filmInfo${
+                                                  kinopoisk_id + indexFilm
+                                                }';
+                                            break;
+                                        }
+                                    })
+                                    </script>
+                                        `;
+                              return [qualityItem, quality]; // отдаю качество
+                            } else {
+                              const qualityItem = `
+                                         <li id="quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }${quality}" class="channel nav-item"
+                                     >
+                                        <p>${quality}</p>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $('#quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }${quality}').click(function (e) {
+                                     window.location = '/player${
+                                       kinopoisk_id.toString() + i.toString()
+                                     }&season=${
+                                season ? season : "none"
+                              }&episode=${
+                                season ? episode : "none"
+                              }&quality=${quality}'
+                                    })
+                                     $(document).keydown(function (e) {
+                                         switch (e.keyCode) {
+                                            case 8:
+                                                document.location.href = '/filmInfo${
+                                                  kinopoisk_id.toString() +
+                                                  indexFilm.toString()
+                                                }';
+                                            break;
+                                        }
+                                    })
+                                    if ( $('#quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }2160') !== undefined) {
+                                         $('#quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }2160').removeClass('nav-item')
+                                        $('#quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }2160').addClass('lockQuality')
+                                        $('#quality${kinopoisk_id}${
+                                season ? season + episode + indexFilm : ""
+                              }2160').append('<img src="/img/lock.png" alt="lock">')
+                                        $('.blockedQualities').hide()
+                                    }
+                                    </script>
+                                        `;
+                              return [qualityItem, quality];
+                            }
+                          }
+                        );
+                        const arrQualitiesHtml = [];
+                        let poppedItem;
+                        try {
+                          // делаю так, потому что я закинул в массив 2 элемента: объект с html и просто строку с качеством, здесь удаляю строку с качеством чтобы получить только html и создать файл с ними
+                          qualityItems.forEach((qualityItem) => {
+                            if (qualityItem.length === 2) {
+                              poppedItem = qualityItem.pop();
+                              arrQualitiesHtml.push(qualityItem);
+                            } else {
+                              arrQualitiesHtml.push(qualityItem);
+                            }
+                          });
+                        } finally {
+                          // создаю файл с html блоками качеств
+                          fs.writeFileSync(
+                            "./public/views/elements/filmInfo/quality.ejs",
+                            arrQualitiesHtml.join("").toString()
+                          );
+                          res.render("qualityPage.ejs"); // рендер страницы с качествами
+                        }
+                      } else {
+                        // для фильма
+                        const qualityObj = qualityArr;
+
+                        const qualityItems = qualityObj.map((quality, i) => {
+                          const qualityItem = `
+                                         <li id="quality${kinopoisk_id}${
+                            season ? season + episode + i : ""
+                          }${quality}" class="channel nav-item"
+                                     >
+                                        <p>${quality}</p>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $('#quality${kinopoisk_id}${
+                            season ? season + episode + i : ""
+                          }${quality}').click(function (e) {
+                                     window.location = '/player${
+                                       kinopoisk_id.toString() + i.toString()
+                                     }&season=${
+                            season ? season : "none"
+                          }&episode=${
+                            season ? episode : "none"
+                          }&quality=${quality}'
+                                    })
+                                     $(document).keydown(function (e) {
+                                         switch (e.keyCode) {
+                                            case 8:
+                                                document.location.href = '/filmInfo${
+                                                  kinopoisk_id.toString() +
+                                                  indexFilm.toString()
+                                                }';
+                                            break;
+                                        }
+                                    })
+                                     if ( $('#quality${kinopoisk_id}${
+                            season ? season + episode + i : ""
+                          }2160') !== undefined) {
+                                         $('#quality${kinopoisk_id}${
+                            season ? season + episode + i : ""
+                          }2160').removeClass('nav-item')
+                                        $('#quality${kinopoisk_id}${
+                            season ? season + episode + i : ""
+                          }2160').addClass('lockQuality')
+                                        $('#quality${kinopoisk_id}${
+                            season ? season + episode + i : ""
+                          }2160').append('<img src="/img/lock.png" alt="lock">')
+                                        $('.blockedQualities').hide()
+                                    }
+                                    </script>
+                                        `;
+                          return qualityItem;
+                        });
+                        const arrQualitiesHtml = [];
+                        let poppedItem;
+                        try {
+                          // делаю так, потому что я закинул в массив 2 элемента: объект с html и просто строку с качеством, здесь удаляю строку с качеством чтобы получить только html и создать файл с ними
+                          qualityItems.forEach((qualityItem) => {
+                            if (qualityItem.length === 2) {
+                              poppedItem = qualityItem.pop();
+                              arrQualitiesHtml.push(qualityItem);
+                            } else {
+                              arrQualitiesHtml.push(qualityItem);
+                            }
+                          });
+                        } finally {
+                          // создаю файл с html блоками качеств
+                          fs.writeFileSync(
+                            "./public/views/elements/filmInfo/quality.ejs",
+                            arrQualitiesHtml.join("").toString()
+                          );
+                          res.render("qualityPage.ejs"); // рендер страницы с качествами
+                        }
+                      }
+                    }
+                    qualityArr.forEach((elem, i) => {
+                      //перебор массива качеств и создание страницы для каждой
+                      model.createPlayerPage(
+                        app,
+                        season,
+                        episode,
+                        videosData,
+                        i,
+                        indexFilm,
+                        elem,
+                        kinopoisk_id
+                      );
+                    });
+                    json2array();
+                  } catch (error) {
+                    console.error("getQualitiesFetchError", error); // обработка ошибки
+                    res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
+                  }
+                });
+            })
+            .catch(function (error) {});
+        } catch (error) {
+          console.error(
+            "getQualitiesAppError",
+            error,
+            `запрос:${jsonResponse}`
+          ); // обработка ошибки
+          res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
+        }
+      } catch (error) {
+        console.error("getQualitiesFetchError", error); // обработка ошибки
+        res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
+      }
+    });
+  },
+  // создание страницы с фильмами по названию, которое ввел в поиске
+  createSearchItems: (inputText, res) => {
+    return new Promise(function (resolve, reject) {
+      // запрос на поиск фильмов
+      const searchRequestModel = require("../requests/search/searchRequest");
+      searchRequestModel(inputText, res).then((elem) => {
+        resolve(elem);
+      });
+    });
+  },
   // метод создания страницы с плеером
   createPlayerPage: (
     app,
@@ -619,65 +501,38 @@ module.exports = {
     elem,
     indexQulity,
     indexFilm,
-    quality
+    quality,
+    kp_id
   ) => {
-    // проверка title для fullhdfilms, если ее нет, то фильм с базона
-    if (elem.title !== undefined) {
-      app.get(`/playerFullHd${elem.id}`, (req, res) => {
-        res.render("playerPage.ejs", {
-          playerUrl: elem.videoUrl,
-          backUrl: "/fullHdFilms",
-        }); // Отправка ответа в виде HTML(также передаю ссылку при клике назад и конечно ссылку на видеофайл)
-      });
-    } else {
-      console.log(
-        "/player" +
-          elem.kinopoisk_id +
-          indexQulity +
-          `&season=${season ? season : "none"}&episode=${
-            season ? episode : "none"
-          }&transl=${encodeURI(elem.translation)}&quality=${quality}`
-      );
-      app.get(
-        "/player" +
-          elem.kinopoisk_id +
-          indexQulity +
-          `&season=${season ? season : "none"}&episode=${
-            season ? episode : "none"
-          }&transl=${encodeURI(
-            elem.translation.replace(/[\(\)\s]/g, "")
-          )}&quality=${quality}`,
-        (req, res) => {
-          console.log(quality);
-          // проверка на сезон
-          if (season === undefined) {
-            const videoPlaylist = elem.playlists;
+    app.get(
+      "/player" +
+        kp_id +
+        indexQulity +
+        `&season=${season ? season : "none"}&episode=${
+          season ? episode : "none"
+        }&quality=${quality}`,
+      (req, res) => {
+        // проверка на сезон
+        if (season === undefined) {
+          const videoPlaylist = elem;
 
-            const video = videoPlaylist[`${quality}`]; // получаю качество видео, которое выбрал пользователь
-            console.log("videoURL", video);
-            res.render("playerPage.ejs", {
-              playerUrl: video,
-              backUrl: "/filmInfo" + elem.kinopoisk_id + indexFilm,
-            }); // Отправка ответа в виде HTML
-          } else {
-            const videoPlaylist = elem.playlists;
-            const seasonObj = videoPlaylist[`${season}`]; // получаю сезоны
-            console.log("seasonObj", seasonObj);
-            const episodeObj =
-              seasonObj !== undefined ? seasonObj[`${episode}`] : "no seasons"; // проверка на присутствие эпизодов в запросе, если есть то получаю эпизод
-            console.log("episodeObj", episodeObj);
+          const video = videoPlaylist[`${quality}`]; // получаю качество видео, которое выбрал пользователь
+          console.log("videoURL", video);
+          res.render("playerPage.ejs", {
+            playerUrl: video,
+            backUrl: "/filmInfo" + elem.kinopoisk_id + indexFilm,
+          }); // Отправка ответа в виде HTML
+        } else {
+          const videoPlaylist = elem;
+          const video = videoPlaylist[`${quality}`];
+          console.log("episodeObj", video);
 
-            const video = episodeObj[`${quality}`]; // получаю качество видео, которое выбрал пользователь
-
-            console.log("videoURL", video);
-
-            res.render("playerPage.ejs", {
-              playerUrl: video,
-              backUrl: "/filmInfo" + elem.kinopoisk_id + indexFilm,
-            }); // Отправка ответа в виде HTML
-          }
+          res.render("playerPage.ejs", {
+            playerUrl: video,
+            backUrl: "/filmInfo" + elem.kinopoisk_id + indexFilm,
+          }); // Отправка ответа в виде HTML
         }
-      );
-    }
+      }
+    );
   },
 };

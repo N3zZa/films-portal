@@ -294,35 +294,19 @@
                 <%- include('./elements/premieres.ejs') %>
             </div>
             <h1>Фильмы</h1>
-            <div id="filmsSlider" class="slider navigation-items" data-nav_type="hbox"
-                data-nav_ud="#premieresSlider,none,#animeSlider,none">
+            <div id="filmsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
-
-            <h1>Мульфильмы</h1>
-            <div id="cartoonsSlider" class="slider navigation-items" data-nav_type="hbox"
-                data-nav_ud="#cartoonSerialsSlider,none,0,none">
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/cartoons.ejs') %>
-            </div>
+            
             <h1>Сериалы</h1>
-            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox"
-                data-nav_ud="#animeSlider,none,#cartoonSerialsSlider,none">
+            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
-
-            <h1>Мультсериалы</h1>
-            <div id="cartoonSerialsSlider" class="slider navigation-items" data-nav_type="hbox"
-                data-nav_ud="#serialsSlider,none,#cartoonsSlider,none">
-                <!-- с помощью шаблонизатора импортирую html разметку -->
-                <%- include('./elements/cartoonSerials.ejs') %>
-            </div>
-
+            
             <h1>Аниме</h1>
-            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox"
-                data-nav_ud="#premieresSlider,none,#serialsSlider,none">
+            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/anime.ejs') %>
             </div>
