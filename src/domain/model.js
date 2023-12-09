@@ -251,7 +251,7 @@ module.exports = {
                   filmresponse.nameOriginal !== null
                     ? filmresponse.nameOriginal
                     : "",
-                season: season ? season : "",
+                season: season ? season.toString() : "",
                 episode: episode ? episode.substring(1, 3) : "",
               };
               axios
