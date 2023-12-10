@@ -54,13 +54,14 @@ module.exports = new Promise(function (resolve, reject) {
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
+            <p>Нажмите "ОК" для воспроизведения</p>
         </div>
          <script type="text/javascript">
          $(document).keydown(function (e) {
             if (e.keyCode === 13) {
-                document.location.href = "/selectQuality&=${
+                document.location.href = "/player${
                   elem.kinopoisk_id.toString() + index.toString()
-                }";
+                }&season=none&episode=none";
                 $('.waitingPopup').show()
             }
          })

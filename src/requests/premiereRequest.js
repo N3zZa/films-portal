@@ -68,17 +68,18 @@ module.exports = new Promise(function (resolve, reject) {
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
+            <p>Нажмите "ОК" для воспроизведения</p>
         </div>
          <script type="text/javascript">
           $(document).keydown(function (e) {
             if (e.keyCode === 13) {
                   if (isPlaylistShow === false) {
-                $('#playlistSeasons').show()
-                $$nav.on("#listseasons")
-                isPlaylistShow = true;
+                
                 ${
                   elem.episodes
-                    ? ""
+                    ? `document.location.href = "/selectEpisode&${
+                        elem.kinopoisk_id.toString() + index.toString()
+                      }";`
                     : `document.location.href = "/selectQuality&=${
                         elem.kinopoisk_id.toString() + index.toString()
                       }";

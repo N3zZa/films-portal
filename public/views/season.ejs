@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
-    <title>Translation</title>
+    <title>Film</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -13,10 +13,13 @@
     <script type="text/javascript" src="libs/lodash.compat.min.js"></script>
     <script type="text/javascript" src="libs/event_emitter.js"></script>
     <script type="text/javascript" src="js/lib/smartbox.js"></script>
-    <script type="text/javascript">
-        var isPlaylistShow
+    <script>
+        var isPlaylistShow = false
+        // запуск навигации
+        $(function () {
+            $$nav.on()
+        })
     </script>
-
     <style type="text/css">
         p,
         li,
@@ -71,6 +74,18 @@
             right: 10px;
             width: 72.5%;
             height: 400px;
+        }
+
+        .playImgBlock {
+            margin: 0 auto;
+            height: 100%;
+            width: 30px;
+        }
+
+        .playImgBlock img {
+            width: 80px;
+            height: 80px;
+            margin: 160px 0;
         }
 
         .poster_playerBlock p {
@@ -158,95 +173,49 @@
             overflow: -moz-scrollbars-none;
         }
 
-        li p {
-            color: white;
-            margin-right: 10px;
-            padding: 5px 10px;
-        }
-
-        .filmInfo_navbar {
-            position: absolute;
-            right: 0;
-            top: 0;
-            background: #09a3e0;
-            height: 100vh;
-            width: 30%;
-            padding: 20px;
-        }
-
-        .film_descr {
-            margin-left: 20px;
-            color: white;
-            max-width: 60%;
-        }
-
-        .nav_backbtn img,
-        h1 {
-            display: inline-block;
-        }
-
-        .navbar_menu .nav-item {
-            position: relative;
-            padding: 10px 25px;
-            border-bottom: 5px solid transparent;
-        }
-
-        .navbar_menu .nav-item h1 {
-            font-size: 24px;
-            color: white;
-        }
-
-        .navbar_menu img {
-            position: absolute;
-            left: -10px;
-            top: 5px;
-        }
-
-        .navbar_menu .focus {
-            border-bottom: 5px solid yellow;
-        }
-
-        #playlist {
+        .playlist {
             position: fixed;
             width: 100%;
             height: 100%;
-            padding: 1px 0;
             background-color: none;
             transition: 0.5s ease-in-out;
             z-index: 10;
             background: rgba(44, 44, 44, 0.726);
-            left: 0;
-            padding: 200px 0 0 0;
         }
 
+        .close {
+            position: absolute;
+            left: -1000px;
+        }
 
-        #playlist ul {
-            list-style: none;
+        .show {
+            position: static;
+        }
+
+        .playlist ul {
             overflow-x: hidden;
-            padding: 0;
             width: 500px;
-            margin: 0 auto;
+            margin: 50px auto;
+            list-style: none;
+            padding: 0;
         }
 
-        #playlist li {
-            position: relative;
+        .playlist li {
             padding: 2px;
             margin-bottom: 2px;
             background: #0173dd;
         }
-        #playlist li p {
-            width: 100%;
-            max-width: 100px;
-            margin: 0 auto;
-            text-align: center;
+
+        .playlist li p {
+            margin-left: 150px;
         }
 
-        #playlist li.focus {
+        .playlist li.focus {
             background-color: #fff;
             color: #000;
         }
 
-        #playlist li.focus a {
+        .playlist li.focus p {
             color: #000;
         }
 
@@ -256,100 +225,73 @@
             padding: 5px 10px;
         }
 
-        #playlist li.focus p {
-            color: black;
-        }
-
-        .playImgBlock {
-            margin: 0 auto;
-            height: 100%;
-            width: 30px;
-        }
-
-        .playImgBlock img {
-            width: 80px;
-            height: 80px;
-            margin: 200px 0;
-        }
-
-      
-        .blockedQualities {
-            height: 30px;
-            background: rgba(0, 94, 182, 0.829) !important;
-        }
-        .blockedQualities p{
-            width: 100%;
-            max-width: 100px;
-        }
-        .blockedQualities img {
-            position: absolute;
-            right: 5px;
-            width: 20px;
-            margin-top: 2px;
-            top: 0;
-            z-index: 10;
-        }
-        .lockQuality {
-            height: 30px;
-            background: rgba(0, 94, 182, 0.829) !important;
-        }
-        .lockQuality img {
-            position: absolute;
-            width: 20px;
-            margin-top: 2px;
-            top: 0;
-            right: 5px;
-        }
-        .noEpisodesText {
-            max-width: 500px !important;
-        }
         .logo {
-        text-align: center;
-        max-width: 270px;
-         margin-top: 20px;
-        width: 100%;
-       }
+            text-align: center;
+            margin-top: 20px;
+            max-width: 270px;
+            width: 100%;
+        }
+
+        .waitingPopup {
+            z-index: 100;
+            display: none;
+            position: absolute;
+            width: 100%;
+            margin: 0 auto;
+            top: 250px;
+        }
+
+        .waitingPopup_inner {
+            width: 200px;
+            background: rgba(0, 0, 0, 0.685);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
     <div class="bg"></div>
-    <div id="wrap" class="wrap">
-        <%- include('./elements/filmInfo/filmInfoTranslations.ejs') %>
-            <div id='playlist'>
-                <ul id="list">
-                    <!-- с помощью шаблонизатора импортирую html разметку -->
-                    <%- include('./elements/filmInfo/quality.ejs') %>
-
-                    <li id="quality1080ultra" class="channel blockedQualities">
-                        <p>1080 ultra</p>
-                        <img src="/img/lock.png" alt="lock">
-                    </li>
-                    <li id="quality2k" class="channel blockedQualities">
-                        <p>2k</p>
-                        <img src="/img/lock.png" alt="lock">
-                    </li>
-                    <li id="quality4k" class="channel blockedQualities">
-                        <p>4k</p>
-                        <img src="/img/lock.png" alt="lock">
-                    </li>
-                </ul>
-            </div>
+    <div class="playlist" id='playlistSeasons'>
+        <ul id="listseasons">
+            <%- include('./elements/filmInfo/seasons&translations.ejs') %>
+        </ul>
+    </div>
+    <div class="wrap">
+        <%- include('./elements/filmInfo/filmInfo.ejs') %>
+    </div>
+    </div>
+    <div class="waitingPopup">
+        <div class="waitingPopup_inner">
+            <h1>Загрузка...</h1>
+        </div>
     </div>
     <script type="text/javascript">
-        $(function () {
-            $$nav.on('#list')
-        })
-        // код нажатия на клавиши
+        // при клике на стрелку перейти обратно
         $(document).keydown(function (e) {
-            if ($('#list .focus')[0]) {
-                var curItemPos = $('#list .focus')
-                $("#list").scrollTop($("#list").scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
+            if ($('.focus')[0]) {
+                var curItemPos = $('.focus')
+                $('.focus').get(0).scrollIntoView(); // скроллить к элементу 
+                $(document).scrollTop($(document).scrollTop() - 100) // скроллю чуть меньше чтобы лучше видно было элемент
             }
-            if (e.keyCode === 13) {
-                e.preventDefault()
+            switch (e.keyCode) {
+                case 8:
+                    if (isPlaylistShow === false) {
+                        document.location.href = "/";
+                    } else {
+                        $('#playlistSeasons').hide()
+                        isPlaylistShow = false;
+                        $$nav.on('.navbar_menu')
+                    }
+                    break;
             }
         })
+
+
     </script>
 </body>
 
