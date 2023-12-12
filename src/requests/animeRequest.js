@@ -58,19 +58,22 @@ module.exports = new Promise(function (resolve, reject) {
          <script type="text/javascript">
           $(document).keydown(function (e) {
             if (e.keyCode === 13) {
-                  if (isPlaylistShow === false) {
-               
-                ${
-                  elem.episodes
-                    ? `document.location.href = "/selectEpisode&${
-                        elem.kinopoisk_id.toString() + index.toString()
-                      }";`
-                    : `document.location.href = "/selectQuality&=${
-                        elem.kinopoisk_id.toString() + index.toString()
-                      }";
-                    $('.waitingPopup').show()`
-                };
-            }
+              $('.waitingPopup').show()
+                if (document.location.href.includes('filmInfo')) {
+                  ${
+                    elem.episodes
+                      ? `document.location.href = "/selectEpisode&${
+                          elem.kinopoisk_id.toString() + index.toString()
+                        }";`
+                      : `document.location.href = "/player${
+                          elem.kinopoisk_id.toString() + index.toString()
+                        }&season=none&episode=none";
+                    `
+                  };
+                } else {
+                  return false
+                }
+                
             }
          })
         </script>

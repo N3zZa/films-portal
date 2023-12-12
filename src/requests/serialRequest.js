@@ -59,11 +59,16 @@ module.exports = new Promise(function (resolve, reject) {
         <script type="text/javascript">
          $(document).keydown(function (e) {
             if (e.keyCode === 13) {
-                 if (isPlaylistShow === false) {
-                document.location.href = "/selectEpisode&${
-                  elem.kinopoisk_id.toString() + index.toString()
-                }";
-            }
+              $('.waitingPopup').show()
+              if (document.location.href.includes('filmInfo')) {
+                  ${`document.location.href = "/selectEpisode&${
+                    elem.kinopoisk_id.toString() + index.toString()
+                  }";`};
+                } else {
+                  return false
+                }
+                
+               
             }
          })
         </script>

@@ -214,7 +214,9 @@ module.exports = {
             seasonsArr.join("").toString()
           ); // создаю html элемент с сезонами либо озвучками
           seasonsArr.length = 0; // обнуляю массив
-          res.render("season.ejs"); // вывод страницы с ошибкой
+          res.render("season.ejs", {
+            backUrl: `/filmInfo${kinopoisk_id.toString() + index.toString()}`,
+          });
         });
        
       } else {
@@ -262,99 +264,98 @@ module.exports = {
       
      } else {
       try {
-        try {
-          // запрос на получение видеофайлов
-          fetch(APIVIDEOS_URL + `${kp_id}`, {
-            method: "GET",
-            headers: {
-              "X-API-KEY": API_TOKEN,
-              "Content-Type": "application/json",
-            },
-          })
-            .then((response) => response.json())
-            .then((filmresponse) => {
-              let genre = "";
-              const genresArr = filmresponse.genres.forEach((genreItem) => {
-                genre += genreItem.genre;
-              });
-
-              genresArr;
-              const filmValues = {
-                name: filmresponse.nameRu,
-                year: filmresponse.year.toString(),
-                genre: genre,
-                engname:
-                  filmresponse.nameOriginal !== null
-                    ? filmresponse.nameOriginal
-                    : "",
-                season: season ? season.toString() : "",
-                episode: episode ? episode.substring(1, 3) : "",
-              };
-
-              axios
-                .post(APIVIDEOS_MP4, filmValues)
-                .then(function (data) {
-                  return data;
-                })
-                .then((jsonResponse) => {
-                  try {
-                    let videosData = jsonResponse.data.Link.videos;
-                    const video = videosData["1080p"]
-                      ? videosData["1080p"]
-                      : videosData["720p"]
-                      ? videosData["720p"]
-                      : videosData["360p"];
-
-                    app.get(
-                      "/player" +
-                        kp_id.toString() +
-                        indexFilm.toString() +
-                        `&season=${season ? season : "none"}&episode=${
-                          season ? episode : "none"
-                        }`,
-                      (req, res) => {
-                        // проверка на сезон
-
-                        if (season === undefined) {
-                          console.log("videoURL", video);
-                          res.render("playerPage.ejs", {
-                            playerUrl: video,
-                            backUrl:
-                              "/filmInfo" + elem.kinopoisk_id + indexFilm,
-                          }); // Отправка ответа в виде HTML
-                        } else {
-                          const videoPlaylist = elem;
-                          const video = videoPlaylist[`${quality}`];
-                          console.log("episodeObj", video);
-
-                          res.render("playerPage.ejs", {
-                            playerUrl: video,
-                            backUrl:
-                              "/filmInfo" + elem.kinopoisk_id + indexFilm,
-                          }); // Отправка ответа в виде HTML
+        app.get(
+          "/player" +
+            kp_id.toString() +
+            indexFilm.toString() +
+            `&season=${season ? season : "none"}&episode=${
+              season ? episode.substring(1,3) : "none"
+            }`,
+          (req, res) => {
+            console.log(
+              "2",
+              "/player" +
+                kp_id.toString() +
+                indexFilm.toString() +
+                `&season=${season ? season : "none"}&episode=${
+                  season ? episode : "none"
+                }`
+            );
+                try {
+                  // запрос на получение видеофайлов
+                  fetch(APIVIDEOS_URL + `${kp_id}`, {
+                    method: "GET",
+                    headers: {
+                      "X-API-KEY": API_TOKEN,
+                      "Content-Type": "application/json",
+                    },
+                  })
+                    .then((response) => response.json())
+                    .then((filmresponse) => {
+                      let genre = "";
+                      const genresArr = filmresponse.genres.forEach(
+                        (genreItem) => {
+                          genre += genreItem.genre;
                         }
-                      }
-                    );
-                  } catch (error) {
-                    console.error("parcerFetchError", error); // обработка ошибки
-                    res.render("errorPage.ejs", {
-                      errorMessage: "Ошибка получения данных",
-                    }); // вывод страницы с ошибкой
-                  }
-                });
-            })
-            .catch(function (error) {});
+                      );
 
-        } catch (error) {
+                      genresArr;
+                      const filmValues = {
+                        name: filmresponse.nameRu,
+                        year: filmresponse.year.toString(),
+                        genre: genre,
+                        engname:
+                          filmresponse.nameOriginal !== null
+                            ? filmresponse.nameOriginal
+                            : "",
+                        season: season ? season.toString() : "",
+                        episode: episode ? episode.substring(1, 3) : "",
+                      };
 
-          console.error(
-            "getQualitiesAppError",
-            error,
-          ); // обработка ошибки
-          res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
-        }
+                      axios
+                        .post(APIVIDEOS_MP4, filmValues)
+                        .then(function (data) {
+                          return data;
+                        })
+                        .then((jsonResponse) => {
+                          let videosData = jsonResponse.data.Link.videos;
+                          const video = videosData["1080p"]
+                            ? videosData["1080p"]
+                              ? videosData["720p"]
+                              : videosData["720p"]
+                            : videosData["360p"];
+                          // проверка на сезон
+                          if (season === undefined) {
+                            console.log("videoURL", video);
+                            res.render("playerPage.ejs", {
+                              playerUrl: video,
+                              backUrl: "/filmInfo" + kp_id + indexFilm,
+                            }); // Отправка ответа в виде HTML
+                          } else {
+                            console.log("episodeObj", video);
+
+                            res.render("playerPage.ejs", {
+                              playerUrl: video,
+                              backUrl: "/filmInfo" + kp_id + indexFilm,
+                            }); // Отправка ответа в виде HTML
+                          }
+                        })
+                        .catch(function (error) {
+                          res.render("errorPage.ejs", {
+                            errorMessage: "Ошибка",
+                          }); // вывод страницы с ошибкой
+                        });
+                    })
+                } catch (error) {
+                  res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
+                }
+           
+          }
+        );
+        
       } catch (error) {
         console.error("FetchError", error); // обработка ошибки
+        res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
       }
      }
   

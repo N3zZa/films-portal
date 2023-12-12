@@ -1,9 +1,9 @@
 
-          <div>
-            <div id='navbar'>
+         <div>
+         <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('https://kinopoiskapiunofficial.tech/images/posters/kp/574688.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>Родина</h2>
+                <div class="posterImg" style="background-image: url('https://kinopoiskapiunofficial.tech/images/posters/kp/464963.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>Игра престолов</h2>
                 <p>Год:2011</p>
                 <img class="logo" src="../../../img/ucontv.png" alt="ucontv" />
             </div>
@@ -16,15 +16,19 @@
             </div>
             <p>Нажмите "ОК" для воспроизведения</p>
         </div>
-         <script type="text/javascript">
-          $(document).keydown(function (e) {
+        <script type="text/javascript">
+         $(document).keydown(function (e) {
             if (e.keyCode === 13) {
-                  if (isPlaylistShow === false) {
+              $('.waitingPopup').show()
+              if (document.location.href.includes('filmInfo')) {
+                  document.location.href = "/selectEpisode&4649633";;
+                } else {
+                  return false
+                }
                 
-                document.location.href = "/selectEpisode&5746880";;
-            }
+               
             }
          })
         </script>
-         </div>
+      </div>
         

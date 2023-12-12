@@ -14,7 +14,6 @@
     <script type="text/javascript" src="libs/event_emitter.js"></script>
     <script type="text/javascript" src="js/lib/smartbox.js"></script>
     <script>
-        var isPlaylistShow = false
         // запуск навигации
         $(function () {
             $$nav.on()
@@ -256,7 +255,7 @@
 
 <body>
     <div class="bg"></div>
-    <div class="playlist" id='playlistSeasons'>
+    <div data-backUrl="<%= backUrl %>" class="playlist" id='playlistSeasons'>
         <ul id="listseasons">
             <%- include('./elements/filmInfo/seasons&translations.ejs') %>
         </ul>
@@ -280,13 +279,7 @@
             }
             switch (e.keyCode) {
                 case 8:
-                    if (isPlaylistShow === false) {
-                        document.location.href = "/";
-                    } else {
-                        $('#playlistSeasons').hide()
-                        isPlaylistShow = false;
-                        $$nav.on('.navbar_menu')
-                    }
+                    document.location.href = $('#playlistSeasons').attr('data-backUrl')
                     break;
             }
         })

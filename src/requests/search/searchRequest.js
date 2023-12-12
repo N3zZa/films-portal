@@ -34,6 +34,7 @@ module.exports = function (inputText, res) {
               }));
               // массив с html блоками для информации о фильме
               const itemInfo = result.map((elem, index) => {
+                console.log(elem)
                 var poster_url = `https://kinopoiskapiunofficial.tech/images/posters/kp/${elem.kp_id}.jpg`;
                 return `
          <div>
@@ -58,20 +59,24 @@ module.exports = function (inputText, res) {
         </div>
          <script type="text/javascript">
         $(document).keydown(function (e) {
+          
              if (e.keyCode === 13) {
-                   if (isPlaylistShow === false) {
-                $('#playlistSeasons').show()
-                $$nav.on("#listseasons")
-                isPlaylistShow = true;
+                $('.waitingPopup').show()
+
+                  if (document.location.href.includes('filmInfo')) {
                   ${
                     elem.episodes
-                      ? ""
-                      : 'document.location.href = "/selectQuality&=' +
-                        elem.kp_id.toString() +
-                        index.toString() +
-                        '"'
+                      ? `document.location.href = "/selectEpisode&${
+                          elem.kp_id.toString() + index.toString()
+                        }";`
+                      : `document.location.href = "/player${
+                          elem.kp_id.toString() + index.toString()
+                        }&season=none&episode=none";
+                    `
                   };
-            } 
+                } else {
+                  return false
+                }
           }
           if (e.keyCode === 8) {
             document.location.href = '/search'
