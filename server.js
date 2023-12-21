@@ -16,80 +16,59 @@ app.use(express.static(__dirname + '/public')); // делаю public дирек�
 
 // премьеры
 userModel.getPremieres.then((data) => {
-  // создание html элементов на главную страницу
-  fs.writeFileSync(
-    "./public/views/elements/premieres.ejs",
-    data[0].join("").toString()
-  );
+    // создание html элементов на главную страницу
+    fs.writeFileSync('./public/views/elements/premieres.ejs', data[0].join('').toString())
 
-  // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
-  data[2].forEach((elem, index) => {
-    app.get("/filmInfo" + elem.id + index, (req, res) => {
-      fs.writeFileSync(
-        "./public/views/elements/filmInfo/filmInfo.ejs",
-        data[1][elem.index].toString()
-      );
-      fs.writeFileSync(
-        "./public/views/elements/filmInfo/filmInfoTranslations.ejs",
-        data[1][elem.index].toString().split("<script")[0]
-      );
-      userModel.getSeasons(elem.episodes, elem.id, index, app, elem.isSerial);
-      res.render("filmInfoPage.ejs");
-    });
-  });
-});
-
+    // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs', data[1][elem.index].toString().split('<script')[0])
+         userModel.getSeasons(elem.seasons, elem.id, index, app, elem.isSerial, elem.seasonsCount);
+        res.render('filmInfoPage.ejs')
+    })
+    })
+    
+})
 // фильмы
 userModel.getFilms.then((data) => {
-  // создание html элементов на главную страницу
-  fs.writeFileSync(
-    "./public/views/elements/films.ejs",
-    data[0].join("").toString()
-  );
+    // создание html элементов на главную страницу
+    fs.writeFileSync('./public/views/elements/films.ejs', data[0].join('').toString())
 
-  // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
-  data[2].forEach((elem, index) => {
-    app.get("/filmInfo" + elem.id + index, (req, res) => {
-      fs.writeFileSync(
-        "./public/views/elements/filmInfo/filmInfo.ejs",
-        data[1][elem.index].toString()
-      );
-      fs.writeFileSync(
-        "./public/views/elements/filmInfo/filmInfoTranslations.ejs",
-        data[1][elem.index].toString().split("<script")[0]
-      );
-      userModel.getSeasons(elem.episodes, elem.id, index, app, elem.isSerial);
-      res.render("filmInfoPage.ejs");
-    });
-  });
-});
-
+     // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs',  data[1][elem.index].toString().split('<script')[0])
+         userModel.getSeasons(elem.seasons, elem.id, index, app, elem.isSerial, elem.seasonsCount);
+        res.render('filmInfoPage.ejs')
+    })
+    })
+})
 // сериалы
 userModel.getSerials.then((data) => {
-  // создание html элементов на главную страницу
-  fs.writeFileSync(
-    "./public/views/elements/serials.ejs",
-    data[0].join("").toString()
-  );
+    // создание html элементов на главную страницу
+    fs.writeFileSync('./public/views/elements/serials.ejs', data[0].join('').toString())
 
-  // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
-  data[2].forEach((elem, index) => {
-    app.get("/filmInfo" + elem.id + index, (req, res) => {
-      fs.writeFileSync(
-        "./public/views/elements/filmInfo/filmInfo.ejs",
-        data[1][elem.index].toString()
-      );
-      fs.writeFileSync(
-        "./public/views/elements/filmInfo/filmInfoTranslations.ejs",
-        data[1][elem.index].toString().split("<script")[0]
-      );
-      userModel.getSeasons(elem.episodes, elem.id, index, app, elem.isSerial);
-      res.render("filmInfoPage.ejs");
-    });
-  });
-});
+     // создаю страницу с информацией о фильме только тогда, когда перешли на странцу определенного фильма
+    data[2].forEach((elem, index) => {
+        app.get('/filmInfo' + elem.id + index, (req, res) => {
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
+        fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs',  data[1][elem.index].toString().split('<script')[0])
+        userModel.getSeasons(
+          elem.seasons,
+          elem.id,
+          index,
+          app,
+          elem.isSerial,
+          elem.seasonsCount
+        );
+        res.render('filmInfoPage.ejs')
+    })
+    })
+})
 
-//аниме
+// аниме
 userModel.getAnime.then((data) => {
   // создание html элементов на главную страницу
   fs.writeFileSync(
@@ -108,11 +87,19 @@ userModel.getAnime.then((data) => {
         "./public/views/elements/filmInfo/filmInfoTranslations.ejs",
         data[1][elem.index].toString().split("<script")[0]
       );
-      userModel.getSeasons(elem.episodes, elem.id, index, app, elem.isSerial);
+      userModel.getSeasons(
+        elem.seasons,
+        elem.id,
+        index,
+        app,
+        elem.isSerial,
+        elem.seasonsCount
+      );
       res.render("filmInfoPage.ejs");
     });
   });
 });
+
 
 // каналы
 userModel.getChannels.then((data) => {
@@ -173,7 +160,7 @@ app.get('/searchItem', (req, resMain) => {
         app.get('/filmInfo' + elem.id + index, (req, res) => {
         fs.writeFileSync('./public/views/elements/filmInfo/filmInfo.ejs', data[1][elem.index].toString())
         fs.writeFileSync('./public/views/elements/filmInfo/filmInfoTranslations.ejs',  data[1][elem.index].toString().split('<script')[0])
-         userModel.getSeasons(elem.episodes, elem.id,index, app, elem.isSerial)
+         userModel.getSeasons(elem.seasons, elem.id,index, app, elem.isSerial, elem.seasonsCount)
         res.render('filmInfoPage.ejs')
     })
     })

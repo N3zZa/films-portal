@@ -294,19 +294,23 @@
                 <%- include('./elements/premieres.ejs') %>
             </div>
             <h1>Фильмы</h1>
-            <div id="filmsSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="filmsSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#premieresSlider,none,#animeSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/films.ejs') %>
             </div>
-            
+
             <h1>Сериалы</h1>
-            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="serialsSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#animeSlider,none,#cartoonSerialsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/serials.ejs') %>
             </div>
-            
+
+
             <h1>Аниме</h1>
-            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox">
+            <div id="animeSlider" class="slider navigation-items" data-nav_type="hbox"
+                data-nav_ud="#premieresSlider,none,#serialsSlider,none">
                 <!-- с помощью шаблонизатора импортирую html разметку -->
                 <%- include('./elements/anime.ejs') %>
             </div>

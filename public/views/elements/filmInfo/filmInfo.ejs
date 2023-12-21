@@ -1,11 +1,11 @@
 
          <div>
-         <div id='navbar'>
+            <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('https://kinopoiskapiunofficial.tech/images/posters/kp/464963.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>Игра престолов</h2>
+                <div class="posterImg" style="background-image: url('https://avatars.mds.yandex.net/get-kinopoisk-image/1777765/dd78edfd-6a1f-486c-9a86-6acbca940418/orig');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>Игра Престолов</h2>
                 <p>Год:2011</p>
-                <img class="logo" src="../../../img/ucontv.png" alt="ucontv" />
+                <p>Жанр:фэнтези, драма, боевик, мелодрама, приключения</p>
             </div>
         </div>
         <div class="poster_playerBlock">
@@ -14,21 +14,22 @@
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>Нажмите "ОК" для воспроизведения</p>
+            <p>К концу подходит время благоденствия, и лето, длившееся почти десятилетие, угасает. Вокруг средоточия власти Семи королевств, Железного трона, зреет заговор, и в это непростое время король решает искать поддержки у друга юности Эддарда Старка. В мире, где все — от короля до наемника — рвутся к власти, плетут интриги и готовы вонзить нож в спину, ес... </p>
         </div>
-        <script type="text/javascript">
-         $(document).keydown(function (e) {
-            if (e.keyCode === 13) {
-              $('.waitingPopup').show()
-              if (document.location.href.includes('filmInfo')) {
-                  document.location.href = "/selectEpisode&4649633";;
-                } else {
-                  return false
-                }
-                
-               
-            }
+         <script type="text/javascript">
+        $(document).keydown(function (e) {
+             if (e.keyCode === 13) {
+                   if (isPlaylistShow === false) {
+                $('#playlistSeasons').show()
+                $$nav.on("#listseasons")
+                isPlaylistShow = true;
+                 ;
+            } 
+          }
+          if (e.keyCode === 8) {
+            document.location.href = '/search'
+          }
          })
         </script>
-      </div>
+         </div>
         

@@ -249,7 +249,12 @@
             <h1 id="no-episodes_text"></h1>
         </div>
         <div class="navigation-items" id="warningText">
-            <h4>Ожидание начала фильма до 30 секунд</h4>
+            <h4>Уважаемый абонент, при просмотре видео, с повышенным интересом со стороны аудитории премьера которого состоялась
+            недавно, у вас возможны "лаги" или задержки видео во время просмотра в связи с перегруженностью сервера высоким спросом
+            на просмотр. Поэтому, рекомендуем Вам попробовать снизить качество просматриваемого видео или же вернуться к просмотру
+            данного контента через пару дней, после снижения ажиотажа. Так же можете использовать кнопки "вправо", "влево" (1 мин.)
+            или же кнопки Page up", "Page down" (10 мин.) на пульте для промотки зависающих моментов видеоконтента.</h4>
+            <button class="nav-item" id="warningTextBtn">OK</button>
         </div>
     </div>
 
@@ -299,9 +304,9 @@
          if (document.location.href.toLowerCase().indexOf('fullhd') >= 0) {
             $('#warningText').addClass('hidden')
          } else {
-             setTimeout(function() {
-                $('#warningText').addClass('hidden')
-             }, 5000)
+             $('#warningTextBtn').click(function () {
+                 $('#warningText').addClass('hidden')
+             })
          }
 
         // ВСЕ МЕТОДЫ ПРИСТАВКИ ОПИСАНЫ В ДОКЕ /docs
@@ -333,7 +338,7 @@
 
         mb.send('display.pip', { value: false, w: '100%', h: '100%'});
 
-         var locked = true;
+
         // методы при клике на клавише
         $(document).keydown(function (e) {
 
@@ -343,8 +348,6 @@
                  clearTimeout(timerSound)
             }, 3000)
 
-            
-            
             // получаю из конфига клавиши
             var key = config.app.keys[config.app.mode][e.keyCode];
 
@@ -359,9 +362,7 @@
                 secondsToTime(data.value, '#currentTime')
                 secondsToTime(data.full_time, '#fullTime')
             })
-              if (locked) {
-                return;
-            }
+             
              // управление плеером
             switch (key) {
                 //лево
@@ -537,7 +538,7 @@
 
         });
 
-        setTimeout(function () { locked = false; }, 5000); 
+
        
     </script>
 </body>

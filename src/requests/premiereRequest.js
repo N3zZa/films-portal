@@ -1,15 +1,14 @@
 require("dotenv").config(); // Config file
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const VIDEOCDN_TOKEN = process.env.VIDEOCDN_TOKEN;
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-const APIFILMS_URL = `https://videocdn.tv/api/movies?api_token=${VIDEOCDN_TOKEN}&year=${new Date().getFullYear()}`;
-const APISERIALS_URL = `https://videocdn.tv/api/tv-series?api_token=${VIDEOCDN_TOKEN}&year=${new Date().getFullYear()}`;
+const API_TOKEN = process.env.ALLOHA_TOKEN;
+
+const APIPREMIERES_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list&year=${new Date().getFullYear()}&poster=1&description=1`;
 
 // функция для задержки
 function sleeper(ms) {
-  return function (x) {
-    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
+  return function(x) {
+    return new Promise(resolve => setTimeout(() => resolve(x), ms));
   };
 }
 
@@ -18,47 +17,38 @@ module.exports = new Promise(function (resolve, reject) {
     // Timeout для базона
     setTimeout(() => {
       sleeper(1100);
-      fetch(APIFILMS_URL)
+     
+      fetch(APIPREMIERES_URL)
         .then((response) => {
           return response.json();
         })
-        .then((films) => {
-          sleeper(800);
-          fetch(APISERIALS_URL)
-            .then((response) => {
-              return response.json();
-            })
-            .then((serials) => {
-              var result = [],
-                i,
-                l = Math.min(serials.data.length, films.data.length);
-
-              for (i = 0; i < l; i++) {
-                result.push(serials.data[i], films.data[i]);
-              }
-              result.push(...serials.data.slice(l), ...films.data.slice(l));
-
-              // просто сохраняю в переменную массив с данными о фильмах
-              const filmDataId = result.map((film, i) => ({
-                id: film.kinopoisk_id,
-                index: i,
-                episodes: film.episodes,
-                isSerial: film.episodes ? "1" : "0",
-              }));
-              // массив с html блоками для информации о фильме
-              const itemInfo = result.map((elem, index) => {
-                var poster_url = `https://kinopoiskapiunofficial.tech/images/posters/kp/${elem.kinopoisk_id}.jpg`;
-                return `
+        .then((data) => {
+          
+          // просто сохраняю в переменную массив с данными о фильмах
+          const filmDataId = data.data.map((film, i) => ({
+            id: film.id_kp
+              ? film.id_kp
+              : film.id_imdb
+              ? film.id_imdb
+              : film.original_name.replace(/\s/g, ""),
+            index: i,
+            seasons: film.seasons ? film.seasons : false,
+            isSerial: film.seasons ? true : false,
+            seasonsCount: film.seasonsCount ? film.seasonsCount : false,
+          }));
+          // массив с html блоками для информации о фильме
+          const itemInfo = data.data.map((elem, index) => {
+            
+            return `
           <div>
             <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('${poster_url}');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>${elem.ru_title}</h2>
-                ${
-                  elem.released !== null
-                    ? `<p>Год:${elem.released.substring(0, 4)}</p>`
-                    : ""
-                }
+                <div class="posterImg" style="background-image: url('${
+                  elem.poster
+                }');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>${elem.name}</h2>
+                <p>Год:${elem.year}</p>
+                <p>Жанр:${elem.genre}</p>
                 <img class="logo" src="../../../img/ucontv.png" alt="ucontv" />
             </div>
         </div>
@@ -68,58 +58,59 @@ module.exports = new Promise(function (resolve, reject) {
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>Нажмите "ОК" для воспроизведения</p>
+            <p>${
+              elem.description
+                .replace(/[\n\r]+/g, "")
+                .replace(/('|")/g, ``)
+                .substring(0, 350) + "..."
+            } </p>
         </div>
          <script type="text/javascript">
           $(document).keydown(function (e) {
             if (e.keyCode === 13) {
-               $('.waitingPopup').show()
-                if (document.location.href.includes('filmInfo')) {
-                  ${
-                    elem.episodes
-                      ? `document.location.href = "/selectEpisode&${
-                          elem.kinopoisk_id.toString() + index.toString()
-                        }";`
-                      : `document.location.href = "/player${
-                          elem.kinopoisk_id.toString() + index.toString()
-                        }&season=none&episode=none";
-                    `
-                  };
-                } else {
-                  return false
-                }
-               
+                  if (isPlaylistShow === false) {
+                $('#playlistSeasons').show()
+                $$nav.on("#listseasons")
+                isPlaylistShow = true;
+                ${
+                  elem.last_season
+                    ? ""
+                    : 'document.location.href = "/selectTranslation' +
+                      filmDataId[index].id.toString() + index + '"'
+                };
+            }
             }
          })
         </script>
          </div>
         `;
-              });
-              // из полученных данных создаю массив с html блоками
-              const item = result.map((elem, index) => {
-                var poster_url = `https://kinopoiskapiunofficial.tech/images/posters/kp/${elem.kinopoisk_id}.jpg`;
-                return `
+          });
+          // из полученных данных создаю массив с html блоками
+          const item = data.data.map((elem, index) => {
+            return `
         <div id="premiere${index}" class="filmsItem item nav-item">
-        <div class="filmsItemBg" style="background: url('${poster_url}'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
+        <div class="filmsItemBg" style="background: url('${
+          elem.poster
+        }'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
         </div>
         <div class="text filmsItemText">
-        <p class="filmItemTexth1">${elem.ru_title.substring(0, 20)}</p>
+        <p class="filmItemTexth1">${elem.name.substring(0, 20)}</p>
+        <p>(${elem.year})</p>
         </div>
         </div>
         <script type="text/javascript">
             var _elem${
-              elem.kinopoisk_id + index
+              filmDataId[index].id.toString() + index
             } = document.getElementById("premiere${index}")
             _elem${
-              elem.kinopoisk_id + index
+              filmDataId[index].id.toString() + index
             }.addEventListener("click", function (event) {document.location.href = "/filmInfo${
-                  elem.kinopoisk_id.toString() + index.toString()
-                }"; $$nav.off()});
+              filmDataId[index].id.toString() + index
+            }"; $$nav.off()});
         </script>
         `;
-              });
-              resolve([item, itemInfo, filmDataId]); // отдаю массив с подмассивами
-            });
+          });
+          resolve([item, itemInfo, filmDataId]); // отдаю массив с подмассивами
         }, 1100)
         .catch((error) => {
           console.log(error);
@@ -129,3 +120,4 @@ module.exports = new Promise(function (resolve, reject) {
     console.log("fetchErrorPremieres", error); // обработка ошибки
   }
 });
+
