@@ -2,7 +2,7 @@ require("dotenv").config(); // Config file
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 
-const APISERIALS_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list=serial&year=${new Date().getFullYear()}&poster=1&description=1`;
+const APISERIALS_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list=serial&order=year&poster=1&description=1`;
 
 // функция для задержки
 function sleeper(ms) {

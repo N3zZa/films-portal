@@ -3,7 +3,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 
-const APIPREMIERES_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list&year=${new Date().getFullYear()}&poster=1&description=1`;
+const APIPREMIERES_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list&order=year&poster=1&description=1`;
 
 // функция для задержки
 function sleeper(ms) {

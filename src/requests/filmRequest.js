@@ -4,7 +4,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 
-const APIFILMS_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list=movie&year=${new Date().getFullYear()}&poster=1&description=1`;
+const APIFILMS_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list=movie&order=year&poster=1&description=1`;
 
 // функция для задержки
 function sleeper(ms) {
@@ -22,6 +22,7 @@ module.exports = new Promise(function(resolve, reject){
       fetch(APIFILMS_URL).then((response) => {
     return response.json()
 }).then(data =>  {
+  console.log(data);
    // просто сохраняю в переменную массив с данными о фильмах
    const filmDataId = data.data.map((film, i) => ({
      id: film.id_kp
