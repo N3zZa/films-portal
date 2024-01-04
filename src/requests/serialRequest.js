@@ -15,7 +15,6 @@ module.exports = new Promise(function(resolve, reject){
    try {
       // Timeout для базона
       setTimeout(() => {
-      sleeper(800)
       fetch(APISERIALS_URL).then((response) => {
     return response.json()
 }).then(data =>  {
@@ -89,18 +88,30 @@ module.exports = new Promise(function(resolve, reject){
         </div>
         <script type="text/javascript">
             var _elem${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             } = document.getElementById("serial${index}")
             _elem${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             }.addEventListener("click", function (event) {document.location.href = "/filmInfo${
-        filmDataId[index].id.toString() + index
+        (elem.id_kp
+          ? elem.id_kp
+          : elem.id_imdb
+          ? elem.id_imdb
+          : elem.original_name.replace(/\s/g, "").toString()) + index
       }"; $$nav.off()});
         </script>
         `;
     });
     resolve([item, itemInfo, filmDataId]) // отдаю массив с подмассивами
-   }, 1100)
+   }, 0)
 })
    } catch (error) {
         console.log('fetchErrorSerial', error) // обработка ошибки

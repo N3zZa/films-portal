@@ -16,7 +16,6 @@ module.exports = new Promise(function (resolve, reject) {
   try {
     // Timeout для базона
     setTimeout(() => {
-      sleeper(1100);
      
       fetch(APIPREMIERES_URL)
         .then((response) => {
@@ -76,7 +75,13 @@ module.exports = new Promise(function (resolve, reject) {
                   elem.last_season
                     ? ""
                     : 'document.location.href = "/selectTranslation' +
-                      filmDataId[index].id.toString() + index + '"'
+                      (elem.id_kp
+                        ? elem.id_kp
+                        : elem.id_imdb
+                        ? elem.id_imdb
+                        : elem.original_name.replace(/\s/g, "").toString()) +
+                      index +
+                      '"'
                 };
             }
             }
@@ -100,18 +105,30 @@ module.exports = new Promise(function (resolve, reject) {
         </div>
         <script type="text/javascript">
             var _elem${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             } = document.getElementById("premiere${index}")
             _elem${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             }.addEventListener("click", function (event) {document.location.href = "/filmInfo${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             }"; $$nav.off()});
         </script>
         `;
           });
           resolve([item, itemInfo, filmDataId]); // отдаю массив с подмассивами
-        }, 1100)
+        }, 100)
         .catch((error) => {
           console.log(error);
         });

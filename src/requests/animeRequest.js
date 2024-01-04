@@ -16,14 +16,12 @@ module.exports = new Promise(function (resolve, reject) {
   try {
     // Timeout для базона
     setTimeout(() => {
-      sleeper(1100);
       fetch(APIANIME_URL)
         .then((response) => {
           return response.json();
         })
         .then((data) => {
           // просто сохраняю в переменную массив с данными о фильмах
-          console.log(data)
           const filmDataId = data.data.map((film, i) => ({
             id: film.id_kp
               ? film.id_kp
@@ -74,7 +72,11 @@ module.exports = new Promise(function (resolve, reject) {
                   elem.last_season
                     ? ""
                     : 'document.location.href = "/selectTranslation' +
-                      filmDataId[index].id.toString().toString() +
+                    (elem.id_kp
+       ? elem.id_kp
+       : elem.id_imdb
+       ? elem.id_imdb
+       : elem.original_name.replace(/\s/g, "").toString()) +
                       index +
                       '"'
                 };
@@ -100,18 +102,30 @@ module.exports = new Promise(function (resolve, reject) {
         </div>
         <script type="text/javascript">
             var _elem${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             } = document.getElementById("anime${index}")
             _elem${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             }.addEventListener("click", function (event) {document.location.href = "/filmInfo${
-              filmDataId[index].id.toString() + index
+              (elem.id_kp
+                ? elem.id_kp
+                : elem.id_imdb
+                ? elem.id_imdb
+                : elem.original_name.replace(/\s/g, "").toString()) + index
             }"; $$nav.off()});
         </script>
         `;
           });
           resolve([item, itemInfo, filmDataId]); // отдаю массив с подмассивами
-        }, 1100)
+        }, 200)
         .catch((error) => {
           console.log(error);
         });
