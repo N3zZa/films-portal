@@ -3,7 +3,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 const axios = require("axios");
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 
-const APISEARCH_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list&poster=1&description=1&name=`;
+const APISEARCH_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list&poster=1&description=1&rating_kp=1&name=`;
 
 // функция для задержки
 function sleeper(ms) {
@@ -29,26 +29,22 @@ module.exports = function (inputText, res) {
           if (responseData) {
             // просто сохраняю в переменную массив с данными о фильмах
             const filmDataId = responseData.map((film, i) => ({
-              id: film.id_kp
-                ? film.id_kp
-                : film.id_imdb
-                ? film.id_imdb
-                : film.original_name.replace(/\s/g, ""),
+              id: film.id_kp,
               index: i,
               seasons: film.seasons ? film.seasons : false,
               isSerial: film.seasons ? true : false,
               seasonsCount: film.seasonsCount ? film.seasonsCount : false,
             }));
-            console.log(responseData);
             // массив с html блоками для информации о фильме
             const itemInfo = responseData.map((elem, index) => {
+              console.log(elem.id_kp)
               return `
          <div>
             <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('${
-                  elem.poster
-                }');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <div class="posterImg" style="background-image: url('http://st.kp.yandex.net/images/film_iphone/iphone360_${
+                  elem.id_kp
+                }.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
                 <h2>${elem.name}</h2>
                 <p>Год:${elem.year}</p>
                 <p>Жанр:${elem.genre}</p>
@@ -95,9 +91,9 @@ module.exports = function (inputText, res) {
             // из полученных данных создаю массив с html блоками
             const item = responseData.map((elem, index) => {
               return `
-        <div id="searchItem${index}" style="background: url('${
-                elem.poster
-              }'); background-repeat:no-repeat;  background-size:cover;" class="item searchItem nav-item">
+        <div id="searchItem${index}" style="background: url('http://st.kp.yandex.net/images/film_iphone/iphone360_${
+                elem.id_kp
+              }.jpg'); background-repeat:no-repeat;  background-size:cover;" class="item searchItem nav-item">
             <div class="searchText text">
             <p>${elem.name.substring(0, 20)}</p>
             <h1>${elem.year} ${elem.last_season ? "Сериал" : "Фильм"}</h1>
