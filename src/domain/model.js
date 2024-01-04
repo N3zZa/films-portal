@@ -214,8 +214,10 @@ module.exports = {
                 // с помощью replace(/\s/g, "") убираю пробелы
                 if (season === undefined) {
                    for (let key of Object.keys(filmEpisode)) {
-                    if (filmEpisode[key].name === 'Не требуется') {
-                      console.log(filmEpisode);
+                    if (
+                      filmEpisode[key].name === "Не требуется" ||
+                      filmEpisode[key].name === "Не требуется. 18+"
+                    ) {
                       const htmlElem = `
                                          <li id="transl${kinopoisk_id}${
                         season ? season + episode + index : ""
@@ -254,7 +256,10 @@ module.exports = {
                                     })
                                     </script>
                                         `;
-                      htmlForTransl.push(htmlElem);
+                      htmlForTransl.length < 1
+                        ? htmlForTransl.push(htmlElem)
+                        : false;
+                      
                       model.createPlayerPage(
                         app,
                         season,
@@ -319,7 +324,10 @@ module.exports = {
                 } else {
                   for (let key of Object.keys(filmEpisode.translation)) {
                     const transl = filmEpisode.translation[key].translation;
-                    if (transl === 'Не требуется') {
+                    if (
+                      transl === "Не требуется" ||
+                      transl === "Не требуется. 18+"
+                    ) {
                       const htmlElem = `
                                          <li id="transl${kinopoisk_id}${
                         season ? season + episode + index : ""
@@ -352,33 +360,37 @@ module.exports = {
                                     })
                                     </script>
                                         `;
-                                         htmlForTransl.push(htmlElem);
-                                         model.createPlayerPage(
-                                           app,
-                                           season,
-                                           episode,
-                                           filmEpisode.translation[key],
-                                           kinopoisk_id,
-                                           index,
-                                           key
-                                         );
+                      htmlForTransl.length < 1
+                        ? htmlForTransl.push(htmlElem)
+                        : false;
+                      model.createPlayerPage(
+                        app,
+                        season,
+                        episode,
+                        filmEpisode.translation[key],
+                        kinopoisk_id,
+                        index,
+                        key
+                      );
                     } else {
- const htmlElem = `
+                      const htmlElem = `
                                          <li id="transl${kinopoisk_id}${
-   season ? season + episode + index : ""
- }${transl.replace(/\s/g, "")}" class="channel nav-item"
+                        season ? season + episode + index : ""
+                      }${transl.replace(/\s/g, "")}" class="channel nav-item"
                                      >
                                         <p>${transl}</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#transl${kinopoisk_id}${
-   season ? season + episode + index : ""
- }${transl.replace(/\s/g, "")}').click(function (e) {
+                        season ? season + episode + index : ""
+                      }${transl.replace(/\s/g, "")}').click(function (e) {
                                      window.location = '/player${
                                        kinopoisk_id.toString() + index
                                      }&season=${
-   season ? season : "none"
- }&episode=${episode ? episode : "none"}&quality=${transl.replace(/\s/g, "")}'
+                        season ? season : "none"
+                      }&episode=${
+                        episode ? episode : "none"
+                      }&quality=${transl.replace(/\s/g, "")}'
                                     })
                                     
                                      $(document).keydown(function (e) {
@@ -393,16 +405,16 @@ module.exports = {
                                     })
                                     </script>
                                         `;
- htmlForTransl.push(htmlElem);
- model.createPlayerPage(
-   app,
-   season,
-   episode,
-   filmEpisode.translation[key],
-   kinopoisk_id,
-   index,
-   key
- );
+                      htmlForTransl.push(htmlElem);
+                      model.createPlayerPage(
+                        app,
+                        season,
+                        episode,
+                        filmEpisode.translation[key],
+                        kinopoisk_id,
+                        index,
+                        key
+                      );
                     }
                    
                   }

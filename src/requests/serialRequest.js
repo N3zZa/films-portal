@@ -29,6 +29,7 @@ module.exports = new Promise(function(resolve, reject){
 
    // массив с html блоками для информации о фильме
    const itemInfo = data.data.map((elem, index) => {
+    
      return `
          <div>
          <div id='navbar'>

@@ -280,15 +280,15 @@
                 case 'back': /* назад */
                     window.location = '/search'
                     break;
-                case 91: //i
-                    $('.waitingPopup').show()
-                    window.location = '/searchItem?' + bla
-                    break;
                 case 'right': //right
                     if ($('button#inputBtn.focus')[0] && $('#input').val === '') {
                         $('label').show()
                     }
                     break;
+            }
+            if (e.keyCode === 91) {
+                $('.waitingPopup').show()
+                window.location = '/searchItem?' + bla
             }
         });
 

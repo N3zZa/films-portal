@@ -37,7 +37,6 @@ module.exports = function (inputText, res) {
             }));
             // массив с html блоками для информации о фильме
             const itemInfo = responseData.map((elem, index) => {
-              console.log(elem.id_kp)
               return `
          <div>
             <div id='navbar'>

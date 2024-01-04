@@ -34,8 +34,10 @@ module.exports = new Promise(function(resolve, reject){
           <div>
             <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('http://st.kp.yandex.net/images/film_iphone/iphone360_${elem.id_kp}.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
-                <h2>${elem.title}</h2>
+                <div class="posterImg" style="background-image: url('http://st.kp.yandex.net/images/film_iphone/iphone360_${
+                  elem.id_kp
+                }.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <h2>${elem.name}</h2>
                 <p>Год:${elem.year}</p>
                 <p>Жанр:${elem.genre}</p>
                 <img class="logo" src="../../../img/ucontv.png" alt="ucontv" />
@@ -58,7 +60,7 @@ module.exports = new Promise(function(resolve, reject){
          $(document).keydown(function (e) {
             if (e.keyCode === 13) {
                 document.location.href = "/selectTranslation${
-                  (elem.id_kp ? elem.id_kp : elem.id_imdb ? elem.id_imdb : elem.original_name.replace(/\s/g, "").toString()) + index
+                  elem.id_kp.toString() + index
                 }";
             }
          })
@@ -83,7 +85,7 @@ module.exports = new Promise(function(resolve, reject){
             var _elem${
               elem.id_kp.toString() + index
             } = document.getElementById("film${index}")
-            _elem${elem.id_kp.toString()}.addEventListener("click", function (event) {document.location.href = "/filmInfo${
+            _elem${elem.id_kp.toString() + index}.addEventListener("click", function (event) {document.location.href = "/filmInfo${
         elem.id_kp.toString() + index
       }"; $$nav.off()});
         </script>
