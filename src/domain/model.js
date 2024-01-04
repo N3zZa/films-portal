@@ -6,7 +6,7 @@ const _ = undefined;
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 const ALLOHAVIDEO_TOKEN = process.env.ALLOHAVIDEO_TOKEN;
 
-const yourIp = "178.121.37.82"; // ваш айпи
+const yourIp = "178.121.45.163"; // ваш айпи
 
 
 
@@ -204,6 +204,7 @@ module.exports = {
           )
             .then((response) => response.json())
             .then((jsonResponse) => {
+              console.log(jsonResponse.data);
               try {
                 // создаю блок с озвучками
                 const filmItem = jsonResponse.data;
