@@ -270,7 +270,6 @@ module.exports = {
                         key
                       );
                     } else {
-                      console.log(filmEpisode);
                       const htmlElem = `
                                          <li id="transl${kinopoisk_id}${
                         season ? season + episode + index : ""
