@@ -5,12 +5,6 @@ const API_TOKEN = process.env.ALLOHA_TOKEN;
 
 const APIANIME_URL = `https://api.apbugall.org/?token=${API_TOKEN}&list=anime-serial&order=year&poster=1&description=1`;
 
-// функция для задержки
-function sleeper(ms) {
-  return function (x) {
-    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
-  };
-}
 
 module.exports = new Promise(function (resolve, reject) {
   try {
@@ -92,7 +86,7 @@ module.exports = new Promise(function (resolve, reject) {
             return `
         <div id="anime${index}" class="filmsItem item nav-item">
         <div class="filmsItemBg" style="background: url('${
-          elem.poster
+          ""
         }'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
         </div>
         <div class="text filmsItemText">

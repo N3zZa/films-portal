@@ -78,7 +78,7 @@ module.exports = new Promise(function(resolve, reject){
       return `
         <div id="serial${index}" class="item serialItem nav-item">
         <div class="filmsItemBg" style="background: url('${
-          elem.poster
+          ""
         }'); background-repeat:no-repeat;  background-size:cover;background-size: 100% 100%;" >
         </div>
          <div class="text filmsItemText">

@@ -77,7 +77,7 @@ module.exports = new Promise(function(resolve, reject){
       return `
         <div id="film${index}" class="filmsItem item nav-item">
         <div class="filmsItemBg" style="background: url('${
-          elem.poster
+          ""
         }'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
         </div>
         <div class="text filmsItemText">
