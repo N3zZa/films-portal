@@ -18,15 +18,15 @@
     <script type="text/javascript" src="js/lib/config.js"></script>
     <script type="text/javascript" src="js/lib/msgBusEntry.js"></script>
     <script type="text/javascript" src="js/lib/gapi.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        var stb = gSTB;
+     // запуск навигации
+     $(function () {
+         $$nav.on()
+     })
+ </script>
     <script type="text/javascript" src="js/app.js"></script>
 
-   <script>
-    // запуск навигации
-    $(function () {
-        $$nav.on()
-    })
-</script>
 </head>
 <style>
     body {
@@ -242,10 +242,6 @@
     .hidden {
         display: none;
     }
-    #video {
-        position: absolute;
-        top: 0;
-    }
 </style>
 
 <body>
@@ -274,7 +270,7 @@
         </div>
     </div>
 
-    <video width="1280" height="720" id="video" controls></video>
+
     <div class="playerMenu" id="playerMenu">
         <div class="playerTime current_time">
             <p id="currentTime">1:00:00</p>
@@ -306,23 +302,6 @@
 
 
     <script type="text/javascript">
-
-        var video = document.getElementById('video');
-        var videoUrl = document.getElementById("wrap").getAttribute('data-url');
-
-            if (Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource(videoUrl);
-                hls.attachMedia(video);
-                video.play();
-            }
-            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = videoUrl;
-                video.addEventListener('loadedmetadata', function () {
-                    video.play();
-                });
-            }
-
          if (document.location.href.toLowerCase().indexOf('fullhd') >= 0) {
             $('#warningText').addClass('hidden')
          } else {

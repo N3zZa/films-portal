@@ -6,7 +6,7 @@ const _ = undefined;
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 const ALLOHAVIDEO_TOKEN = process.env.ALLOHAVIDEO_TOKEN;
 
-const yourIp = "178.121.45.163"; // ваш айпи
+const yourIp = "178.121.25.77"; // ваш айпи
 
 
 
@@ -204,7 +204,6 @@ module.exports = {
           )
             .then((response) => response.json())
             .then((jsonResponse) => {
-              console.log(jsonResponse.data);
               try {
                 // создаю блок с озвучками
                 const filmItem = jsonResponse.data;
@@ -521,14 +520,11 @@ module.exports = {
           )
             .then((response) => response.json())
             .then((responseData) => {
-              const videoString = responseData.data.playlist_file;
-              var a = videoString.split("https://")[1];
+              const video = responseData.data.file[0].h264
+              console.log("data", responseData.data);
               
-              var b = a.split('.m3u8')[0]
-              var video = "https://" + b + ".m3u8"
               // проверка на сезон
               if (season === undefined) {
-                console.log(responseData)
                 
                 console.log("videoURL", video);
                 res.render("playerPage.ejs", {
