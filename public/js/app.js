@@ -19,6 +19,7 @@
             document.getElementById('no-episodes_text').innerText = 'Нет эпизодов с данной озвучкой'
             console.log('Нет эпизодов')
         } else {
+            mb.store('"nvram.user.player_ua value="Mozilla/5.0 (SMART-TV; LINUX; Tizen 4.0) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 TV Safari/537.36"')
             mb.send('player.enqueue', { url: playerUrl, title: 'Плеер' });
             mb.send('player.play');
             console.log('Плеер запущен')
