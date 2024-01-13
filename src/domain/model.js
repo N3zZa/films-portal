@@ -1,84 +1,91 @@
 require("dotenv").config(); // Config file
 const fs = require("fs");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const _ = undefined;
 // API BAZON_TOKEN
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 const ALLOHAVIDEO_TOKEN = process.env.ALLOHAVIDEO_TOKEN;
 
-const yourIp = "178.121.25.77"; // ваш айпи
-
-
+const yourIp = "178.121.24.77"; // ваш айпи
 
 // ССЫЛКА НА АПИ ДЛЯ ЗАПРОСА НА ВИДЕОФАЙЛЫ
 const APIFILM_URL = `https://api.apbugall.org/?token=${API_TOKEN}&`;
 const APIVIDEO_URL = `https://away.as.newplayjj.com:9443/link_file.php?secret_token=${ALLOHAVIDEO_TOKEN}&ip=${yourIp}&`;
 
-
-
- // ваши фильмы
-        const fullHdfilms = [
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '1',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '2',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '3',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '4',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '5',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '6',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '7',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '8',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '9',
-            }, 
-            {
-                title: 'Трансформеры: Восхождение Звероботов',
-                videoUrl: 'http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv',
-                imageUrl: 'https://i.ibb.co/ky1mzbT/147681.jpg',
-                id: '10',
-            }]
-
+// ваши фильмы
+const fullHdfilms = [
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "1",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "2",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "3",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "4",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "5",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "6",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "7",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "8",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "9",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    id: "10",
+  },
+];
 
 // импортирую все функции из папки requests в методы
 // добавил setTimeout'ы для задержки(чтобы базон не блочил)
@@ -213,7 +220,7 @@ module.exports = {
                 const htmlForTransl = [];
                 // с помощью replace(/\s/g, "") убираю пробелы
                 if (season === undefined) {
-                   for (let key of Object.keys(filmEpisode)) {
+                  for (let key of Object.keys(filmEpisode)) {
                     if (
                       filmEpisode[key].name === "Не требуется" ||
                       filmEpisode[key].name === "Не требуется. 18+"
@@ -259,7 +266,7 @@ module.exports = {
                       htmlForTransl.length < 1
                         ? htmlForTransl.push(htmlElem)
                         : false;
-                      
+
                       model.createPlayerPage(
                         app,
                         season,
@@ -319,7 +326,7 @@ module.exports = {
                         key
                       );
                     }
-                   }
+                  }
                 } else {
                   for (let key of Object.keys(filmEpisode.translation)) {
                     const transl = filmEpisode.translation[key].translation;
@@ -415,9 +422,7 @@ module.exports = {
                         key
                       );
                     }
-                   
                   }
-
                 }
                 // создание файла с озвучками
                 fs.writeFileSync(
@@ -425,7 +430,6 @@ module.exports = {
                   htmlForTransl.join("").toString()
                 );
                 res.render("translationsPage.ejs"); // вывод страницы и передаю url при переходе назад
-               
               } catch (error) {
                 console.error("getTranslationsFetchError", error); // обработка ошибки
                 res.render("errorPage.ejs", { errorMessage: "Ошибка" }); // вывод страницы с ошибкой
@@ -498,7 +502,6 @@ module.exports = {
         }); // Отправка ответа в виде HTML(также передаю ссылку при клике назад и конечно ссылку на видеофайл)
       });
     } else {
-      
       app.get(
         `/player${kp_id.toString() + indexFilm}&season=${
           season ? season : "none"
@@ -510,9 +513,9 @@ module.exports = {
         (req, res) => {
           fetch(
             APIVIDEO_URL +
-              `${
-                typeof kp_id === "number" ? `kp=${kp_id}` : `name=${kp_id}`
-              }${season ? `&season=${season}&episode=${episode}` : ''}&translation=${translationId}`,
+              `${typeof kp_id === "number" ? `kp=${kp_id}` : `name=${kp_id}`}${
+                season ? `&season=${season}&episode=${episode}` : ""
+              }&translation=${translationId}`,
             {
               method: "GET",
               headers: { "Content-Type": "application/json" },
@@ -520,19 +523,17 @@ module.exports = {
           )
             .then((response) => response.json())
             .then((responseData) => {
-              const video = responseData.data.file[0].h264
+              const video = responseData.data.file[0].h264;
               console.log("data", responseData.data);
-              
+
               // проверка на сезон
               if (season === undefined) {
-                
                 console.log("videoURL", video);
                 res.render("playerPage.ejs", {
                   playerUrl: video,
                   backUrl: "/filmInfo" + kp_id + indexFilm,
                 }); // Отправка ответа в виде HTML
               } else {
-                
                 console.log("videoURL", video);
 
                 res.render("playerPage.ejs", {
