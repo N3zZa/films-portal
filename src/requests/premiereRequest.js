@@ -37,7 +37,9 @@ module.exports = new Promise(function (resolve, reject) {
           <div>
             <div id='navbar'>
             <div class="navbar_wrap">
-                <div class="posterImg" style="background-image: url('http://st.kp.yandex.net/images/film_iphone/iphone360_${elem.id_kp}.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
+                <div class="posterImg" style="background-image: url('http://st.kp.yandex.net/images/film_iphone/iphone360_${
+                  elem.id_kp
+                }.jpg');background-repeat: no-repeat; background-size: 100% 100%;" alt="posterimg"></div>
                 <h2>${elem.name}</h2>
                 <p>Год:${elem.year}</p>
                 <p>Жанр:${elem.genre}</p>
@@ -50,12 +52,13 @@ module.exports = new Promise(function (resolve, reject) {
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>${
+            <p className="descripText">${
               elem.description
                 .replace(/[\n\r]+/g, "")
                 .replace(/('|")/g, ``)
                 .substring(0, 350) + "..."
             } </p>
+             <img height="110px" alt="advices" src="/img/btnAdvice2.png" />
         </div>
          <script type="text/javascript">
           $(document).keydown(function (e) {

@@ -44,12 +44,13 @@ module.exports = new Promise(function (resolve, reject) {
             <img src="/img/playImg.svg" alt="playImg" />
             </div>
             </div>
-            <p>${
+            <p className="descripText">${
               elem.description
                 .replace(/[\n\r]+/g, "")
                 .replace(/('|")/g, ``)
                 .substring(0, 350) + "..."
             } </p>
+            <img height="110px" alt="advices" src="/img/btnAdvice2.png" />
         </div>
          <script type="text/javascript">
           $(document).keydown(function (e) {
