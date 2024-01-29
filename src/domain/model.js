@@ -7,7 +7,7 @@ const _ = undefined;
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 const ALLOHAVIDEO_TOKEN = process.env.ALLOHAVIDEO_TOKEN;
 
-const yourIp = "178.121.24.77"; // ваш айпи
+const yourIp = "178.121.9.16"; // ваш айпи
 
 // ССЫЛКА НА АПИ ДЛЯ ЗАПРОСА НА ВИДЕОФАЙЛЫ
 const APIFILM_URL = `https://api.apbugall.org/?token=${API_TOKEN}&`;
@@ -227,28 +227,31 @@ module.exports = {
                     ) {
                       const htmlElem = `
                                          <li id="transl${kinopoisk_id}${
-                        season ? season + episode + index : ""
+                        season ? season + episode + index.toString() : ""
                       }${filmEpisode[key].quality.replace(
                         /\s/g,
                         ""
-                      )}" class="channel nav-item"
+                      )}${key}" class="channel nav-item"
                                      >
                                         <p>Начать просмотр</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#transl${kinopoisk_id}${
-                        season ? season + episode + index : ""
+                        season ? season + episode + index.toString() : ""
                       }${filmEpisode[key].quality.replace(
                         /\s/g,
                         ""
-                      )}').click(function (e) {
+                      )}${key}').click(function (e) {
                                      window.location = '/player${
                                        kinopoisk_id.toString() + index
                                      }&season=${
                         season ? season : "none"
                       }&episode=${
                         episode ? episode : "none"
-                      }&quality=${filmEpisode[key].quality.replace(/\s/g, "")}'
+                      }&quality=${filmEpisode[key].quality.replace(
+                        /\s/g,
+                        ""
+                      )}${key}'
                                     })
                                     
                                      $(document).keydown(function (e) {
@@ -283,7 +286,7 @@ module.exports = {
                       }${filmEpisode[key].quality.replace(
                         /\s/g,
                         ""
-                      )}" class="channel nav-item"
+                      )}${key}" class="channel nav-item"
                                      >
                                         <p>${filmEpisode[key].name}</p>
                                     </li>
@@ -293,14 +296,17 @@ module.exports = {
                       }${filmEpisode[key].quality.replace(
                         /\s/g,
                         ""
-                      )}').click(function (e) {
+                      )}${key}').click(function (e) {
                                      window.location = '/player${
                                        kinopoisk_id.toString() + index
                                      }&season=${
                         season ? season : "none"
                       }&episode=${
                         episode ? episode : "none"
-                      }&quality=${filmEpisode[key].quality.replace(/\s/g, "")}'
+                      }&quality=${filmEpisode[key].quality.replace(
+                        /\s/g,
+                        ""
+                      )}${key}'
                                     })
                                     
                                      $(document).keydown(function (e) {
@@ -337,21 +343,24 @@ module.exports = {
                       const htmlElem = `
                                          <li id="transl${kinopoisk_id}${
                         season ? season + episode + index : ""
-                      }${transl.replace(/\s/g, "")}" class="channel nav-item"
+                      }${transl.replace(
+                        /\s/g,
+                        ""
+                      )}${key}" class="channel nav-item"
                                      >
                                         <p>Начать просмотр</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#transl${kinopoisk_id}${
                         season ? season + episode + index : ""
-                      }${transl.replace(/\s/g, "")}').click(function (e) {
+                      }${transl.replace(/\s/g, "")}${key}').click(function (e) {
                                      window.location = '/player${
                                        kinopoisk_id.toString() + index
                                      }&season=${
                         season ? season : "none"
                       }&episode=${
                         episode ? episode : "none"
-                      }&quality=${transl.replace(/\s/g, "")}'
+                      }&quality=${transl.replace(/\s/g, "")}${key}'
                                     })
                                     
                                      $(document).keydown(function (e) {
@@ -382,21 +391,24 @@ module.exports = {
                       const htmlElem = `
                                          <li id="transl${kinopoisk_id}${
                         season ? season + episode + index : ""
-                      }${transl.replace(/\s/g, "")}" class="channel nav-item"
+                      }${transl.replace(
+                        /\s/g,
+                        ""
+                      )}${key}" class="channel nav-item"
                                      >
                                         <p>${transl}</p>
                                     </li>
                                     <script type="text/javascript">
                                     $('#transl${kinopoisk_id}${
                         season ? season + episode + index : ""
-                      }${transl.replace(/\s/g, "")}').click(function (e) {
+                      }${transl.replace(/\s/g, "")}${key}').click(function (e) {
                                      window.location = '/player${
                                        kinopoisk_id.toString() + index
                                      }&season=${
                         season ? season : "none"
                       }&episode=${
                         episode ? episode : "none"
-                      }&quality=${transl.replace(/\s/g, "")}'
+                      }&quality=${transl.replace(/\s/g, "")}${key}'
                                     })
                                     
                                      $(document).keydown(function (e) {
@@ -509,7 +521,7 @@ module.exports = {
           elem.translation
             ? encodeURI(elem.translation.replace(/\s/g, ""))
             : elem.quality.replace(/\s/g, "")
-        }`,
+        }${translationId}`,
         (req, res) => {
           fetch(
             APIVIDEO_URL +
