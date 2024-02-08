@@ -10,6 +10,7 @@
       this.$wrap = $(".wrap");
       // получаю ссылку видеофайла
       var playerUrl = document.getElementById("wrap").getAttribute("data-url");
+      console.log(playerUrl)
       var _inited;
       this.scenes.video = {
         init: function () {

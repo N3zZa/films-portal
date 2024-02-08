@@ -114,7 +114,7 @@ userModel.getChannels.then((data) => {
     fs.writeFileSync('./public/views/elements/channels/inter.ejs', data.inter.join('').toString())
 
     // создание html элементов на главную(также передаю ссылку на картинку)
-    fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', `${data.images('sts.jpg').join('').toString()}`)
+    fs.writeFileSync('./public/views/elements/channels/channelImages.ejs', `${data.images().join('').toString()}`)
 })
 // вызов метода фулл хд фильмов
 userModel.createFullHdList(app)

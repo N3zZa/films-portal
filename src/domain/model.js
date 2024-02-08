@@ -7,7 +7,7 @@ const _ = undefined;
 const API_TOKEN = process.env.ALLOHA_TOKEN;
 const ALLOHAVIDEO_TOKEN = process.env.ALLOHAVIDEO_TOKEN;
 
-const yourIp = "178.121.9.16"; // ваш айпи
+const yourIp = "178.121.38.151"; // ваш айпи
 
 // ССЫЛКА НА АПИ ДЛЯ ЗАПРОСА НА ВИДЕОФАЙЛЫ
 const APIFILM_URL = `https://api.apbugall.org/?token=${API_TOKEN}&`;
