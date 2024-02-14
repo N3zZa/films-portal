@@ -89,7 +89,7 @@ module.exports = new Promise(function(resolve, reject){
    const channelImages = () => allChannels.map((elem, index) => {
        return `<div style="background: url('${
          elem.imgLink
-       }'); background-repeat:no-repeat;  background-size:cover;" id="channel${
+       }'); background-repeat:no-repeat;background-size: 100% 100%;" id="channel${
          index + 1
        }" class="channel nav-item">
             <p class="channelName">${elem.Name}</p>
