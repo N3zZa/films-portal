@@ -8,18 +8,18 @@ const docum = (require('./documentary.json'));
 const inter = (require('./inter.json'));
 const fs = require("fs");
 
-const channels = []
+
 
 // ниже создаю массивы с html элементами каждой категории каналов
  const allChannelsValues = allChannels.map((elem, index) => {
-       return (
-        `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
+   return `<li href="${elem.Link}" id="channel${
+     index + 1
+   }" class="channel nav-item">
             <p>${index + 1}</p>
             <a>${elem.Name}</a>
         </li>
-        `
-       )
-    })
+        `;
+ });
     const newsValues = news.map((elem, index) => {
        return (
         `<li href="${elem.Link}" id="channel${index + 1}" class="channel nav-item">
@@ -87,24 +87,27 @@ module.exports = new Promise(function(resolve, reject){
    try {
    // из полученных данных создаю массив с html блоками(на главной странице)
    const channelImages = () => allChannels.map((elem, index) => {
-       return `<div style="background: url('${
-         elem.imgLink
-       }'); background-repeat:no-repeat;background-size: 100% 100%;" id="channel${
-         index + 1
-       }" class="channel nav-item">
+    if (index < 20) {
+ return `<div style="background: url('${
+   elem.imgLink
+ }'); background-repeat:no-repeat;background-size: 100% 100%;" id="channel${
+   index + 1
+ }" class="channel nav-item">
             <p class="channelName">${elem.Name}</p>
         </div>
         <script type="text/javascript">
              var _channel${index + 1} = document.getElementById("channel${
-         index + 1
-       }")
+   index + 1
+ }")
             _channel${
               index + 1
             }.addEventListener("click", function (event) {document.location.href = "/channels?${
-         index + 1
-       }"; $$nav.off()});
+   index + 1
+ }"; $$nav.off()});
         </script>
         `;
+    }
+      
     })
     let sendData = {allChannels: allChannelsValues, images: channelImages, news: newsValues, filmsSerials: filmsSerialsValues,sport: sportValues,music: musicValues,child: childValues,docum: documValues,inter: interValues,}
     resolve(sendData)

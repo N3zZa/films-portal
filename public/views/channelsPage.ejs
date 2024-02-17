@@ -391,7 +391,7 @@
         var channelFocusUrlNow = $('.activeCategory').find('.focus').attr('href')
 
          mb.send('display.osd_over_video', { value: false });
-         mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '50%', h: '50%' });
+         mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '75%', h: '75%' });
          mb.send('player.enqueue', { url: channelFocusUrlNow, title: 'channel' });
          mb.send('player.play');
 
@@ -441,7 +441,7 @@
                         if ($('#playlistChannels').attr('class') === 'playlist close') {
                             if ($('body').attr('class') === 'hidden') {
                                 mb.send('display.osd_over_video', { value: false });
-                                mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '50%', h: '50%' });
+                                mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '75%', h: '75%' });
                                 $('body').removeClass('hidden')
                                 $('.images').show()
                             } else {
@@ -469,7 +469,7 @@
                         }
                     } else if ($('body').attr('class') === 'hidden') {
                         mb.send('display.osd_over_video', { value: false });
-                        mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '50%', h: '50%' });
+                        mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '75%', h: '75%' });
                         $('.bg').removeClass('hiddenItem')
                         $('.playlist').removeClass('hiddenItem')
                         $('body').removeClass('hidden')
@@ -524,6 +524,8 @@
                                 mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
                                 mb.send('player.play');
                                 $('.images').show()
+                                
+                                $$nav.current($('#playlist').find('.focus'))
                             }
                         }
                     }, 1000)
@@ -621,7 +623,7 @@
                     numOfClick += 1
                     if (numOfClick === 2) {
                         mb.send('display.osd_over_video', { value: false });
-                        mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '50%', h: '50%' });
+                        mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '75%', h: '75%' });
                         $('.bg').removeClass('hiddenItem')
                         $('.playlist').removeClass('hiddenItem')
                         $('body').removeClass('hidden')
@@ -839,7 +841,7 @@
             $$nav.on(channelId)
             var channelFocusUrl = $(channelId).find('.focus').attr('href')
             mb.send('display.osd_over_video', { value: false });
-            mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '50%', h: '50%' });
+            mb.send('display.pip', { value: true, x: '32%', y: '2%', w: '75%', h: '75%' });
             mb.send('player.enqueue', { url: channelFocusUrl, title: 'channel' });
             mb.send('player.play');
 
