@@ -373,7 +373,6 @@
         <p class="channelInputNum" id="channelInputNum"></p>
     </div>
     <div class="images">
-        <img height="120px" class="chan" src="../img/btnAdvice1.png" alt="chan">
         <img class="ucon" src="../img/ucontv.png" alt="logo">
     </div>
     <script type="text/javascript">
@@ -498,6 +497,15 @@
                     }
 
                     break;
+                    // право
+                     case 'right':
+                        if ($('#playlist').find('.focus').attr('href') !== undefined) {
+                            mb.send('player.stop')
+                            var channelUrl = $('.activeCategory').find('.focus').attr('href');
+                            mb.send('player.enqueue', { url: channelUrl, title: 'channel' });
+                            mb.send('player.play');
+                         }
+                     break;
                     //верх
                 case 'up':
                     setTimeout(function () {

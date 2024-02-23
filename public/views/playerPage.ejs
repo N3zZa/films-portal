@@ -210,33 +210,7 @@
     .soundPopupMute {
         display: none;
     }
-    #warningText {
-        width: 900px;
-        background: rgba(0, 0, 0, 0.85);
-        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-        padding: 20px;
-        color: white;
-        font-size: 30px;
-        margin: 0 auto;
-        text-align: center;
-        border-radius: 5px;
-    }
-    #warningText .focus {
-        border: 3px solid yellow;
-    }
-
-    #warningTextBtn {
-        margin: 0 auto;
-        width: 100px;
-        background: rgba(0, 0, 0, 0.685);
-        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-        outline: none;
-        border: none;
-        color: white;
-        margin: 0 auto;
-        border-radius: 5px;
-    }
-
+  
 
     .hidden {
         display: none;
@@ -247,14 +221,6 @@
     <div id="wrap" data-url="<%= playerUrl %>" data-backUrl="<%= backUrl %>" class="wrap">
         <div class="No-episodes">
             <h1 id="no-episodes_text"></h1>
-        </div>
-        <div class="navigation-items" id="warningText">
-            <h4>Уважаемый абонент, при просмотре видео, с повышенным интересом со стороны аудитории премьера которого состоялась
-            недавно, у вас возможны "лаги" или задержки видео во время просмотра в связи с перегруженностью сервера высоким спросом
-            на просмотр. Поэтому, рекомендуем Вам попробовать снизить качество просматриваемого видео или же вернуться к просмотру
-            данного контента через пару дней, после снижения ажиотажа. Так же можете использовать кнопки "вправо", "влево" (1 мин.)
-            или же кнопки Page up", "Page down" (10 мин.) на пульте для промотки зависающих моментов видеоконтента.</h4>
-            <button class="nav-item" id="warningTextBtn">OK</button>
         </div>
     </div>
 
@@ -301,13 +267,7 @@
 
 
     <script type="text/javascript">
-         if (document.location.href.toLowerCase().indexOf('fullhd') >= 0) {
-            $('#warningText').addClass('hidden')
-         } else {
-             $('#warningTextBtn').click(function () {
-                 $('#warningText').addClass('hidden')
-             })
-         }
+         
 
         // ВСЕ МЕТОДЫ ПРИСТАВКИ ОПИСАНЫ В ДОКЕ /docs
         // ЗАПУСК ПЛЕЕРА ПРОИЗВОДИТСЯ В /js/app.js

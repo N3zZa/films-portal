@@ -45,8 +45,11 @@ module.exports = new Promise(function(resolve, reject){
         </div>
         <div class="poster_playerBlock">
             <div class="posterScreenshot" style="background: rgb(34, 34, 34);background-repeat: no-repeat; background-size: 100% 100%;">
-            <div class="playImgBlock">
+           <div class="playImgBlock">
             <img src="/img/playImg.svg" alt="playImg" />
+            </div>
+            <div class="playtext_block">
+                <p>Нажмите "ОК" для воспроизведения</p>
             </div>
             </div>
              <p className="descripText">${
@@ -55,7 +58,6 @@ module.exports = new Promise(function(resolve, reject){
                  .replace(/('|")/g, ``)
                  .substring(0, 350) + "..."
              } </p>
-              <img height="110px" alt="advices" src="/img/btnAdvice2.png" />
         </div>
          <script type="text/javascript">
          $(document).keydown(function (e) {
