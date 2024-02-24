@@ -20,70 +20,60 @@ const fullHdfilms = [
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "1",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "2",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "3",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "4",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "5",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "6",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "7",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "8",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "9",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-    id: "10",
   },
 ];
 
@@ -474,14 +464,14 @@ module.exports = {
     var fullHdFilmsItem = fullHdfilms.map((item, index) => {
       model.createPlayerPage(app, _, _, item, index, _, _);
       return `
-            <li data-imageId="image${item.id}" href="${item.videoUrl}" id="fullhdFilm${item.id}" class="channel nav-item">
+            <li data-imageId="image${index}" href="${item.videoUrl}" id="fullhdFilm${index}" class="channel nav-item">
                 <a>${item.title}</a>
             </li>
-            <div id="image${item.id}" class="fullHdFilmPoster hidden" style="background: url('${item.imageUrl}'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
+            <div id="image${index}" class="fullHdFilmPoster hidden" style="background: url('${item.imageUrl}'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
             </div>
             <script type="text/javascript">
-            var fullHdfilm${item.id} = document.getElementById('fullhdFilm${item.id}');
-             fullHdfilm${item.id}.addEventListener("click", function (event) {document.location.href = "/playerFullHd${item.id}"; $$nav.off()});
+            var fullHdfilm${index} = document.getElementById('fullhdFilm${index}');
+             fullHdfilm${index}.addEventListener("click", function (event) {document.location.href = "/playerFullHd${index}"; $$nav.off()});
             </script>
             `;
     });
@@ -507,7 +497,7 @@ module.exports = {
   ) => {
     // проверка title для fullhdfilms, если ее нет, то фильм с базона
     if (elem.title !== undefined) {
-      app.get(`/playerFullHd${elem.id}`, (req, res) => {
+      app.get(`/playerFullHd${index}`, (req, res) => {
         res.render("playerPage.ejs", {
           playerUrl: elem.videoUrl,
           backUrl: "/fullHdFilms",
