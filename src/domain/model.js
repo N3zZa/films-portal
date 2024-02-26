@@ -462,7 +462,7 @@ module.exports = {
 
     // создаю html блоки для выбора фильмов на странице fullhdFilms
     var fullHdFilmsItem = fullHdfilms.map((item, index) => {
-      model.createPlayerPage(app, _, _, item, index, _, _);
+      model.createPlayerPage(app, _, _, item, _, index, _);
       return `
             <li data-imageId="image${index}" href="${item.videoUrl}" id="fullhdFilm${index}" class="channel nav-item">
                 <a>${item.title}</a>
@@ -497,7 +497,7 @@ module.exports = {
   ) => {
     // проверка title для fullhdfilms, если ее нет, то фильм с базона
     if (elem.title !== undefined) {
-      app.get(`/playerFullHd${index}`, (req, res) => {
+      app.get(`/playerFullHd${indexFilm}`, (req, res) => {
         res.render("playerPage.ejs", {
           playerUrl: elem.videoUrl,
           backUrl: "/fullHdFilms",
