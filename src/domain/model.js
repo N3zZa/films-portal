@@ -75,6 +75,85 @@ const fullHdfilms = [
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
   },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+  },
+  
 ];
 
 // импортирую все функции из папки requests в методы
