@@ -445,7 +445,7 @@
                                 $('.images').show()
 
 
-                                 $$nav.current('.focus') // +
+                                 $$nav.current($('#playlist').find('.focus'))
                                 $('#playlist').find('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // +
                             } else {
                                 $('#playlist').addClass('close')
@@ -455,7 +455,7 @@
                                 $$nav.on('#listChannels');
                                 $('.images').show()
 
-                                $$nav.current('.focus') // +
+                                $$nav.current($('#playlist').find('.focus'))
                                 $('#playlist').find('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // +
                             }
                         } else {
@@ -480,7 +480,7 @@
                         $('body').removeClass('hidden')
                         $('.images').show()
 
-                         $$nav.current('.focus') // +
+                         $$nav.current($('#playlist').find('.focus'))
                          $('#playlist').find('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // +
                     } else {
                         mb.send('player.stop');
@@ -647,6 +647,9 @@
                         $('body').removeClass('hidden')
                         $('.images').show()
                         numOfClick = 0
+
+                        $$nav.current($('#playlist').find('.focus'))
+                        $('#playlist').find('.focus').get(0).scrollIntoView($('.focus').scrollTop - 100); // +
                     }
                     clickItem = 'ok'
                     break;

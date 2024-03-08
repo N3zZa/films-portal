@@ -25,7 +25,15 @@ const fullHdfilms = [
     title: "Трансформеры: Восхождение Звероботов",
     videoUrl:
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
-    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
+    imageUrl:
+      "https://avatars.mds.yandex.net/get-kinopoisk-image/1599028/8eda25b0-dd26-426a-bf2a-9dce9f6804db/1920x",
+  },
+  {
+    title: "Трансформеры: Восхождение Звероботов",
+    videoUrl:
+      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
+    imageUrl:
+      "https://i.pinimg.com/originals/2f/6a/5f/2f6a5f4350b1eeadfcab9f1535580995.jpg",
   },
   {
     title: "Трансформеры: Восхождение Звероботов",
@@ -147,17 +155,10 @@ const fullHdfilms = [
       "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
     imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
   },
-  {
-    title: "Трансформеры: Восхождение Звероботов",
-    videoUrl:
-      "http://172.16.0.10/films/Transformers.Rise.of.the.Beasts.2023.mkv",
-    imageUrl: "https://i.ibb.co/ky1mzbT/147681.jpg",
-  },
-  
 ];
 
 // импортирую все функции из папки requests в методы
-// добавил setTimeout'ы для задержки(чтобы базон не блочил)
+// добавил setTimeout'ы для задержки(чтобы апи не блочил)
 module.exports = {
   // премьеры
   getPremieres: new Promise(function (resolve, reject) {
@@ -544,7 +545,7 @@ module.exports = {
       model.createPlayerPage(app, _, _, item, _, index, _);
       return `
             <li data-imageId="image${index}" href="${item.videoUrl}" id="fullhdFilm${index}" class="channel nav-item">
-                <a>${item.title}</a>
+                <a>${index + 1}. ${item.title}</a>
             </li>
             <div id="image${index}" class="fullHdFilmPoster hidden" style="background: url('${item.imageUrl}'); background-repeat:no-repeat;background-cover: cover;background-size: 100% 100%;" >
             </div>
